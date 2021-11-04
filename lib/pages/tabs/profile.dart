@@ -66,20 +66,14 @@ class ProfileTab extends StatelessWidget {
           title: const Text('Total tickets'),
           onTap: () {},
         ),
-        ListTile(
-          leading: const Icon(PhosphorIcons.moon),
-          title: const Text('Dark mode'),
-          trailing: GetBuilder<ThemeController>(builder: (controller) {
-            return Switch(
-              value: controller.isDarkMode.value,
-              onChanged: (v) {
-                print(v);
-                controller.setMode(v);
-              },
-            );
-          }),
-          onTap: () {},
-        )
+        GetBuilder<ThemeController>(builder: (controller) {
+          return SwitchListTile(
+            value: controller.isDarkMode.value,
+            secondary: const Icon(PhosphorIcons.moon),
+            title: const Text('Dark mode'),
+            onChanged: controller.setMode,
+          );
+        }),
       ],
     );
   }

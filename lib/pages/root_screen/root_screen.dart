@@ -16,7 +16,7 @@ class _RootScreenState extends State<RootScreen> {
     super.initState();
     if (SchedulerBinding.instance != null) {
       SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-        Get.to(() => const BottomNavBar());
+        Get.off(() => const BottomNavBar());
       });
     }
   }

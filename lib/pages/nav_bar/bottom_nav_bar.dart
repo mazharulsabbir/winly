@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -11,6 +12,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   late int _currentIndex;
+
   @override
   void initState() {
     super.initState();
@@ -21,18 +23,27 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        title: const Text(APP_NAME),
+      ),
       body: Stack(children: [
         IndexedStack(
           index: _currentIndex,
-          children: [for (final p in TabNavigationItem.items) p.page],
+          children: List.generate(
+            TabNavigationItem.items.length,
+            (index) => TabNavigationItem.items[index].page,
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
           child: BottomNavigationBar(
-            items: [
-              for (final i in TabNavigationItem.items)
-                BottomNavigationBarItem(icon: Icon(i.icon), label: i.titile)
-            ],
+            items: List.generate(
+              TabNavigationItem.items.length,
+              (index) => BottomNavigationBarItem(
+                icon: Icon(TabNavigationItem.items[index].icon),
+                label: TabNavigationItem.items[index].title,
+              ),
+            ),
             currentIndex: _currentIndex,
             type: BottomNavigationBarType.fixed,
             onTap: (i) {
