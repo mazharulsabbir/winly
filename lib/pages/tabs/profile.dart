@@ -71,10 +71,10 @@ class ProfileTab extends StatelessWidget {
           title: const Text('Dark mode'),
           trailing: GetBuilder<ThemeController>(builder: (controller) {
             return Switch(
-              value: !controller.isDarkMode.value,
+              value: controller.isDarkMode.value,
               onChanged: (v) {
                 print(v);
-                controller.changeTheme(v);
+                controller.setMode(v);
               },
             );
           }),

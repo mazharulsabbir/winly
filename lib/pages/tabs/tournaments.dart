@@ -7,16 +7,8 @@ class Tournaments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-          onPressed: () {
-            if (Get.isDarkMode) {
-              Get.changeThemeMode(ThemeMode.light);
-            } else {
-              Get.changeThemeMode(ThemeMode.dark);
-            }
-          },
-          child: const Text('Change theme')),
+    return const Center(
+      child: Text('Tournaments'),
     );
   }
 }

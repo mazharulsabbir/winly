@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:winly/globals/configs/themes.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/root_screen/root_screen.dart';
 import 'globals/bindings.dart';
 

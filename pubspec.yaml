@@ -39,6 +39,10 @@ dependencies:
   form_field_validator: ^1.1.0
   loading_overlay: ^0.3.0
   flutter_phosphor_icons: ^0.0.1+5
+  get_storage: ^2.0.3
+  shared_preferences: ^2.0.8
+  sharedpreference: ^0.0.1
+  
 
 dev_dependencies:
   flutter_test:
