@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
-import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/pages/root_screen/root_screen.dart';
 
 import 'globals/bindings.dart';
