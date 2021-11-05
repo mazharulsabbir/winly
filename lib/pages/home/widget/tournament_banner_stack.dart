@@ -55,20 +55,20 @@ class TournamentBannerStack extends StatelessWidget {
           right: 0,
           bottom: -15,
         ),
-        Positioned(
-          right: 10,
-          bottom: -16,
-          child: GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Icon(PhosphorIcons.bell),
-            ),
-          ),
-        )
+        // Positioned(
+        //   right: 10,
+        //   bottom: -16,
+        //   child: GestureDetector(
+        //     child: Container(
+        //       padding: const EdgeInsets.all(6),
+        //       decoration: BoxDecoration(
+        //         color: Colors.blue,
+        //         borderRadius: BorderRadius.circular(20),
+        //       ),
+        //       child: const Icon(PhosphorIcons.bell),
+        //     ),
+        //   ),
+        // )
       ],
     );
   }
