@@ -6,6 +6,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
 import 'package:winly/pages/onboard_screem/onboard_screen.dart';
 import 'package:winly/pages/root_screen/root_screen.dart';
+import 'package:winly/pages/withdeaw/withdeaw_screen.dart';
 
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: false,
-      home: const WalletScreen(),
+      home: const WithDrawScreen(),
       initialBinding: GlobalBindings(),
       theme: MyAppThemes.lightTheme,
       darkTheme: MyAppThemes.darkTheme,
