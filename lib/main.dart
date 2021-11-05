@@ -9,6 +9,7 @@ import 'package:winly/pages/root_screen/root_screen.dart';
 
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
+import 'pages/wallet/wallet_screen.dart';
 
 void main() async {
   await GetStorage.init();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: false,
-      home: const OnBoardScreen(),
+      home: const WalletScreen(),
       initialBinding: GlobalBindings(),
       theme: MyAppThemes.lightTheme,
       darkTheme: MyAppThemes.darkTheme,
