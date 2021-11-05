@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:winly/models/intro_page.dart';
+import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
+import 'package:winly/pages/root_screen/root_screen.dart';
 
 class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({Key? key}) : super(key: key);
@@ -74,6 +77,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
             onPressed: () {
               if (pageIndex < legnth - 1) {
                 setState(() => pageIndex++);
+              } else if (pageIndex == legnth - 1) {
+                Get.off(() => const RootScreen());
               }
             },
             child: Text(pageIndex == 0
@@ -97,7 +102,9 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.off(() => const RootScreen());
+                    },
                     child: const Text('Skip'),
                   ),
                 )),
