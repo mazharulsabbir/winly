@@ -42,6 +42,10 @@ dependencies:
   get_storage: ^2.0.3
   shared_preferences: ^2.0.8
   sharedpreference: ^0.0.1
+
+  # The following adds the dio network calling library.
+  # Use with the Dio class for network calls.
+  dio: ^4.0.1
   
 
 dev_dependencies:
