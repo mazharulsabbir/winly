@@ -21,8 +21,9 @@ class TournamentDetail extends StatelessWidget {
               return <Widget>[
                 SliverAppBar(
                   expandedHeight: 350.0,
-                  floating: false,
+                  floating: true,
                   pinned: true,
+                  snap: true,
                   elevation: 0,
                   title: const Text('Tournament Name'),
                   flexibleSpace: FlexibleSpaceBar(
