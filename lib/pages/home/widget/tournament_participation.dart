@@ -68,6 +68,7 @@ class TournamentParticipation extends StatelessWidget {
             horizontal: 10,
             vertical: 4,
           ),
+          margin: const EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
             color: Colors.grey.withOpacity(0.5),
             borderRadius: BorderRadius.circular(8),
