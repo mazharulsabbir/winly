@@ -100,10 +100,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                     controller: amountController,
                     decoration: inputdecoration,
                     keyboardType: TextInputType.number,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.headline4!,
                   ),
                 ),
                 const SizedBox(

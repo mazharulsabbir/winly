@@ -42,75 +42,79 @@ class WalletScreen extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).secondaryHeaderColor,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: 5,
-              width: 20,
-              decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(10)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Recent history',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                TextButton(onPressed: () {}, child: const Text('See all'))
-              ],
-            ),
-            ...List.generate(
-              WalletRecentActivityModel.activities.length,
-              (index) => ListTile(
-                title: Text(
-                  WalletRecentActivityModel.activities[index].title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .merge(const TextStyle(fontSize: 17)),
-                ),
-                subtitle:
-                    Text(WalletRecentActivityModel.activities[index].subTitle),
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)]
-                          .withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                      WalletRecentActivityModel.activities[index].leadingIcon),
-                ),
-                trailing: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      WalletRecentActivityModel.activities[index].trailingTitle,
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      WalletRecentActivityModel
-                          .activities[index].trailingSubtitle,
-                      style: Theme.of(context).textTheme.subtitle1,
-                    )
-                  ],
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 5,
               ),
-            )
-          ],
+              Container(
+                height: 5,
+                width: 20,
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent history',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  TextButton(onPressed: () {}, child: const Text('See all'))
+                ],
+              ),
+              ...List.generate(
+                WalletRecentActivityModel.activities.length,
+                (index) => ListTile(
+                  title: Text(
+                    WalletRecentActivityModel.activities[index].title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .merge(const TextStyle(fontSize: 17)),
+                  ),
+                  subtitle: Text(
+                      WalletRecentActivityModel.activities[index].subTitle),
+                  leading: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.primaries[
+                                Random().nextInt(Colors.primaries.length)]
+                            .withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Icon(WalletRecentActivityModel
+                        .activities[index].leadingIcon),
+                  ),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        WalletRecentActivityModel
+                            .activities[index].trailingTitle,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        WalletRecentActivityModel
+                            .activities[index].trailingSubtitle,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
