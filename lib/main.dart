@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
 import 'package:winly/pages/onboard_screem/onboard_screen.dart';
-import 'package:winly/pages/root_screen/root_screen.dart';
-import 'package:winly/pages/withdeaw/withdeaw_screen.dart';
-
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
-import 'pages/wallet/wallet_screen.dart';
 
 void main() async {
   await GetStorage.init();

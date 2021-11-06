@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:winly/models/intro_page.dart';
-import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/root_screen/root_screen.dart';
 
 class OnBoardScreen extends StatefulWidget {
@@ -82,7 +81,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                     .nextPage(
                         duration: const Duration(milliseconds: 100),
                         curve: Curves.bounceIn)
-                    .then((value) => setState(() => pageIndex));
+                    .then((_) => setState(() => pageIndex));
               } else if (pageIndex == legnth - 1) {
                 Get.off(() => const RootScreen());
               }
@@ -121,8 +120,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
               child: PageView(
                 controller: pageController,
                 scrollDirection: Axis.horizontal,
-                children: List.generate(IntroPageModel.IntroPages.length,
-                    (index) => _slider(IntroPageModel.IntroPages[index])),
+                children: List.generate(IntroPageModel.introPages.length,
+                    (index) => _slider(IntroPageModel.introPages[index])),
                 onPageChanged: setNewPage,
               ),
               flex: 5,
@@ -134,14 +133,14 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                   alignment: Alignment.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(IntroPageModel.IntroPages.length,
+                    children: List.generate(IntroPageModel.introPages.length,
                         (index) => _dot(index == pageIndex)),
                   ),
                 )),
 
             _button(
               context,
-              IntroPageModel.IntroPages.length,
+              IntroPageModel.introPages.length,
             ),
             const Spacer()
           ],

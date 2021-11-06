@@ -1,4 +1,4 @@
 export 'tournaments.dart';
 export 'profile.dart';
-export 'fqa.dart';
+export 'faq.dart';
 export 'earn_ticket.dart';

@@ -1,13 +1,13 @@
 import 'package:winly/globals/configs/constans.dart';
 
 class IntroPageModel {
-  IntroPageModel(
+  const IntroPageModel(
       {required this.imageAddress,
       required this.title,
       required this.subTitle});
   final String imageAddress, title, subTitle;
 
-  static List<IntroPageModel> IntroPages = [
+  static List<IntroPageModel> introPages = const [
     IntroPageModel(
         imageAddress: IntroImages.winingImage,
         title: 'Win big!',
