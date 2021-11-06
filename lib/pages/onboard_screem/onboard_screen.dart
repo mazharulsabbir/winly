@@ -15,6 +15,8 @@ class OnBoardScreen extends StatefulWidget {
 class _OnBoardScreenState extends State<OnBoardScreen> {
   int pageIndex = 0;
 
+  PageController pageController = PageController();
+
   _slider(IntroPageModel model) {
     return Column(
       children: [
@@ -76,7 +78,11 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         child: ElevatedButton(
             onPressed: () {
               if (pageIndex < legnth - 1) {
-                setState(() => pageIndex++);
+                pageController
+                    .nextPage(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.bounceIn)
+                    .then((value) => setState(() => pageIndex));
               } else if (pageIndex == legnth - 1) {
                 Get.off(() => const RootScreen());
               }
@@ -87,6 +93,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                     ? 'Finish'
                     : 'Next')));
   }
+
+  setNewPage(int index) => setState(() => pageIndex = index);
 
   @override
   Widget build(BuildContext context) {
@@ -110,13 +118,16 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 )),
             // ..._slider(),
             Expanded(
-              child: IndexedStack(
-                index: pageIndex,
+              child: PageView(
+                controller: pageController,
+                scrollDirection: Axis.horizontal,
                 children: List.generate(IntroPageModel.IntroPages.length,
                     (index) => _slider(IntroPageModel.IntroPages[index])),
+                onPageChanged: setNewPage,
               ),
               flex: 5,
             ),
+
             Expanded(
                 flex: 1,
                 child: Container(

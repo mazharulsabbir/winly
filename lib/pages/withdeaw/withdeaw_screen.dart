@@ -134,6 +134,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
           ),
         ),
       ),
+      // bottomNavigationBar: BottomNavigationBar(),
     );
   }
 }
