@@ -15,9 +15,9 @@ class Tournaments extends StatelessWidget {
       builder: (controller) => CommonLoadingOverlay(
         loading: controller.isLoading,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: const FloatingActionButton(
             onPressed: null,
-            child: const Icon(PhosphorIcons.sort_ascending),
+            child: Icon(PhosphorIcons.sort_ascending),
           ),
           body: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 10),

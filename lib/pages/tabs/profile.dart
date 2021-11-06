@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
+import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_avatar.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -54,7 +55,9 @@ class ProfileTab extends StatelessWidget {
           leading: const Icon(Icons.wallet_giftcard),
           title: const Text('Wallet'),
           trailing: const Text('\$65.00'),
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const WalletScreen());
+          },
         ),
         ListTile(
           leading: const Icon(PhosphorIcons.qr_code),

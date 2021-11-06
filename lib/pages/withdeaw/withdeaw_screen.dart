@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/models/payments_method.dart';
 import 'package:winly/widgets/common_leading.dart';
 
 class WithDrawScreen extends StatefulWidget {
@@ -22,6 +23,50 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
       focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
       enabledBorder: OutlineInputBorder(borderSide: BorderSide.none));
 
+  paymentSelectionPart() {
+    return Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.grey.withOpacity(0.3),
+        ),
+        child: Column(
+          children: [
+            Text(
+              'Select a methode to withdraw',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      PaymentmentMathodModel.paymentList[index].tittle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .merge(const TextStyle(fontSize: 17)),
+                    ),
+                    tileColor: Theme.of(context).cardColor,
+                  );
+                },
+                separatorBuilder: (_, i) {
+                  return const SizedBox(
+                    height: 10,
+                  );
+                },
+                itemCount: PaymentmentMathodModel.paymentList.length,
+                shrinkWrap: true,
+              ),
+            )
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +81,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -48,9 +93,6 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                       .textTheme
                       .subtitle1!
                       .copyWith(color: Colors.grey),
-                ),
-                const SizedBox(
-                  height: 5,
                 ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 150),
@@ -65,17 +107,17 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
                 SizedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(PhosphorIcons.wallet),
-                      SizedBox(
+                      const Icon(PhosphorIcons.wallet),
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text('Balance: '),
+                      const Text('Balance: '),
                       Text(
                         '\$ 65,000',
                         style: Theme.of(context)
@@ -89,6 +131,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                 const SizedBox(
                   height: 50,
                 ),
+                paymentSelectionPart()
               ],
             ),
           ),

@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:winly/models/wallet_model.dart';
+import 'package:winly/pages/withdeaw/withdeaw_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
 
 class WalletScreen extends StatelessWidget {
@@ -40,7 +42,7 @@ class WalletScreen extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Theme.of(context).secondaryHeaderColor,
         ),
         child: Column(
           children: [
@@ -117,7 +119,7 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         leading: const CommonLeading(),
         centerTitle: true,
@@ -148,16 +150,17 @@ class WalletScreen extends StatelessWidget {
                 ),
                 Text(
                   '\$65,000',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(color: Colors.black),
+                  style: Theme.of(context).textTheme.headline4!
+                  // .copyWith(color: Colors.black)
+                  ,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const WithDrawScreen());
+                  },
                   child: Text(
                     'Withdraw',
                     style: Theme.of(context).textTheme.subtitle1,
