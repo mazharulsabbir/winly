@@ -1,9 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 
 import 'package:winly/globals/configs/colors.dart';
 import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
+import 'package:winly/pages/signup/signup_screen.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
 
@@ -40,10 +43,10 @@ class _SignInScreenState extends State<SignInScreen> {
           "Welcome To the winly app!",
           style: Theme.of(context).textTheme.headline5,
         ),
-        SizedBox(
+        const SizedBox(
           height: 6,
         ),
-        Text(
+        const Text(
           "Play & Earn ",
           style: TextStyle(
             fontSize: 14,
@@ -152,13 +155,16 @@ class _SignInScreenState extends State<SignInScreen> {
             text: TextSpan(
               text: "Don't have an account ? ",
               style: Theme.of(context).textTheme.subtitle1,
-              children: const [
+              children: [
                 TextSpan(
-                  text: "Sign up now !",
-                  style: TextStyle(
-                    color: Paints.primayColor,
-                  ),
-                ),
+                    text: "Sign up now !",
+                    style: const TextStyle(
+                      color: Paints.primayColor,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.to(() => const SignUpScreen());
+                      }),
               ],
             ),
           ),

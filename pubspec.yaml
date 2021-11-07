@@ -47,6 +47,7 @@ dependencies:
   # The following adds the dio network calling library.
   # Use with the Dio class for network calls.
   dio: ^4.0.1
+  flutter_countdown_timer: ^4.1.0
   
 
 dev_dependencies:
