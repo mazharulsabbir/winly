@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:winly/globals/configs/colors.dart';
+import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
@@ -34,13 +35,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _signInText() {
     return Column(
-      children: const [
+      children: [
         Text(
           "Welcome To the winly app!",
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.headline5,
         ),
         SizedBox(
           height: 6,
@@ -74,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
             decoration: TextFieldHelpers.decoration(
               label: 'Email',
               hint: "yourname@example.com",
-            ),
+            ).copyWith(labelStyle: Theme.of(context).textTheme.subtitle1),
             validator: emailValidator,
             onSaved: (value) => email = value!,
           ),
@@ -82,7 +80,8 @@ class _SignInScreenState extends State<SignInScreen> {
             height: 18,
           ),
           TextFormField(
-            decoration: TextFieldHelpers.decoration(label: 'Password'),
+            decoration: TextFieldHelpers.decoration(label: 'Password')
+                .copyWith(labelStyle: Theme.of(context).textTheme.subtitle1),
             obscureText: true,
             validator: passwordValidator,
             onSaved: (value) => password = value!,
@@ -103,6 +102,40 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Widget _socialButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Container(
+              height: 70,
+              width: 70,
+              padding: const EdgeInsets.all(5),
+              child: Image.asset(Images.facebookLogo),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 2),
+                shape: BoxShape.circle,
+              )),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        TextButton(
+            onPressed: () {},
+            child: Container(
+                height: 70,
+                width: 70,
+                padding: const EdgeInsets.all(5),
+                child: Image.asset(Images.googlelogo),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue, width: 2),
+                  shape: BoxShape.circle,
+                )))
+      ],
+    );
+  }
+
   Widget _bottomPart() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,18 +143,16 @@ class _SignInScreenState extends State<SignInScreen> {
       children: [
         CommonButtonSizer(
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Paints.backGroundColor,
-            ),
             onPressed: _submit,
             child: const Text("LOGIN"),
           ),
         ),
         TextButton(
           child: RichText(
-            text: const TextSpan(
+            text: TextSpan(
               text: "Don't have an account ? ",
-              children: [
+              style: Theme.of(context).textTheme.subtitle1,
+              children: const [
                 TextSpan(
                   text: "Sign up now !",
                   style: TextStyle(
@@ -129,9 +160,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
               ],
-              style: TextStyle(
-                color: Colors.black,
-              ),
             ),
           ),
           onPressed: () {},
@@ -145,32 +173,34 @@ class _SignInScreenState extends State<SignInScreen> {
     return CommonLoadingOverlay(
       loading: _loading,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // CommonLogo(),
-                const SizedBox(
-                  height: 20,
-                ),
-                _signInText(),
-                const SizedBox(
-                  height: 40,
-                ),
-                _formBox(),
-                const SizedBox(
-                  height: 60,
-                ),
-                _bottomPart()
-              ],
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // CommonLogo(),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  _signInText(),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  _formBox(),
+                  const SizedBox(
+                    height: 60,
+                  ),
+
+                  _bottomPart(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _socialButtons(),
+                ],
+              ),
             ),
           ),
         ),
