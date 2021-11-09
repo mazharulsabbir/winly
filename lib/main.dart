@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: false,
-      home: const SignInScreen(),
+      home: const RootScreen(),
       initialBinding: GlobalBindings(),
       theme: MyAppThemes.lightTheme,
       darkTheme: MyAppThemes.darkTheme,

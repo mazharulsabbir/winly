@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
+import 'package:winly/pages/settings/settings.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_avatar.dart';
 
@@ -49,7 +50,9 @@ class ProfileTab extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.settings),
           title: const Text('Settings'),
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const SettingsPage());
+          },
         ),
         ListTile(
           leading: const Icon(Icons.wallet_giftcard),
