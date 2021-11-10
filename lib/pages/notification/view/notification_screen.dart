@@ -13,6 +13,7 @@ class NotificationScreen extends StatelessWidget {
         leading: const CommonLeading(),
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         itemBuilder: (context, index) => const NotificationItem(),
       ),
     );

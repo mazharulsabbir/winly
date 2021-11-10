@@ -9,30 +9,6 @@ import 'package:winly/widgets/common_leading.dart';
 class WalletScreen extends StatelessWidget {
   const WalletScreen({Key? key}) : super(key: key);
 
-  appBarLeading() {
-    return Container(
-      padding: const EdgeInsets.only(left: 15),
-      margin: const EdgeInsets.only(right: 30, bottom: 12, top: 12),
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(10)),
-      height: 10,
-      width: 80,
-      child: Row(
-        children: const [
-          Text(
-            'USD',
-            style: TextStyle(color: Colors.black45),
-          ),
-          Icon(
-            Icons.arrow_downward_sharp,
-            color: Colors.black45,
-          )
-        ],
-      ),
-    );
-  }
-
   _recentHistory(context) {
     return Expanded(
       child: Container(
@@ -65,7 +41,7 @@ class WalletScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Recent history',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                   TextButton(onPressed: () {}, child: const Text('See all'))
                 ],
@@ -85,9 +61,7 @@ class WalletScreen extends StatelessWidget {
                   leading: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: Colors.primaries[
-                                Random().nextInt(Colors.primaries.length)]
-                            .withOpacity(0.7),
+                        color: Colors.brown,
                         borderRadius: BorderRadius.circular(10)),
                     child: Icon(WalletRecentActivityModel
                         .activities[index].leadingIcon),
@@ -131,7 +105,6 @@ class WalletScreen extends StatelessWidget {
           'Wallet',
           style: Theme.of(context).textTheme.headline6,
         ),
-        actions: [appBarLeading()],
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -143,7 +116,7 @@ class WalletScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Your balace',
+                  'Your balance',
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!

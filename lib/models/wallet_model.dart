@@ -16,26 +16,26 @@ class WalletRecentActivityModel {
       required this.trailingSubtitle});
   static List<WalletRecentActivityModel> activities = [
     WalletRecentActivityModel(
-        leadingIcon: PhosphorIcons.arrow_up,
-        title: 'Entry fee',
+        leadingIcon: PhosphorIcons.share,
+        title: 'Cash Out',
         subTitle: 'July 25',
         trailingTitle: '25\$',
         trailingSubtitle: 'Dhaka'),
     WalletRecentActivityModel(
-        leadingIcon: PhosphorIcons.arrow_down,
-        title: 'Cash transfer',
+        leadingIcon: PhosphorIcons.share,
+        title: 'Cash Out',
         subTitle: 'Jun 04',
         trailingTitle: '190\$',
         trailingSubtitle: 'Chittagong'),
     WalletRecentActivityModel(
-        leadingIcon: PhosphorIcons.arrow_up,
-        title: 'Entry fee',
+        leadingIcon: PhosphorIcons.share,
+        title: 'Cash Out',
         subTitle: 'July 25',
         trailingTitle: '25\$',
         trailingSubtitle: 'Dhaka'),
     WalletRecentActivityModel(
-        leadingIcon: PhosphorIcons.arrow_down,
-        title: 'Entry fee',
+        leadingIcon: PhosphorIcons.share,
+        title: 'Cash Out',
         subTitle: 'July 25',
         trailingTitle: '25\$',
         trailingSubtitle: 'Dhaka'),

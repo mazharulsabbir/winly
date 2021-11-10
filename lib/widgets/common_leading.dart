@@ -10,7 +10,7 @@ class CommonLeading extends StatelessWidget {
     return IconButton(
       icon: Icon(
         PhosphorIcons.caret_left,
-        color: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.black,
+        color: Theme.of(context).appBarTheme.iconTheme?.color ?? Colors.white,
       ),
       onPressed: () => Get.back(),
     );

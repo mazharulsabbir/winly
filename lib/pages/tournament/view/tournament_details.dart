@@ -44,6 +44,9 @@ class TournamentDetail extends StatelessWidget {
                   delegate: _SliverAppBarDelegate(
                     const TabBar(
                       indicatorSize: TabBarIndicatorSize.label,
+                      unselectedLabelColor: Colors.teal,
+                      indicatorColor: Colors.amber,
+                      labelColor: Colors.amber,
                       tabs: [
                         Tab(text: "About"),
                         Tab(text: "Rules"),
