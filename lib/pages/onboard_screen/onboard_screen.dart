@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:winly/models/intro_page.dart';
@@ -18,18 +19,21 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
 
   _slider(IntroPageModel model) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Center(
-          child: Image.network(
+          child: SvgPicture.asset(
             model.imageAddress,
-            height: 300,
-            width: 300,
+            height: 200,
+            width: 180,
             fit: BoxFit.cover,
           ),
         ),
+        // const Spacer(),
         Expanded(
-            flex: 2,
+            flex: 3,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 const SizedBox(
                   height: 20,
@@ -80,7 +84,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 pageController
                     .nextPage(
                         duration: const Duration(milliseconds: 100),
-                        curve: Curves.bounceIn)
+                        curve: Curves.easeIn)
                     .then((_) => setState(() => pageIndex));
               } else if (pageIndex == legnth - 1) {
                 Get.off(() => const RootScreen());
@@ -116,6 +120,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                   ),
                 )),
             // ..._slider(),
+            Spacer(),
             Expanded(
               child: PageView(
                 controller: pageController,
@@ -128,15 +133,14 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
             ),
 
             Expanded(
-                flex: 1,
                 child: Container(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(IntroPageModel.introPages.length,
-                        (index) => _dot(index == pageIndex)),
-                  ),
-                )),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(IntroPageModel.introPages.length,
+                    (index) => _dot(index == pageIndex)),
+              ),
+            )),
 
             _button(
               context,

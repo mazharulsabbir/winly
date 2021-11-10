@@ -9,16 +9,16 @@ class IntroPageModel {
 
   static List<IntroPageModel> introPages = const [
     IntroPageModel(
-        imageAddress: IntroImages.winingImage,
+        imageAddress: IntroImages.winBig,
         title: 'Win big!',
         subTitle:
             'Participante in prized tournament and win cash and prizes with your skilks'),
     IntroPageModel(
         title: 'Play Tournaments',
         subTitle: 'Earn tickets and join tournaments of your favorite games',
-        imageAddress: IntroImages.winingImage),
+        imageAddress: IntroImages.playT),
     IntroPageModel(
-        imageAddress: IntroImages.winingImage,
+        imageAddress: IntroImages.refer,
         title: 'Reffer your freinds',
         subTitle: 'Reffer your friends and earn more ticket'),
   ];
