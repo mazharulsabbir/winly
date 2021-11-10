@@ -13,15 +13,18 @@ class WithDrawScreen extends StatefulWidget {
 
 class _WithDrawScreenState extends State<WithDrawScreen> {
   late TextEditingController amountController;
+
   @override
   void initState() {
     super.initState();
-    amountController = TextEditingController(text: '\$65000');
+    amountController = TextEditingController();
   }
 
-  InputDecoration inputdecoration = const InputDecoration(
-      focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-      enabledBorder: OutlineInputBorder(borderSide: BorderSide.none));
+  final InputDecoration _inputDecoration = const InputDecoration(
+    focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+    enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+    hintText: "\$0",
+  );
 
   paymentSelectionPart() {
     return Container(
@@ -72,13 +75,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CommonLeading(),
-        title: Text(
-          'Withdraw',
-          style: Theme.of(context).textTheme.headline6,
-        ),
+        title: const Text('Withdraw'),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: Padding(
@@ -87,21 +86,16 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Enter Amount',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey),
                 ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 150),
-                  child: TextField(
-                    controller: amountController,
-                    decoration: inputdecoration,
-                    keyboardType: TextInputType.number,
-                    style: Theme.of(context).textTheme.headline4!,
-                  ),
+                TextField(
+                  controller: amountController,
+                  decoration: _inputDecoration,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline4!,
                 ),
                 const SizedBox(
                   height: 10,

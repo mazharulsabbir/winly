@@ -20,7 +20,7 @@ class Tournaments extends StatelessWidget {
             child: Icon(PhosphorIcons.sort_ascending),
           ),
           body: ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10).copyWith(bottom: 100),
             itemCount: controller.tournaments?.length,
             itemBuilder: (context, index) => TournamentItemWidget(
               tournament: controller.tournaments?[index],

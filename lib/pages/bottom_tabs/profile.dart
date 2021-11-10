@@ -48,34 +48,40 @@ class ProfileTab extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: const Icon(Icons.settings),
+          leading: const CircleAvatar(child: Icon(Icons.settings)),
           title: const Text('Settings'),
           onTap: () {
             Get.to(() => const SettingsPage());
           },
         ),
+        const Divider(),
         ListTile(
-          leading: const Icon(Icons.wallet_giftcard),
+          leading: const CircleAvatar(
+            child: Icon(Icons.wallet_giftcard),
+          ),
           title: const Text('Wallet'),
           trailing: const Text('\$65.00'),
           onTap: () {
             Get.to(() => const WalletScreen());
           },
         ),
+        const Divider(),
         ListTile(
-          leading: const Icon(PhosphorIcons.qr_code),
+          leading: const CircleAvatar(child: Icon(Icons.group_add_outlined)),
           title: const Text('Refer'),
           onTap: () {},
         ),
+        const Divider(),
         ListTile(
-          leading: const Icon(PhosphorIcons.ticket_bold),
+          leading: const CircleAvatar(child: Icon(PhosphorIcons.ticket_bold)),
           title: const Text('Total tickets'),
           onTap: () {},
         ),
+        const Divider(),
         GetBuilder<ThemeController>(builder: (controller) {
           return SwitchListTile(
             value: controller.isDarkMode.value,
-            secondary: const Icon(PhosphorIcons.moon),
+            secondary: const CircleAvatar(child: Icon(PhosphorIcons.moon)),
             title: const Text('Dark mode'),
             onChanged: controller.setMode,
           );
@@ -86,14 +92,14 @@ class ProfileTab extends StatelessWidget {
 
   _nameTitle(String? nameTitle, {required BuildContext context}) {
     return Text(
-      nameTitle == null ? 'Unknown' : '$nameTitle!',
+      nameTitle == null ? 'No Name' : '$nameTitle!',
       style: Theme.of(context).textTheme.headline5,
     );
   }
 
   _username(String? username, BuildContext context) {
     return Text(
-      username ?? 'unknown',
+      username ?? 'username',
       style: Theme.of(context).textTheme.subtitle2,
     );
   }

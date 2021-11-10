@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
 import 'package:winly/pages/notification/view/notification_screen.dart';
-import 'package:get/get.dart';
+import 'package:winly/pages/wallet/wallet_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, this.index}) : super(key: key);
@@ -28,17 +29,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(APP_NAME),
-        leading: const Padding(
-          padding: EdgeInsets.all(8.0),
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: IconButton(
-            onPressed: null,
-            icon: Icon(PhosphorIcons.wallet),
+            onPressed: () => Get.to(() => const WalletScreen()),
+            icon: const Icon(PhosphorIcons.wallet),
           ),
         ),
         actions: [
           IconButton(
-              onPressed: () => Get.to(() => const NotificationScreen()),
-              icon: const Icon(PhosphorIcons.bell))
+            onPressed: () => Get.to(() => const NotificationScreen()),
+            icon: const Icon(PhosphorIcons.bell),
+          )
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
