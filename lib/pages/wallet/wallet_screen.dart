@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/models/wallet_model.dart';
@@ -101,11 +99,7 @@ class WalletScreen extends StatelessWidget {
       appBar: AppBar(
         leading: const CommonLeading(),
         centerTitle: true,
-        title: Text(
-          'Wallet',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        backgroundColor: Colors.transparent,
+        title: const Text('Wallet'),
         elevation: 0,
       ),
       body: SafeArea(

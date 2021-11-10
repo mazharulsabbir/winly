@@ -29,6 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(APP_NAME),
+        centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: IconButton(

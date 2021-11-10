@@ -75,13 +75,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CommonLeading(),
-        title: Text(
-          'Withdraw',
-          style: Theme.of(context).textTheme.headline6,
-        ),
+        title: const Text('Withdraw'),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: Padding(
