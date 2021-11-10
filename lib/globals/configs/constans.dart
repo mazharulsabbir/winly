@@ -15,3 +15,7 @@ class Images {
   static const facebookLogo = 'assets/facebook_logo.png';
   static const googlelogo = 'assets/google_logo.png';
 }
+
+class Lotties {
+  static const noItem = 'assets/lottie/empty_list_lottie.json';
+}

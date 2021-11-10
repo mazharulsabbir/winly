@@ -48,6 +48,7 @@ dependencies:
   # Use with the Dio class for network calls.
   dio: ^4.0.1
   flutter_countdown_timer: ^4.1.0
+  lottie: ^1.2.1
   
 
 dev_dependencies:
@@ -75,6 +76,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

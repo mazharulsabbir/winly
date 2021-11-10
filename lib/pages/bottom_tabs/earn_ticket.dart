@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:winly/widgets/empty_list.dart';
 
 class EarnTicketTab extends StatelessWidget {
   const EarnTicketTab({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class EarnTicketTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Earn ticket tab'),
+      child: Text('Earn tickets'),
     );
   }
 }
