@@ -3,6 +3,7 @@ class Keys {
 }
 
 const String APP_NAME = 'Winly';
+const String oneSignalAppId = '8ec982ef-f097-49ae-81b2-167818d79341';
 
 class IntroImages {
   static const winBig = 'assets/svg/win_big.svg';
