@@ -14,9 +14,6 @@ class OneSignalController extends GetxController {
 
     OneSignal.shared.setAppId(oneSignalAppId);
 
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
         (OSNotificationReceivedEvent event) {
       // Will be called whenever a notification is received in foreground

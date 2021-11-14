@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:winly/pages/bottom_tabs/tabs.dart';
-import 'package:winly/pages/bottom_tabs/tounamennts/tournaments.dart';
-import 'package:winly/pages/bottom_tabs/tournaments.dart';
 
 class TabNavigationItem {
   TabNavigationItem({
