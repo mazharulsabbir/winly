@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/index.dart';
@@ -5,6 +8,8 @@ import 'package:flutter_countdown_timer/index.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
+import 'package:winly/models/auth/auth_form_model.dart';
+import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
@@ -18,6 +23,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   CountdownTimerController? controller;
+  AuthFormModel _formModel = AuthFormModel();
 
   int _step = 0;
   bool _isEmailVerificationTimeout = false;
@@ -47,7 +53,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "John",
       ),
       validator: nameValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.name = value;
+      },
     );
   }
 
@@ -62,7 +70,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "abdur_rahman",
       ),
       validator: usernameValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.username = value;
+      },
     );
   }
 
@@ -78,7 +88,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "someone@example.domain",
       ),
       validator: emailValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.email = value;
+      },
       initialValue: 'example@gmail.com',
     );
   }
@@ -97,19 +109,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       keyboardType: TextInputType.number,
       validator: phoneValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.phoneNumber = value;
+      },
     );
   }
 
   Widget _refForm() {
-    final refValidator = RequiredValidator(errorText: 'ref id is required');
-
     return TextFormField(
       decoration: TextFieldHelpers.decoration(
         label: 'Ref id',
       ),
-      validator: refValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.referralCode = value;
+      },
     );
   }
 
@@ -126,7 +139,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       decoration: TextFieldHelpers.decoration(label: 'Password'),
       obscureText: true,
       validator: passwordValidator,
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.password = value;
+      },
     );
   }
 
@@ -135,7 +150,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       decoration: TextFieldHelpers.decoration(label: 'Confirm Password'),
       obscureText: true,
       validator: (value) {},
-      onSaved: (value) {},
+      onSaved: (value) {
+        _formModel.passwordConfirmation = value;
+      },
     );
   }
 
@@ -197,10 +214,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _preview() {
     return Card(
       child: Column(
-        children: const [
+        children: [
           ListTile(
-            leading: Icon(Icons.person, color: Colors.blue),
-            title: Text(
+            leading: const Icon(Icons.person, color: Colors.blue),
+            title: const Text(
               "Name",
               style: TextStyle(
                 fontSize: 14.0,
@@ -208,17 +225,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             subtitle: Text(
-              'User name',
-              style: TextStyle(
+              _formModel.name ?? '',
+              style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.email, color: Colors.red),
-            title: Text(
+            leading: const Icon(Icons.email, color: Colors.red),
+            title: const Text(
               "Email",
               style: TextStyle(
                 fontSize: 14.0,
@@ -226,17 +243,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             subtitle: Text(
-              'ghost@gmail.com',
-              style: TextStyle(
+              '${_formModel.email}',
+              style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.call, color: Colors.green),
-            title: Text(
+            leading: const Icon(Icons.call, color: Colors.green),
+            title: const Text(
               "Phone number",
               style: TextStyle(
                 fontSize: 14.0,
@@ -244,20 +261,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             subtitle: Text(
-              '017444',
-              style: TextStyle(
+              '${_formModel.phoneNumber}',
+              style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.link,
               color: Colors.purple,
             ),
-            title: Text(
+            title: const Text(
               "Ref ID",
               style: TextStyle(
                 fontSize: 14.0,
@@ -265,8 +282,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             subtitle: Text(
-              "76776",
-              style: TextStyle(
+              _formModel.referralCode ?? 'Not avilable',
+              style: const TextStyle(
                 fontSize: 18.0,
                 color: Colors.black,
               ),
@@ -343,67 +360,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  // void _submit() async {
-  //   setState(() {
-  //     _loading = true;
-  //   });
+  void _submit() async {
+    setState(() {
+      _loading = true;
+    });
 
-  //   final response = await AuthAPI.register(_formModel);
+    final response = await AuthAPI.register(_formModel);
 
-  //   try {
-  //     if (response != null) {
-  //       final data = jsonDecode(response.body);
-  //       if (response.statusCode == 200) {
-  //         if (data['error'].toString().isNotEmpty) {
-  //           snack(
-  //             title: "Error",
-  //             desc: data['error'],
-  //             icon: Icon(Icons.error, color: Colors.red),
-  //           );
-  //         }
-  //       } else if (response.statusCode == 422) {
-  //         final data = jsonDecode(response.body);
-  //         dynamic _emailError = data['errors']['email'];
-  //         dynamic _phoneNumberError = data['errors']['phone_number'];
-  //         dynamic _usernameError = data['errors']['username'];
+    try {
+      if (response != null) {
+        final data = jsonDecode(response.body);
+        if (response.statusCode == 200) {
+          if (data['error'].toString().isNotEmpty) {
+            //On error
+            print('Error registering');
+          }
+        } else if (response.statusCode == 422) {
+          final data = jsonDecode(response.body);
+          dynamic _emailError = data['errors']['email'];
+          dynamic _phoneNumberError = data['errors']['phone_number'];
+          dynamic _usernameError = data['errors']['username'];
 
-  //         String _errorMessage = data['message'];
+          String _errorMessage = data['message'];
 
-  //         try {
-  //           if (_emailError != null) {
-  //             _errorMessage += " ${_emailError[0]}";
-  //           }
+          try {
+            if (_emailError != null) {
+              _errorMessage += " ${_emailError[0]}";
+            }
 
-  //           if (_phoneNumberError != null) {
-  //             _errorMessage += " ${_phoneNumberError[0]}";
-  //           }
+            if (_phoneNumberError != null) {
+              _errorMessage += " ${_phoneNumberError[0]}";
+            }
 
-  //           if (_usernameError != null) {
-  //             _errorMessage += " ${_usernameError[0]}";
-  //           }
-  //         } catch (e) {
-  //           log(e.toString());
-  //         }
-
-  //         snack(
-  //           title: "Error",
-  //           desc: _errorMessage,
-  //           icon: Icon(Icons.error, color: Colors.red),
-  //         );
-  //       } else if (response.statusCode == 201) {
-  //         setState(() {
-  //           _step++;
-  //         });
-  //       }
-  //     }
-  //   } catch (_) {
-  //   } finally {
-  //     setState(() {
-  //       _loading = false;
-  //       _step++;
-  // //     });
-  // //   }
-  // // }
+            if (_usernameError != null) {
+              _errorMessage += " ${_usernameError[0]}";
+            }
+          } catch (e) {
+            log(e.toString());
+          }
+        } else if (response.statusCode == 201) {
+          setState(() {
+            _step++;
+          });
+        }
+      }
+    } catch (_) {
+    } finally {
+      setState(() {
+        _loading = false;
+        _step++;
+      });
+    }
+  }
 
   // void _verifyCode() async {
   //   setState(() {

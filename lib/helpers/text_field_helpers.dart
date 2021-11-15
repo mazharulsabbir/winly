@@ -7,9 +7,6 @@ class TextFieldHelpers {
   }) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(
-        color: Colors.black,
-      ),
       hintText: hint ?? "",
     );
   }
