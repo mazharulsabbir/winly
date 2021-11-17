@@ -6,6 +6,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
 import 'package:winly/pages/onboard_screen/onboard_screen.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
+import 'package:winly/pages/wrapper.dart';
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: false,
-      home: const OnBoardScreen(),
+      home: const Wrapper(),
       initialBinding: GlobalBindings(),
       theme: MyAppThemes.lightTheme,
       darkTheme: MyAppThemes.darkTheme,

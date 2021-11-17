@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' as dio;
 import 'dart:convert' as convert;
 
 class ApiService {
-  static const String baseUrl = "https://api.themoviedb.org/3/";
+  static const String baseUrl = "https://winly.tauhidthecoder.com/";
   static const String apiKey = "";
 
   static Future<dynamic> get(
@@ -15,12 +15,10 @@ class ApiService {
     try {
       responseJson = await _dio.get(
         baseUrl + url,
-        queryParameters: {
-          "api_key": apiKey,
-        },
         options: dio.Options(
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             'Authorization': 'Bearer $token'
           },
         ),
@@ -48,6 +46,7 @@ class ApiService {
         options: dio.Options(
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             'Authorization': 'Bearer $token'
           },
         ),
@@ -75,6 +74,7 @@ class ApiService {
         options: dio.Options(
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             'Authorization': 'Bearer $token'
           },
         ),
@@ -100,6 +100,7 @@ class ApiService {
         options: dio.Options(
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             'Authorization': 'Bearer $token'
           },
         ),

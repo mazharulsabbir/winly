@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/models/tournament.dart';
 
 class TournamentParticipation extends StatelessWidget {
-  const TournamentParticipation({Key? key}) : super(key: key);
+  final Tournament? tournament;
+  const TournamentParticipation({Key? key, this.tournament}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +77,10 @@ class TournamentParticipation extends StatelessWidget {
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Icon(PhosphorIcons.ticket),
-              SizedBox(
-                width: 5,
-              ),
-              Text('5')
+            children: [
+              const Icon(PhosphorIcons.ticket),
+              const SizedBox(width: 5),
+              Text('${tournament?.require_tickets}')
             ],
           ),
         )

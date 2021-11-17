@@ -2,7 +2,9 @@ class Keys {
   static const darkModeKey = 'isDarkMode';
 }
 
-const String APP_NAME = 'Winly';
+const String appFirstTimeLoadingKey = 'appFirstTimeLoadingKey';
+
+const String APP_NAME = 'WinLy';
 const String oneSignalAppId = '8ec982ef-f097-49ae-81b2-167818d79341';
 
 class IntroImages {

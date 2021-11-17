@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
+import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/settings/settings.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
@@ -10,7 +12,7 @@ import 'package:winly/widgets/common_avatar.dart';
 class ProfileTab extends StatelessWidget {
   const ProfileTab({Key? key}) : super(key: key);
 
-  _heading(BuildContext context) {
+  _heading(BuildContext context, User? user) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 25,
@@ -32,11 +34,10 @@ class ProfileTab extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _nameTitle(null, context: context),
-                    _username(null, context),
+                    _nameTitle(user?.name, context: context),
+                    _username(user?.username, context),
                   ],
                 ),
-                _pointShowingSection(context)
               ],
             ),
           ),
@@ -45,7 +46,7 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  _bodyPart() {
+  _bodyPart(User? user) {
     return Column(
       children: [
         ListTile(
@@ -76,6 +77,7 @@ class ProfileTab extends StatelessWidget {
         ListTile(
           leading: const CircleAvatar(child: Icon(PhosphorIcons.ticket_bold)),
           title: const Text('Total tickets'),
+          trailing: const Text('2034'),
           onTap: () {},
         ),
         const Divider(),
@@ -105,44 +107,25 @@ class ProfileTab extends StatelessWidget {
     );
   }
 
-  _pointShowingSection(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 10,
-          width: 10,
-          decoration: const BoxDecoration(
-            color: Colors.orange,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          '2034',
-          style: Theme.of(context).textTheme.subtitle1,
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCommonAppbar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Column(
-            children: [
-              _heading(context),
-              const SizedBox(
-                height: 20,
-              ),
-              const Divider(),
-              _bodyPart()
-            ],
+      body: GetBuilder<AuthController>(
+        init: AuthController(),
+        builder: (controller) => SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Column(
+              children: [
+                _heading(context, controller.user),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Divider(),
+                _bodyPart(controller.user)
+              ],
+            ),
           ),
         ),
       ),

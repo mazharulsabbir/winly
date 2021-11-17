@@ -28,7 +28,7 @@ class OneSignalController extends GetxController {
       print('Notification pressed');
 
       Get.to(() => const TournamentDetail(
-            tournament: 'Tournaments',
+            tournament: null,
           ));
     });
 

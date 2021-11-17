@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:winly/globals/configs/constans.dart';
 
 import 'package:winly/models/intro_page.dart';
 import 'package:winly/pages/root_screen/root_screen.dart';
@@ -79,7 +81,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         width: MediaQuery.of(context).size.width * 0.8,
         height: 50,
         child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (pageIndex < legnth - 1) {
                 pageController
                     .nextPage(
@@ -87,6 +89,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                         curve: Curves.easeIn)
                     .then((_) => setState(() => pageIndex));
               } else if (pageIndex == legnth - 1) {
+                SharedPreferences _pref = await SharedPreferences.getInstance();
+                _pref.setBool(appFirstTimeLoadingKey, false);
                 Get.off(() => const RootScreen());
               }
             },

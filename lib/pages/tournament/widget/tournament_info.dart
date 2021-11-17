@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:winly/models/tournament.dart';
 import 'package:winly/pages/home/widget/tournament_participation.dart';
 import 'package:winly/widgets/common_icon_text_widget.dart';
 
 class TournamentInfoWidget extends StatelessWidget {
-  const TournamentInfoWidget({Key? key}) : super(key: key);
+  final Tournament? tournament;
+  const TournamentInfoWidget({Key? key, this.tournament}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,29 +26,30 @@ class TournamentInfoWidget extends StatelessWidget {
                 ),
                 child: Column(
                   // mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    SizedBox(height: 20),
+                  children: [
+                    const SizedBox(height: 20),
                     Text(
-                      'Tournament Name',
-                      style: TextStyle(
+                      '${tournament?.title}',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Text('Jan 15 - Jan 25'),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 5),
+                    const SizedBox(height: 15),
                     CommonIconTextWidget(
-                      label: 'Jan 15 - Jan 25',
+                      label: '${tournament?.deadline}',
                       icon: PhosphorIcons.calendar,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CommonIconTextWidget(
-                      label: '5',
+                      label: '${tournament?.require_tickets}',
                       icon: PhosphorIcons.ticket,
                     ),
-                    Divider(),
-                    TournamentParticipation()
+                    const Divider(),
+                    TournamentParticipation(
+                      tournament: tournament,
+                    )
                   ],
                 ),
               ),

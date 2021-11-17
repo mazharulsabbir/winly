@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:winly/globals/configs/images.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 
 class RootScreen extends StatefulWidget {
@@ -23,9 +24,9 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Root screen'),
+        child: Image.asset(appIconTransparent),
       ),
     );
   }

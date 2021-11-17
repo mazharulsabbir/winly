@@ -1,25 +1,34 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as getx;
+import 'package:winly/models/tournament.dart';
 import 'package:winly/services/api/tournament_api.dart';
 import 'package:winly/services/db/auth.dart';
 
 class TournamentController extends getx.GetxController {
   String? token;
   bool isLoading = false;
-  List<dynamic>? tournaments = [
-    {"name": "abc"},
-    {"name": "abc"},
-    {"name": "abc"},
-    {"name": "abc"}
-  ];
+  List<Tournament>? tournaments = [];
 
   TournamentController() {
-    token = AuthDBService.getToken();
+    token = AuthDBService.getToken() ??
+        "2|KmyTvlrOSn0yPfshFE5F2Y5IaYkoydpu6qZXl5A8";
     getTournaments();
   }
 
   Future<dynamic> getTournaments() async {
-    // TournamentAPI.getTournaments(token).then((value) {
-    //   tournaments = value;
-    // });
+    isLoading = true;
+    update();
+
+    try {
+      dynamic _response = await TournamentAPI.getTournaments(token);
+      tournaments = Tournaments.fromJson(
+        _response.data,
+      ).tournaments;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    isLoading = false;
+    update();
   }
 }

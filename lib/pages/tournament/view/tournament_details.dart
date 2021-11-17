@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:winly/models/tournament.dart';
 import 'package:winly/pages/tournament/widget/tournament_info.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
 class TournamentDetail extends StatelessWidget {
-  final dynamic tournament;
+  final Tournament? tournament;
   const TournamentDetail({Key? key, this.tournament}) : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class TournamentDetail extends StatelessWidget {
                   pinned: true,
                   snap: true,
                   elevation: 0,
-                  title: const Text('Tournament Name'),
+                  title: Text('${tournament?.title}'),
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
                       decoration: const BoxDecoration(
@@ -36,7 +37,9 @@ class TournamentDetail extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      child: const TournamentInfoWidget(),
+                      child: TournamentInfoWidget(
+                        tournament: tournament,
+                      ),
                     ),
                   ),
                 ),
@@ -58,15 +61,24 @@ class TournamentDetail extends StatelessWidget {
                 ),
               ];
             },
-            body: const TabBarView(children: [
+            body: TabBarView(children: [
               Center(
-                child: Text('About'),
+                child: Text(
+                  '${tournament?.description}',
+                  textAlign: TextAlign.justify,
+                ),
               ),
               Center(
-                child: Text('Rules'),
+                child: Text(
+                  '${tournament?.rules}',
+                  textAlign: TextAlign.justify,
+                ),
               ),
               Center(
-                child: Text('Point System'),
+                child: Text(
+                  '${tournament?.description}',
+                  textAlign: TextAlign.justify,
+                ),
               )
             ]),
           ),
