@@ -3,6 +3,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:winly/pages/bottom_tabs/tounaments/tabs/completed.dart';
 import 'package:winly/pages/bottom_tabs/tounaments/tabs/live.dart';
 import 'package:winly/pages/bottom_tabs/tounaments/tabs/up_comming.dart';
+import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
 class Tournaments extends StatelessWidget {
@@ -15,10 +16,13 @@ class Tournaments extends StatelessWidget {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 10,
-            bottom: const TabBar(
-              tabs: [Text('Upcomming'), Text('Live'), Text('Complited')],
+          appBar: buildCommonAppbar(
+            bottom: TabBar(
+              tabs: [
+                Tab(text: 'Upcomming'.toUpperCase()),
+                Tab(text: 'Live'.toUpperCase()),
+                Tab(text: 'Complited'.toUpperCase())
+              ],
             ),
           ),
           floatingActionButton: const FloatingActionButton(

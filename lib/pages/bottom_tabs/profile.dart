@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/pages/settings/settings.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
+import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_avatar.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -128,8 +129,9 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: buildCommonAppbar(),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 30),
           child: Column(

@@ -6,6 +6,7 @@ import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
 import 'package:winly/pages/notification/view/notification_screen.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
+import 'package:winly/widgets/common_appbar.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, this.index}) : super(key: key);
@@ -27,23 +28,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(APP_NAME),
-        centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            onPressed: () => Get.to(() => const WalletScreen()),
-            icon: const Icon(PhosphorIcons.wallet),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => Get.to(() => const NotificationScreen()),
-            icon: const Icon(PhosphorIcons.bell),
-          )
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: List.generate(
           TabNavigationItem.items.length,
