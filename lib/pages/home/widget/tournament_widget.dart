@@ -28,7 +28,7 @@ class TournamentItemWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TournamentBannerStack(),
+              TournamentBannerStack(tournament: tournament),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(

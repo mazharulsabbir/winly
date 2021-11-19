@@ -44,6 +44,9 @@ dependencies:
   sharedpreference: ^0.0.1
   introduction_screen: ^2.1.0
 
+  # youtube video player from video link
+  youtube_player_flutter: ^8.0.0
+
   # The following adds the dio network calling library.
   # Use with the Dio class for network calls.
   dio: ^4.0.1

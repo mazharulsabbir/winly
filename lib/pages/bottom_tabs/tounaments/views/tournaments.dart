@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:winly/pages/bottom_tabs/tounaments/tabs/completed.dart';
-import 'package:winly/pages/bottom_tabs/tounaments/tabs/live.dart';
-import 'package:winly/pages/bottom_tabs/tounaments/tabs/up_comming.dart';
+import 'package:get/get.dart';
+import 'package:winly/globals/controllers/tournament_controller.dart';
+import 'package:winly/models/tournament.dart';
+import 'package:winly/pages/tournament/view/tournamnet_list.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
@@ -13,26 +14,54 @@ class Tournaments extends StatelessWidget {
   Widget build(BuildContext context) {
     return CommonLoadingOverlay(
       loading: false,
-      child: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: buildCommonAppbar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'Upcomming'.toUpperCase()),
-                Tab(text: 'Live'.toUpperCase()),
-                Tab(text: 'Complited'.toUpperCase())
-              ],
+      child: GetBuilder<TournamentController>(
+        builder: (controller) {
+          List<Tournament>? _upcommingEvents = controller.tournaments
+              ?.where((element) => element.status == "0")
+              .toList();
+          List<Tournament>? _liveEvents = controller.tournaments
+              ?.where((element) => element.status == "1")
+              .toList();
+          List<Tournament>? _completedEvents = controller.tournaments
+              ?.where((element) => element.status == "2")
+              .toList();
+
+          return CommonLoadingOverlay(
+            loading: controller.isLoading,
+            child: DefaultTabController(
+              length: 3,
+              child: Scaffold(
+                appBar: buildCommonAppbar(
+                  bottom: TabBar(
+                    isScrollable: true,
+                    tabs: [
+                      Tab(
+                        text: 'Upcomming'.toUpperCase() +
+                            " (${_upcommingEvents?.length})",
+                      ),
+                      Tab(
+                        text:
+                            'Live'.toUpperCase() + " (${_liveEvents?.length})",
+                      ),
+                      Tab(
+                        text: 'Complited'.toUpperCase() +
+                            " (${_completedEvents?.length})",
+                      )
+                    ],
+                  ),
+                ),
+                body: TabBarView(
+                  children: [
+                    TournamentListWidget(tournaments: _upcommingEvents),
+                    TournamentListWidget(tournaments: _liveEvents),
+                    TournamentListWidget(tournaments: _completedEvents)
+                  ],
+                ),
+              ),
             ),
-          ),
-          floatingActionButton: const FloatingActionButton(
-            onPressed: null,
-            child: Icon(PhosphorIcons.sort_ascending),
-          ),
-          body: const TabBarView(
-            children: [UpCommingTabs(), LiveTab(), CompletedTab()],
-          ),
-        ),
+          );
+        },
+        init: TournamentController(),
       ),
     );
   }

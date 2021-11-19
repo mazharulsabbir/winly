@@ -11,7 +11,7 @@ class TournamentController extends getx.GetxController {
 
   TournamentController() {
     token = AuthDBService.getToken() ??
-        "2|KmyTvlrOSn0yPfshFE5F2Y5IaYkoydpu6qZXl5A8";
+        "2|KJoRjBM4WwXzN1Ilh9Xu1qE6sPVKonq24cHPwzDd";
     getTournaments();
   }
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/models/tournament.dart';
+import 'package:winly/services/api/api_service.dart';
 
 class TournamentBannerStack extends StatelessWidget {
-  const TournamentBannerStack({Key? key}) : super(key: key);
+  final Tournament? tournament;
+  const TournamentBannerStack({Key? key, this.tournament}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class TournamentBannerStack extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Image.network(
-            "https://images.firstpost.com/fpimages/1200x800/fixed/jpg/2019/01/PUBG-Lite-copy.jpg",
+            "${ApiService.baseUrl}${tournament?.banner_img}",
             height: 170.0,
             width: double.infinity,
             fit: BoxFit.cover,
