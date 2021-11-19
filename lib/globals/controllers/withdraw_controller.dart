@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/models/withdraws.dart';
 import 'package:winly/services/api/withdraw.dart';
@@ -30,13 +31,18 @@ class WithdrawController extends GetxController {
       isLoading.value = false;
 
       if (response != null) {
+        print(response.body);
         dynamic result = convert.jsonDecode(response.body);
-        // debugPrint(result.toString());
-        WithdrawHistory _history = WithdrawHistory.fromJson(result);
+        debugPrint(result.toString());
+        List<Withdraw> withdrawsFromApi =
+            (result as List<dynamic>).map((e) => Withdraw.fromJson(e)).toList();
+        // WithdrawHistory _history = WithdrawHistory.fromJson(result);
 
-        if (_history.withdraws != null) {
-          withdraws = _history.withdraws!;
+        if (withdrawsFromApi.isNotEmpty) {
+          withdraws = withdrawsFromApi;
         }
+      } else {
+        print('Null responce');
       }
 
       update();
