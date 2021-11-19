@@ -1,15 +1,17 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
+import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -316,7 +318,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           snack(
                             title: 'Failed',
                             desc: responseBody['error'],
-                            icon: Icon(Icons.error, color: Colors.red),
+                            icon: const Icon(Icons.error, color: Colors.red),
                           );
                         } else if (responseBody['message'] != null) {
                           manageCountdownTimer();
@@ -356,6 +358,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
               );
             },
           ),
+        VerificationCode(
+          textStyle: TextStyle(fontSize: 20.0, color: Colors.black),
+          keyboardType: TextInputType.number,
+          underlineColor: Colors.green,
+          length: 6,
+          onCompleted: (String value) {
+            setState(() {
+              _code = value;
+            });
+          },
+          onEditing: (bool value) {
+            setState(() {
+              _onEditing = value;
+            });
+            if (!_onEditing) FocusScope.of(context).unfocus();
+          },
+        ),
         const SizedBox(
           height: 30,
         ),
@@ -427,53 +446,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  // void _verifyCode() async {
-  //   setState(() {
-  //     _loading = true;
-  //   });
+  void _verifyCode() async {
+    setState(() {
+      _loading = true;
+    });
 
-  //   if (_code != null) {
-  //     final response = await AuthAPI.verify(
-  //       email: _formModel.email!,
-  //       code: _code!,
-  //     );
+    if (_code != null) {
+      final response = await AuthAPI.verify(
+        email: _formModel.email!,
+        code: _code!,
+      );
 
-  //     try {
-  //       if (response != null) {
-  //         final data = jsonDecode(response.body);
-  //         if (response.statusCode == 200) {
-  //           if (data['error'] != null) {
-  //             snack(
-  //               title: "Error",
-  //               desc: data['error'],
-  //               icon: Icon(Icons.error, color: Colors.red),
-  //             );
-  //           } else {
-  //             Get.off(() => SignInScreen());
-  //             snack(
-  //               title: "Success",
-  //               desc: data['message'],
-  //               icon: Icon(Icons.done, color: Colors.green),
-  //             );
-  //           }
-  //         }
-  //       }
-  //     } catch (_) {
-  //     } finally {
-  //       setState(() {
-  //         _loading = false;
-  //       });
-  //     }
-  //   } else {
-  //     setState(() {
-  //       _loading = true;
-  //     });
-  //     snack(
-  //         title: "Error",
-  //         desc: "Code is not valid",
-  //         icon: Icon(Icons.error, color: Colors.red));
-  //   }
-  // }
+      try {
+        if (response != null) {
+          final data = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            if (data['error'] != null) {
+              snack(
+                title: "Error",
+                desc: data['error'],
+                icon: const Icon(Icons.error, color: Colors.red),
+              );
+              debugPrint('${data['error']}');
+            } else {
+              Get.off(() => const SignInScreen());
+              snack(
+                title: "Success",
+                desc: data['message'],
+                icon: const Icon(Icons.done, color: Colors.green),
+              );
+            }
+          } else {
+            snack(
+              title: "Error",
+              desc: data['error'],
+              icon: const Icon(Icons.done, color: Colors.green),
+            );
+          }
+        } else {}
+      } catch (e) {
+        snack(
+            title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
+      } finally {
+        setState(() {
+          _loading = false;
+        });
+      }
+    } else {
+      setState(() {
+        _loading = false;
+      });
+      snack(
+          title: "Error",
+          desc: "Code is not valid",
+          icon: const Icon(Icons.error, color: Colors.red));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -514,7 +542,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 manageCountdownTimer();
               } else if (isLastStep) {
                 controller?.disposeTimer();
-                // _verifyCode();
+                _verifyCode();
               }
             },
             onStepCancel: _step == 0 ? null : () => setState(() => _step--),
