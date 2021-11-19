@@ -29,10 +29,10 @@ class TournamentDetail extends StatelessWidget {
                   title: Text('${tournament?.title}'),
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            "https://images.firstpost.com/fpimages/1200x800/fixed/jpg/2019/01/PUBG-Lite-copy.jpg",
+                            "${tournament?.banner_img}",
                           ),
                           fit: BoxFit.cover,
                         ),

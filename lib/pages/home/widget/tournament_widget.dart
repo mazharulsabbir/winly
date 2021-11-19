@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/models/tournament.dart';
 import 'package:winly/pages/tournament/view/tournament_details.dart';
 import 'tournament_banner_stack.dart';
@@ -7,7 +8,10 @@ import 'tournament_participation.dart';
 
 class TournamentItemWidget extends StatelessWidget {
   final Tournament? tournament;
-  const TournamentItemWidget({Key? key, this.tournament}) : super(key: key);
+  final TournamentController? tournamentController;
+  const TournamentItemWidget(
+      {Key? key, this.tournament, this.tournamentController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class TournamentItemWidget extends StatelessWidget {
                     const Divider(),
                     TournamentParticipation(
                       tournament: tournament,
+                      tournamentController: tournamentController,
                     )
                   ],
                 ),

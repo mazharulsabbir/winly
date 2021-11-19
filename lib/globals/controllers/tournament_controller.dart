@@ -30,4 +30,21 @@ class TournamentController extends getx.GetxController {
     isLoading = false;
     update();
   }
+
+  Future<dynamic> joinTournament(
+    dynamic tournamentId,
+    dynamic gameName,
+  ) async {
+    try {
+      dynamic _response = await TournamentAPI.joinTournament(
+        tournamentId,
+        gameName,
+        token,
+      );
+
+      return _response;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }

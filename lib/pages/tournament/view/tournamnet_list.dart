@@ -5,7 +5,10 @@ import 'package:winly/pages/home/widget/tournament_widget.dart';
 
 class TournamentListWidget extends StatelessWidget {
   final List<Tournament>? tournaments;
-  const TournamentListWidget({Key? key, this.tournaments}) : super(key: key);
+  final TournamentController? tournamentController;
+  const TournamentListWidget(
+      {Key? key, this.tournaments, this.tournamentController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class TournamentListWidget extends StatelessWidget {
         itemCount: tournaments?.length,
         itemBuilder: (context, index) => TournamentItemWidget(
           tournament: tournaments?[index],
+          tournamentController: tournamentController,
         ),
       ),
     );

@@ -52,9 +52,18 @@ class Tournaments extends StatelessWidget {
                 ),
                 body: TabBarView(
                   children: [
-                    TournamentListWidget(tournaments: _upcommingEvents),
-                    TournamentListWidget(tournaments: _liveEvents),
-                    TournamentListWidget(tournaments: _completedEvents)
+                    TournamentListWidget(
+                      tournaments: _upcommingEvents,
+                      tournamentController: controller,
+                    ),
+                    TournamentListWidget(
+                      tournaments: _liveEvents,
+                      tournamentController: controller,
+                    ),
+                    TournamentListWidget(
+                      tournaments: _completedEvents,
+                      tournamentController: controller,
+                    )
                   ],
                 ),
               ),
