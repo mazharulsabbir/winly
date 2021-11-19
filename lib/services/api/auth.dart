@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:winly/models/auth/auth_form_model.dart';
@@ -21,7 +22,6 @@ class AuthAPI {
   static Future<http.Response?> register(AuthFormModel form) async {
     try {
       final url = urlBuilder('api/register');
-      print('to jesonon Data ${form.toJson()}');
       final response = await http.post(
         Uri.parse(url),
         body: form.toJson(),
@@ -30,8 +30,10 @@ class AuthAPI {
 
       return Future.value(response);
     } on SocketException catch (e) {
-      print('Socket error:$e');
+      debugPrint('Socket error:$e');
       return null;
+    } on Exception catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -44,10 +46,10 @@ class AuthAPI {
 
       final response = await http.post(
         Uri.parse(url),
-        body: {
+        body: convert.jsonEncode({
           'email': email,
           'password': password,
-        },
+        }),
         headers: commonHeader(),
       );
 
@@ -66,10 +68,10 @@ class AuthAPI {
 
       final response = await http.post(
         Uri.parse(url),
-        body: {
+        body: convert.jsonEncode({
           "email": email,
           "verification_code": code,
-        },
+        }),
         headers: commonHeader(),
       );
 
@@ -87,9 +89,9 @@ class AuthAPI {
 
       final response = await http.post(
         Uri.parse(url),
-        body: {
+        body: convert.jsonEncode({
           "email": email,
-        },
+        }),
         headers: commonHeader(),
       );
 
