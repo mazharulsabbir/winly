@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/globals/configs/strings.dart';
+import 'package:winly/models/quizz.dart';
 import 'package:winly/widgets/common_leading.dart';
 
 class QuizeScreen extends StatefulWidget {
@@ -10,60 +12,34 @@ class QuizeScreen extends StatefulWidget {
 }
 
 class _QuizeScreenState extends State<QuizeScreen> {
-  final String dummyQestion =
-      'What attraction in montreal in one of the largest in the word?';
-
-  final List<String> answes = [
-    'Botanical Garden',
-    'The science Building',
-    'The olempic Stedium'
-  ];
+  final List<QuizzQuestion> dummyQestion = quizzQuestions;
 
   int selectedIndex = 0;
-
-  _timerWidget(BuildContext context) {
-    innerPart(double persent) {
-      return Stack(
-        children: [
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width * persent * 0.01,
-            decoration: const BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-          ),
-          const Positioned(right: 16, top: 6, child: Icon(PhosphorIcons.clock))
-        ],
-      );
-    }
-
-    return Container(
-      height: 40,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-          color: Colors.orange,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: innerPart(80),
-    );
-  }
+  int _questionIndex = 0;
 
   _questionTitle() {
     return RichText(
-        text: const TextSpan(children: [
-      TextSpan(text: 'Question 1', style: TextStyle(fontSize: 25)),
-      TextSpan(text: '/10', style: TextStyle(color: Colors.grey))
+        text: TextSpan(children: [
+      TextSpan(
+        text: 'Question ${dummyQestion[_questionIndex].id}',
+        style: const TextStyle(fontSize: 25, color: Colors.blue),
+      ),
+      TextSpan(
+        text: '/${dummyQestion.length}',
+        style: const TextStyle(color: Colors.grey),
+      )
     ]));
   }
 
-  _questionBody(String question) {
+  _questionBody(QuizzQuestion question) {
     return Text(
-      question,
+      "${question.question}",
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
     );
   }
 
-  _answerPart(List<String> answers) {
-    answerTile(bool isSelected, String data, int index) {
+  _answerPart(List<String>? answers) {
+    answerTile(bool isSelected, String? data, int index) {
       const double circleraduis = 20;
       return GestureDetector(
         onTap: () {
@@ -79,7 +55,7 @@ class _QuizeScreenState extends State<QuizeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                data,
+                "$data",
                 style: const TextStyle(fontSize: 16),
               ),
               isSelected
@@ -87,7 +63,9 @@ class _QuizeScreenState extends State<QuizeScreen> {
                       height: circleraduis,
                       width: circleraduis,
                       decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.blue),
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
                       child: const Icon(
                         Icons.done,
                         size: 12,
@@ -97,9 +75,12 @@ class _QuizeScreenState extends State<QuizeScreen> {
                       height: circleraduis,
                       width: circleraduis,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border:
-                              Border.all(color: Colors.blueAccent, width: 2)),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.blueAccent,
+                          width: 2,
+                        ),
+                      ),
                     )
             ],
           ),
@@ -109,70 +90,72 @@ class _QuizeScreenState extends State<QuizeScreen> {
 
     return ListView.separated(
       itemBuilder: (_, index) {
-        return answerTile(index == selectedIndex, answers[index], index);
+        return answerTile(index == selectedIndex, answers![index], index);
       },
       separatorBuilder: (_, i) {
         return const SizedBox(
           height: 15,
         );
       },
-      itemCount: answers.length,
+      itemCount: answers?.length ?? 0,
       shrinkWrap: true,
     );
   }
 
   button() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          // todo: show ad
+          selectedIndex = 0;
+          if (_questionIndex == dummyQestion.length - 1) {
+            _questionIndex = 0;
+          } else {
+            _questionIndex++;
+          }
+        });
+      },
       child: const Text('Next'),
       style: ElevatedButton.styleFrom(
-          minimumSize: const Size(100, 50),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)))),
+        minimumSize: const Size(200, 50),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Play Game'),
-        leading: const CommonLeading(),
-      ),
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // _timerWidget(context),
-              // const SizedBox(
-              //   height: 30,
-              // ),
-              Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                child: _questionTitle(),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Divider(),
-              const SizedBox(
-                height: 10,
-              ),
-              _questionBody(dummyQestion),
-              const Spacer(),
-              _answerPart(answes),
-              const SizedBox(
-                height: 20,
-              ),
-              button()
-            ],
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            width: double.infinity,
+            child: _questionTitle(),
           ),
-        ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Divider(),
+          const SizedBox(
+            height: 10,
+          ),
+          _questionBody(dummyQestion[_questionIndex]),
+          const Spacer(),
+          _answerPart(dummyQestion[_questionIndex].answers),
+          const SizedBox(
+            height: 20,
+          ),
+          button()
+        ],
       ),
     );
   }

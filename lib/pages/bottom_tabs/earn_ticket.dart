@@ -15,15 +15,7 @@ class EarnTicketTab extends StatelessWidget {
       loading: false,
       child: Scaffold(
         appBar: buildCommonAppbar(),
-        body: Center(
-          child: SizedBox(
-            width: 200,
-            child: ElevatedButton(
-              onPressed: () => Get.to(() => const QuizeScreen()),
-              child: const Text('Earn Ticket'),
-            ),
-          ),
-        ),
+        body: const QuizeScreen(),
       ),
     );
   }
