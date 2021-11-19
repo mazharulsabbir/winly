@@ -10,8 +10,7 @@ class TournamentController extends getx.GetxController {
   List<Tournament>? tournaments = [];
 
   TournamentController() {
-    token = AuthDBService.getToken() ??
-        "2|KmyTvlrOSn0yPfshFE5F2Y5IaYkoydpu6qZXl5A8";
+    token = AuthDBService.getToken();
     getTournaments();
   }
 

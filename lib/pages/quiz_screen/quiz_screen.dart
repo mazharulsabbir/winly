@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/widgets/common_leading.dart';
 
 class QuizeScreen extends StatefulWidget {
-  QuizeScreen({Key? key}) : super(key: key);
+  const QuizeScreen({Key? key}) : super(key: key);
 
   @override
   State<QuizeScreen> createState() => _QuizeScreenState();
@@ -134,6 +135,10 @@ class _QuizeScreenState extends State<QuizeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Play Game'),
+        leading: const CommonLeading(),
+      ),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -142,10 +147,10 @@ class _QuizeScreenState extends State<QuizeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _timerWidget(context),
-              const SizedBox(
-                height: 30,
-              ),
+              // _timerWidget(context),
+              // const SizedBox(
+              //   height: 30,
+              // ),
               Container(
                 alignment: Alignment.centerLeft,
                 width: double.infinity,

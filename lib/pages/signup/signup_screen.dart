@@ -460,6 +460,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         if (response != null) {
           final data = jsonDecode(response.body);
+          print(data);
           if (response.statusCode == 200) {
             if (data['error'] != null) {
               snack(

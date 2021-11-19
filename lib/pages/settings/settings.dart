@@ -30,6 +30,7 @@ class SettingsPage extends StatelessWidget {
                     color: Theme.of(context).primaryIconTheme.color,
                   ),
                 ),
+                onTap: SettingsModel.settings[index].onTap,
                 title: Text(SettingsModel.settings[index].title),
                 trailing: const Icon(Icons.arrow_right_outlined),
               );

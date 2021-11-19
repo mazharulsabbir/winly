@@ -46,29 +46,27 @@ class _SignInScreenState extends State<SignInScreen> {
         final response = await AuthAPI.login(email: email, password: password);
         if (response != null) {
           final data = jsonDecode(response.body);
-          print(data);
+
           if (response.statusCode == 200) {
             final token = data['token'];
-            debugPrint('Tocken $token');
             final userDataRaw = await AuthAPI.me(token);
+
             if (userDataRaw != null) {
               try {
                 final userParsed = jsonDecode(userDataRaw.body);
                 final User user = User.fromJson(userParsed);
-                debugPrint('Log in successful');
-                debugPrint(userParsed);
                 snack(
                   title: "Success",
-                  desc: "Everything is OK",
+                  desc: data['message'],
                   icon: const Icon(Icons.done, color: Colors.green),
                 );
                 _authController.logIn(user, token);
                 Get.offAll(() => const BottomNavBar());
-              } catch (_) {
+              } catch (e) {
                 snack(
                   title: "Error",
                   desc: "Something went wrong",
-                  icon: Icon(Icons.error, color: Colors.red),
+                  icon: const Icon(Icons.error, color: Colors.red),
                 );
               }
             }
@@ -76,11 +74,13 @@ class _SignInScreenState extends State<SignInScreen> {
             snack(
               title: "Error",
               desc: data['error'],
-              icon: Icon(Icons.error, color: Colors.red),
+              icon: const Icon(Icons.error, color: Colors.red),
             );
           } else {
             snack(
-                title: 'Error', desc: data['errors'], icon: Icon(Icons.error));
+                title: 'Error',
+                desc: data['errors'],
+                icon: const Icon(Icons.error));
           }
         }
       } catch (_) {

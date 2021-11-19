@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:winly/services/api/api_service.dart';
 
 class TournamentAPI {
@@ -6,6 +7,7 @@ class TournamentAPI {
       final _response = await ApiService.get("api/tournaments", token: token);
       return Future.value(_response);
     } catch (e) {
+      debugPrint("======== Error Getting Tournamets ========");
       return Future.error(e);
     }
   }
