@@ -373,48 +373,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       if (response != null) {
         final data = jsonDecode(response.body);
+
         if (response.statusCode == 200) {
-          if (data['error'].toString().isNotEmpty) {
+          if (data['errors'] != null) {
             //On error
-            print('Error registering');
-          }
-          snack(
+            String errorMessageBuilder = "";
+            Map<String, dynamic> errors = data['errors'];
+            errors.forEach((index, value) {
+              errorMessageBuilder += '$value\n';
+            });
+
+            snack(
+              title: data['message'],
+              desc: errorMessageBuilder,
+              icon: const Icon(Icons.error, color: Colors.red),
+            );
+          } else {
+            snack(
               title: 'Resitration Succress',
-              desc: 'Registrastion has been success',
-              icon: const Icon(Icons.thumb_up));
+              desc: data['message'],
+              icon: const Icon(Icons.thumb_up),
+            );
+          }
         } else if (response.statusCode == 422) {
           final data = jsonDecode(response.body);
-          dynamic _emailError = data['errors']['email'];
-          dynamic _phoneNumberError = data['errors']['phone_number'];
-          dynamic _usernameError = data['errors']['username'];
+          String errorMessageBuilder = "";
 
-          String _errorMessage = data['message'];
+          Map<String, dynamic> errors = data['errors'];
 
-          try {
-            if (_emailError != null) {
-              _errorMessage += " ${_emailError[0]}";
-            }
+          errors.forEach((index, value) {
+            errorMessageBuilder += '$value\n';
+          });
 
-            if (_phoneNumberError != null) {
-              _errorMessage += " ${_phoneNumberError[0]}";
-            }
-
-            if (_usernameError != null) {
-              _errorMessage += " ${_usernameError[0]}";
-            }
-          } catch (e) {
-            log(e.toString());
-          }
+          snack(
+            title: data['message'],
+            desc: errorMessageBuilder,
+            icon: const Icon(Icons.error, color: Colors.red),
+          );
         } else if (response.statusCode == 201) {
-          print('Rewsponce code 201');
+          debugPrint('Rewsponce code 201');
           setState(() {
             _step++;
           });
         }
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint(e.toString());
     } finally {
-      print('Called finally block');
       setState(() {
         _loading = false;
         _step++;
