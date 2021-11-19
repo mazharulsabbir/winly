@@ -153,6 +153,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
 
       try {
         if (response != null) {
+          debugPrint('Data is not null');
           final data = jsonDecode(response.body);
 
           if (response.statusCode == 200) {
@@ -170,11 +171,11 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                 icon: const Icon(Icons.error, color: Colors.red),
               );
             } else {
-              // snack(
-              //   title: 'Resitration Succress',
-              //   desc: data['message'],
-              //   icon: const Icon(Icons.thumb_up),
-              // );
+              snack(
+                title: 'Succress',
+                desc: 'Hurrah we have snet your request',
+                icon: const Icon(Icons.thumb_up),
+              );
             }
           } else if (response.statusCode == 422) {
             final data = jsonDecode(response.body);
@@ -194,11 +195,18 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
           } else if (response.statusCode == 201) {
             debugPrint('Rewsponce code 201');
           }
+        } else {
+          debugPrint('Data is null');
+          snack(
+              title: 'No responce',
+              desc: 'Server error',
+              icon: Icon(Icons.error));
         }
       } catch (e) {
-        debugPrint(e.toString());
+        print('Error: $e');
       } finally {}
     } else {
+      print('No tocken');
       snack(
         title: 'Tocken is not available',
         desc: 'You dont have valid tocken',
@@ -209,12 +217,12 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
 
   withDrawButton() {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (_formKey.currentState != null) {
           if (_formKey.currentState!.validate()) {
             print(
                 'amount${amountController.text} phone number ${phoneNumberController.text} and selected Methode ${PaymentmentMathodModel.paymentList[selectedIndex].tittle}');
-            sendWithDrawRequest();
+            await sendWithDrawRequest();
           }
         }
       },

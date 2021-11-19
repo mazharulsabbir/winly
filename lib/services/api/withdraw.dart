@@ -20,7 +20,7 @@ class WithdrawAPI {
             'Authorization': 'Bearer $token',
           },
           body: convert.jsonEncode({
-            'phone_number': phoneNumber,
+            'phone': phoneNumber,
             'amount': amount,
             'payment_method': paymentMethod,
           }));
