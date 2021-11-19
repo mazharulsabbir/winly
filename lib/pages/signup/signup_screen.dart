@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/index.dart';
-// import 'package:flutter_countdown_timer/index.dart';
-
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
 import 'package:winly/services/api/auth.dart';
@@ -36,12 +34,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     print("TIMEOUT");
   }
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    nameController = TextEditingController(text: '');
+    userNameController = TextEditingController(text: '');
+    emailController = TextEditingController(text: 'example@gmail.com');
+    phoneNumberController = TextEditingController(text: '');
+    passwordController = TextEditingController(text: '');
+
     controller = CountdownTimerController(
         endTime: DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 60,
         onEnd: onEnd);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    userNameController.dispose();
+    passwordController.dispose();
+    phoneNumberController.dispose();
+    emailController.dispose();
+    super.dispose();
   }
 
   Widget _nameForm() {
@@ -53,9 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "John",
       ),
       validator: nameValidator,
-      onSaved: (value) {
-        _formModel.name = value;
-      },
+      controller: nameController,
     );
   }
 
@@ -70,9 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "abdur_rahman",
       ),
       validator: usernameValidator,
-      onSaved: (value) {
-        _formModel.username = value;
-      },
+      controller: userNameController,
     );
   }
 
@@ -88,10 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hint: "someone@example.domain",
       ),
       validator: emailValidator,
-      onSaved: (value) {
-        _formModel.email = value;
-      },
-      initialValue: 'example@gmail.com',
+      controller: emailController,
     );
   }
 
@@ -109,20 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       keyboardType: TextInputType.number,
       validator: phoneValidator,
-      onSaved: (value) {
-        _formModel.phoneNumber = value;
-      },
-    );
-  }
-
-  Widget _refForm() {
-    return TextFormField(
-      decoration: TextFieldHelpers.decoration(
-        label: 'Ref id',
-      ),
-      onSaved: (value) {
-        _formModel.referralCode = value;
-      },
+      controller: phoneNumberController,
     );
   }
 
@@ -139,20 +139,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       decoration: TextFieldHelpers.decoration(label: 'Password'),
       obscureText: true,
       validator: passwordValidator,
-      onSaved: (value) {
-        _formModel.password = value;
-      },
+      controller: passwordController,
     );
   }
 
   Widget _confirmPasswordForm() {
+    final confirmPassValidarior = MultiValidator([
+      RequiredValidator(errorText: 'Confirm password is required'),
+    ]);
     return TextFormField(
       decoration: TextFieldHelpers.decoration(label: 'Confirm Password'),
       obscureText: true,
       validator: (value) {},
-      onSaved: (value) {
-        _formModel.passwordConfirmation = value;
-      },
     );
   }
 
@@ -174,10 +172,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             height: 18,
           ),
           _phoneNumber(),
-          const SizedBox(
-            height: 18,
-          ),
-          _refForm(),
           const SizedBox(
             height: 18,
           ),
@@ -268,27 +262,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.link,
-              color: Colors.purple,
-            ),
-            title: const Text(
-              "Ref ID",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.grey,
-              ),
-            ),
-            subtitle: Text(
-              _formModel.referralCode ?? 'Not avilable',
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -331,6 +304,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     setState(() {
                       _loading = true;
                     });
+
+                    try {
+                      final response = await AuthAPI.resendVerificationEmail(
+                        email: _formModel.email!,
+                      );
+
+                      if (response != null) {
+                        dynamic responseBody = jsonDecode(response.body);
+                        if (responseBody['error'] != null) {
+                          snack(
+                            title: 'Failed',
+                            desc: responseBody['error'],
+                            icon: Icon(Icons.error, color: Colors.red),
+                          );
+                        } else if (responseBody['message'] != null) {
+                          manageCountdownTimer();
+                          snack(
+                            title: 'Success',
+                            desc: responseBody['message'],
+                            icon: const Icon(Icons.done, color: Colors.green),
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    } finally {
+                      setState(() {
+                        _loading = false;
+                      });
+                    }
                   },
                   child: const Text("Resend again")),
             ],
@@ -360,7 +363,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _submit() async {
+  Future<void> _submit() async {
     setState(() {
       _loading = true;
     });
@@ -375,6 +378,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             //On error
             print('Error registering');
           }
+          snack(
+              title: 'Resitration Succress',
+              desc: 'Registrastion has been success',
+              icon: const Icon(Icons.thumb_up));
         } else if (response.statusCode == 422) {
           final data = jsonDecode(response.body);
           dynamic _emailError = data['errors']['email'];
@@ -399,6 +406,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             log(e.toString());
           }
         } else if (response.statusCode == 201) {
+          print('Rewsponce code 201');
           setState(() {
             _step++;
           });
@@ -406,6 +414,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (_) {
     } finally {
+      print('Called finally block');
       setState(() {
         _loading = false;
         _step++;
@@ -474,18 +483,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
             steps: getSteps(),
             type: StepperType.horizontal,
             currentStep: _step,
-            onStepContinue: () {
+            onStepContinue: () async {
               final isLastStep = _step == getSteps().length - 1;
               controller?.disposeTimer();
 
               if (_step == 0) {
                 _formKey.currentState!.save();
                 if (_formKey.currentState!.validate()) {
+                  _formModel = AuthFormModel(
+                    name: nameController.text,
+                    username: userNameController.text,
+                    email: emailController.text,
+                    phoneNumber: phoneNumberController.text,
+                    password: passwordController.text,
+                  );
                   setState(() => _step++);
+                  print(_formModel.phoneNumber);
                 }
               } else if (_step == 1) {
+                print('Step forward');
+
+                await _submit().then((value) {
+                  print('Submit called');
+                });
                 manageCountdownTimer();
-                // _submit();
               } else if (isLastStep) {
                 controller?.disposeTimer();
                 // _verifyCode();
@@ -497,7 +518,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void manageCountdownTimer() {
-    controller?.disposeTimer();
+    if (mounted) {
+      controller?.disposeTimer();
+    }
+
     setState(() {
       _isEmailVerificationTimeout = false;
     });

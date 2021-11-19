@@ -21,7 +21,7 @@ class AuthAPI {
   static Future<http.Response?> register(AuthFormModel form) async {
     try {
       final url = urlBuilder('api/register');
-
+      print('to jesonon Data ${form.toJson()}');
       final response = await http.post(
         Uri.parse(url),
         body: form.toJson(),
@@ -29,7 +29,8 @@ class AuthAPI {
       );
 
       return Future.value(response);
-    } on SocketException catch (_) {
+    } on SocketException catch (e) {
+      print('Socket error:$e');
       return null;
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -5,8 +7,13 @@ import 'package:get/get.dart';
 
 import 'package:winly/globals/configs/colors.dart';
 import 'package:winly/globals/configs/constans.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
+import 'package:winly/models/auth/user_model.dart';
+import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
+import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
 
@@ -20,6 +27,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  AuthController _authController = AuthController();
+
   String email = "";
   String password = "";
 
@@ -32,6 +41,48 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         _loading = true;
       });
+      try {
+        final response = await AuthAPI.login(email: email, password: password);
+        if (response != null) {
+          final data = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            final token = data['token'];
+            final userDataRaw = await AuthAPI.me(token);
+            if (userDataRaw != null) {
+              try {
+                final userParsed = jsonDecode(userDataRaw.body);
+                final User user = User.fromJson(userParsed);
+                print('Log in successful');
+                print(userParsed);
+                snack(
+                  title: "Success",
+                  desc: "Everything is OK",
+                  icon: const Icon(Icons.done, color: Colors.green),
+                );
+                // _authController.logIn(user, token);
+                // Get.offAll(() => const BottomNavBar());
+              } catch (_) {
+                snack(
+                  title: "Error",
+                  desc: "Something went wrong",
+                  icon: Icon(Icons.error, color: Colors.red),
+                );
+              }
+            }
+          } else if (response.statusCode == 401) {
+            snack(
+              title: "Error",
+              desc: data['error'],
+              icon: Icon(Icons.error, color: Colors.red),
+            );
+          }
+        }
+      } catch (_) {
+      } finally {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
     // Get.offAll(() => HomeScreen());
   }

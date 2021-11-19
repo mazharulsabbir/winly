@@ -4,8 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
-import 'package:winly/pages/onboard_screen/onboard_screen.dart';
-import 'package:winly/pages/signup/signup_screen.dart';
+import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/pages/wrapper.dart';
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: APP_NAME,
       debugShowCheckedModeBanner: false,
-      home: const Wrapper(),
+      home: const SignInScreen(),
       initialBinding: GlobalBindings(),
       theme: MyAppThemes.lightTheme,
       darkTheme: MyAppThemes.darkTheme,

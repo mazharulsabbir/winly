@@ -4,7 +4,6 @@ class AuthFormModel {
     this.username = "",
     this.email = "",
     this.phoneNumber = "",
-    this.referralCode = "",
     this.password = "",
     this.passwordConfirmation = "",
   });
@@ -13,7 +12,7 @@ class AuthFormModel {
   String? username;
   String? email;
   String? phoneNumber;
-  String? referralCode;
+
   String? password;
   String? passwordConfirmation;
 
@@ -22,7 +21,6 @@ class AuthFormModel {
         username: json['username'],
         email: json["email"],
         phoneNumber: json["phone_number"],
-        referralCode: json["referral_code"],
         password: json["password"],
         passwordConfirmation: json["password_confirmation"],
       );
@@ -31,8 +29,11 @@ class AuthFormModel {
         "name": name,
         "username": username,
         "email": email,
-        "phone_number": phoneNumber,
-        "referral_code": referralCode,
+        "phone": phoneNumber,
         "password": password
       };
+  @override
+  String toString() {
+    return 'User Form{name: $name, username: $username, email: $email, phoneNumber: $phoneNumber, password: $password, }';
+  }
 }
