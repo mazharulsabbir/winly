@@ -126,7 +126,6 @@ class AuthAPI {
         'Authorization': 'Bearer $token',
       });
 
-      print(response.body);
       return Future.value(response);
     } on SocketException catch (_) {
       return null;

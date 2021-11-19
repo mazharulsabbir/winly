@@ -7,8 +7,7 @@ class User {
   String? referralCode;
   int? referrals;
   int? isSuspended;
-
-  // DailyEarnings? dailyEarnings;
+  DailyEarnings? earnings;
   dynamic membership;
 
   User({
@@ -19,7 +18,7 @@ class User {
     this.phoneNumber,
     this.referralCode,
     this.referrals,
-    // this.dailyEarnings,
+    this.earnings,
     this.membership,
     this.isSuspended,
   });
@@ -32,9 +31,9 @@ class User {
     phoneNumber = json['phone_number'];
     referralCode = json['referral_code'];
     referrals = json['referrals'];
-    // dailyEarnings = json['dailyEarnings'] != null
-    //     ? new DailyEarnings.fromJson(json['dailyEarnings'])
-    //     : null;
+    earnings = json['earnings'] != null
+        ? DailyEarnings.fromJson(json['earnings'])
+        : null;
     membership = json['membership'];
     isSuspended = json['is_suspended'];
   }
@@ -57,31 +56,32 @@ class User {
 }
 
 class DailyEarnings {
-  String? dailyEarning;
-  String? dailyTotalEarning;
-  String? referralEarning;
-  String? totalEarningBalance;
+  String? totalTickets;
+  String? totalBalance;
+  String? totalReferBalance;
 
   DailyEarnings({
-    this.dailyEarning,
-    this.dailyTotalEarning,
-    this.referralEarning,
-    this.totalEarningBalance,
+    this.totalTickets,
+    this.totalBalance,
+    this.totalReferBalance,
   });
 
   DailyEarnings.fromJson(Map<String, dynamic> json) {
-    dailyEarning = json['daily_earning'].toString();
-    dailyTotalEarning = json['daily_total_earning'].toString();
-    referralEarning = json['referral_earning'].toString();
-    totalEarningBalance = json['total_earning_balance'].toString();
+    totalTickets = json['total_tickets'];
+    totalBalance = json['total_balance'];
+    totalReferBalance = json['refer_balance'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['daily_earning'] = dailyEarning;
-    data['daily_total_earning'] = dailyTotalEarning;
-    data['referral_earning'] = referralEarning;
-    data['total_earning_balance'] = totalEarningBalance;
+    data['total_tickets'] = totalTickets;
+    data['total_balance'] = totalBalance;
+    data['refer_balance'] = totalReferBalance;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'DailyEarnings{totalTickets: $totalTickets, totalBalance: $totalBalance, totalReferBalance: $totalReferBalance}';
   }
 }

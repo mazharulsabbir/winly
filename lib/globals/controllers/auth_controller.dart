@@ -40,8 +40,6 @@ class AuthController extends GetxController {
       final _response = await AuthAPI.profile(token);
       user = User.fromJson(_response.data);
       if (user != null) {
-        debugPrint(_response.data.toString());
-
         if (user?.isSuspended != null && user?.isSuspended != 0) {
           logOut();
           // snack(

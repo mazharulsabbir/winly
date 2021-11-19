@@ -62,7 +62,7 @@ class ProfileTab extends StatelessWidget {
             child: Icon(Icons.wallet_giftcard),
           ),
           title: const Text('Wallet'),
-          trailing: const Text('\$65.00'),
+          trailing: Text('\$${user?.earnings?.totalBalance}'),
           onTap: () {
             Get.to(() => const WalletScreen());
           },
@@ -77,7 +77,7 @@ class ProfileTab extends StatelessWidget {
         ListTile(
           leading: const CircleAvatar(child: Icon(PhosphorIcons.ticket_bold)),
           title: const Text('Total tickets'),
-          trailing: const Text('2034'),
+          trailing: Text('${user?.earnings?.totalTickets}'),
           onTap: () {},
         ),
         const Divider(),

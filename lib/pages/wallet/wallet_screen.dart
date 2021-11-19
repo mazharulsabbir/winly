@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/models/wallet_model.dart';
-import 'package:winly/pages/withdeaw/withdeaw_screen.dart';
+import 'package:winly/pages/withdeaw/withdraw_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
 
 class WalletScreen extends StatelessWidget {
