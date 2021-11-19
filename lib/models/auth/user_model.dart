@@ -6,20 +6,23 @@ class User {
   String? phoneNumber;
   String? referralCode;
   int? referrals;
+  int? isSuspended;
 
   // DailyEarnings? dailyEarnings;
   dynamic membership;
 
-  User(
-      {this.id,
-      this.name,
-      this.username,
-      this.email,
-      this.phoneNumber,
-      this.referralCode,
-      this.referrals,
-      // this.dailyEarnings,
-      this.membership});
+  User({
+    this.id,
+    this.name,
+    this.username,
+    this.email,
+    this.phoneNumber,
+    this.referralCode,
+    this.referrals,
+    // this.dailyEarnings,
+    this.membership,
+    this.isSuspended,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,21 +36,22 @@ class User {
     //     ? new DailyEarnings.fromJson(json['dailyEarnings'])
     //     : null;
     membership = json['membership'];
+    isSuspended = json['is_suspended'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['username'] = this.username;
-    data['email'] = this.email;
-    data['phone_number'] = this.phoneNumber;
-    data['referral_code'] = this.referralCode;
-    data['referrals'] = this.referrals;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['username'] = username;
+    data['email'] = email;
+    data['phone_number'] = phoneNumber;
+    data['referral_code'] = referralCode;
+    data['referrals'] = referrals;
     // if (this.dailyEarnings != null) {
     //   data['dailyEarnings'] = this.dailyEarnings!.toJson();
     // }
-    data['membership'] = this.membership;
+    data['membership'] = membership;
     return data;
   }
 }
@@ -73,11 +77,11 @@ class DailyEarnings {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['daily_earning'] = this.dailyEarning;
-    data['daily_total_earning'] = this.dailyTotalEarning;
-    data['referral_earning'] = this.referralEarning;
-    data['total_earning_balance'] = this.totalEarningBalance;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['daily_earning'] = dailyEarning;
+    data['daily_total_earning'] = dailyTotalEarning;
+    data['referral_earning'] = referralEarning;
+    data['total_earning_balance'] = totalEarningBalance;
     return data;
   }
 }

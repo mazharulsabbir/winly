@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/configs/images.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
+import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 
 class RootScreen extends StatefulWidget {
@@ -12,12 +14,17 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
+  final AuthController authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
     if (SchedulerBinding.instance != null) {
       SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-        Get.off(() => const BottomNavBar());
+        if (authController.loggedIn) {
+          Get.off(() => const BottomNavBar());
+        } else {
+          Get.off(() => const SignInScreen());
+        }
       });
     }
   }

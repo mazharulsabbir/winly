@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
 
 class SettingsModel {
   final String title;
   final IconData iconData;
   final Color leadingBackC;
+  Function()? onTap;
+
   SettingsModel(
       {required this.title,
       required this.leadingBackC,
-      required this.iconData});
+      required this.iconData,
+      this.onTap});
 
   static List<SettingsModel> settings = [
     SettingsModel(
@@ -31,6 +36,10 @@ class SettingsModel {
     SettingsModel(
         title: 'Sign out',
         leadingBackC: Colors.redAccent,
-        iconData: PhosphorIcons.sign_out)
+        iconData: PhosphorIcons.sign_out,
+        onTap: () {
+          final AuthController authController = Get.find<AuthController>();
+          authController.logOut();
+        })
   ];
 }

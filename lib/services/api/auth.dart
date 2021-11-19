@@ -41,15 +41,16 @@ class AuthAPI {
     required String email,
     required String password,
   }) async {
+    debugPrint('Email: $email and password: $password calling for API');
     try {
       final url = urlBuilder('api/login');
 
       final response = await http.post(
         Uri.parse(url),
-        body: convert.jsonEncode({
+        body: {
           'email': email,
           'password': password,
-        }),
+        },
         headers: commonHeader(),
       );
 
@@ -68,10 +69,10 @@ class AuthAPI {
 
       final response = await http.post(
         Uri.parse(url),
-        body: convert.jsonEncode({
+        body: {
           "email": email,
           "verification_code": code,
-        }),
+        },
         headers: commonHeader(),
       );
 

@@ -19,7 +19,7 @@ class ApiService {
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            'Authorization': 'Bearer 2|KJoRjBM4WwXzN1Ilh9Xu1qE6sPVKonq24cHPwzDd'
+            'Authorization': 'Bearer $token'
           },
         ),
       );

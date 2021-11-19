@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/auth/user_model.dart';
+import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/db/auth.dart';
@@ -15,7 +18,9 @@ class AuthController extends GetxController {
     user = AuthDBService.getUser();
     token = AuthDBService.getToken();
 
-    getUserProfile("2|KmyTvlrOSn0yPfshFE5F2Y5IaYkoydpu6qZXl5A8");
+    if (token != null) {
+      getUserProfile(token!);
+    }
 
     if (token != null && user != null) {
       // print('token: $token');
@@ -35,11 +40,26 @@ class AuthController extends GetxController {
       final _response = await AuthAPI.profile(token);
       user = User.fromJson(_response.data);
       if (user != null) {
-        logIn(user!, token);
-        loggedIn = true;
+        debugPrint(_response.data.toString());
+
+        if (user?.isSuspended != null && user?.isSuspended != 0) {
+          logOut();
+          // snack(
+          //   title: 'Profile Suspended!',
+          //   desc:
+          //       'Your profile has been suspended! Please contact with customer care.',
+          //   icon: const Icon(Icons.block),
+          // );
+        } else {
+          logIn(user!, token);
+          loggedIn = true;
+        }
+      } else {
+        logOut();
       }
     } catch (e) {
-      print(e);
+      // print(e);
+      logOut();
     }
   }
 
@@ -60,6 +80,6 @@ class AuthController extends GetxController {
     token = null;
     AuthDBService.removeUser();
     // todo: go to signin screen
-    // Get.offAll(SignInScreen());
+    Get.offAll(const SignInScreen());
   }
 }
