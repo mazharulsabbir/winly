@@ -58,11 +58,11 @@ dependencies:
   flutter_verification_code: ^1.1.0
 
   # facebook ads
-  facebook_audience_network: ^1.0.0-nullsafety.0
+  facebook_audience_network: ^0.9.0
   firebase_core: ^1.10.0
   firebase_auth: ^3.2.0
-  google_sign_in: "^4.5.1"
-  flutter_facebook_auth: "^3.5.0"
+  google_sign_in: ^4.5.1
+  flutter_facebook_auth: ^3.5.0
   
 
 dev_dependencies:

@@ -68,24 +68,27 @@ class TournamentDetail extends StatelessWidget {
               ];
             },
             body: TabBarView(children: [
-              Center(
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   '${tournament?.description}',
                   textAlign: TextAlign.justify,
                 ),
               ),
-              Center(
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   '${tournament?.rules}',
                   textAlign: TextAlign.justify,
                 ),
               ),
-              Center(
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   '${tournament?.points}',
                   textAlign: TextAlign.justify,
                 ),
-              )
+              ),
             ]),
           ),
         ),
