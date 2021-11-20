@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
@@ -167,7 +168,11 @@ class _SignInScreenState extends State<SignInScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (await _authController.signInWithFacebook()) {
+              Get.off(() => const BottomNavBar());
+            }
+          },
           child: Container(
               height: 70,
               width: 70,
@@ -182,7 +187,16 @@ class _SignInScreenState extends State<SignInScreen> {
           width: 20,
         ),
         TextButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (await _authController.signInWithGoogle()) {
+                Get.off(() => const BottomNavBar());
+              } else {
+                snack(
+                    title: 'Google sign in unsuccessful',
+                    desc: 'Authenication problem',
+                    icon: const Icon(Icons.error));
+              }
+            },
             child: Container(
                 height: 70,
                 width: 70,

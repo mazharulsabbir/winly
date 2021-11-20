@@ -59,6 +59,11 @@ dependencies:
 
   # facebook ads
   facebook_audience_network: ^0.9.0
+  firebase_core: ^1.10.0
+  firebase_auth: ^3.2.0
+  google_sign_in: ^5.2.1
+  
+  flutter_facebook_auth: ^3.5.6
   
 
 dev_dependencies:
