@@ -53,7 +53,7 @@ class ProfileTab extends StatelessWidget {
           leading: const CircleAvatar(child: Icon(Icons.settings)),
           title: const Text('Settings'),
           onTap: () {
-            Get.to(() => const SettingsPage());
+            // Get.to(() => const SettingsPage());
           },
         ),
         const Divider(),
