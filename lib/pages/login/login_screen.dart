@@ -96,14 +96,14 @@ class _SignInScreenState extends State<SignInScreen> {
     return Column(
       children: [
         Text(
-          "Welcome To the winly app!",
+          "Welcome To the WinLy app!",
           style: Theme.of(context).textTheme.headline5,
         ),
         const SizedBox(
           height: 6,
         ),
         const Text(
-          "Play & Earn ",
+          "Play & Earn",
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey,
@@ -165,29 +165,41 @@ class _SignInScreenState extends State<SignInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton(
-          onPressed: () async {
-            if (await _authController.signInWithFacebook()) {
-              Get.off(() => const BottomNavBar());
-            }
-          },
-          icon: const Icon(PhosphorIcons.facebook_logo),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.blue.withOpacity(0.5),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              if (await _authController.signInWithFacebook()) {
+                Get.off(() => const BottomNavBar());
+              }
+            },
+            icon: const Icon(PhosphorIcons.facebook_logo),
+          ),
         ),
         const SizedBox(
           width: 20,
         ),
-        IconButton(
-          onPressed: () async {
-            if (await _authController.signInWithGoogle()) {
-              Get.off(() => const BottomNavBar());
-            } else {
-              snack(
-                  title: 'Google sign in unsuccessful',
-                  desc: 'Authentication problem',
-                  icon: const Icon(Icons.error));
-            }
-          },
-          icon: const Icon(PhosphorIcons.google_logo),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: Colors.grey.withOpacity(0.5),
+          ),
+          child: IconButton(
+            onPressed: () async {
+              if (await _authController.signInWithGoogle()) {
+                Get.off(() => const BottomNavBar());
+              } else {
+                snack(
+                    title: 'Google sign in unsuccessful',
+                    desc: 'Authentication problem',
+                    icon: const Icon(Icons.error));
+              }
+            },
+            icon: const Icon(PhosphorIcons.google_logo),
+          ),
         )
       ],
     );
@@ -203,6 +215,9 @@ class _SignInScreenState extends State<SignInScreen> {
             onPressed: _submit,
             child: const Text("LOGIN"),
           ),
+        ),
+        const SizedBox(
+          height: 20,
         ),
         SizedBox(
           child: RichText(
@@ -250,12 +265,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   _formBox(),
                   const SizedBox(
-                    height: 60,
+                    height: 30,
                   ),
-
                   _bottomPart(),
                   const SizedBox(
-                    height: 10,
+                    height: 50,
                   ),
                   _socialButtons(),
                 ],
