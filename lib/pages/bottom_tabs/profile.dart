@@ -95,7 +95,7 @@ class ProfileTab extends StatelessWidget {
 
   _nameTitle(String? nameTitle, {required BuildContext context}) {
     return Text(
-      nameTitle == null ? 'No Name' : '$nameTitle!',
+      nameTitle ?? 'No Name',
       style: Theme.of(context).textTheme.headline5,
     );
   }

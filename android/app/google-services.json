@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375677047202",
+    "project_id": "winly-6aff3",
+    "storage_bucket": "winly-6aff3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375677047202:android:ca90ac3d7c724f0e3a22fb",
+        "android_client_info": {
+          "package_name": "com.rexoit.winly.winly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375677047202-36gmk2u6uj382ft5l6vjg9gi7s1hmnuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABSiA-NjRcvvIOFo2lgkmYBVyCFFi9VjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375677047202-36gmk2u6uj382ft5l6vjg9gi7s1hmnuh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

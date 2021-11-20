@@ -1,15 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
-import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/pages/wrapper.dart';
 import 'globals/bindings.dart';
 import 'globals/configs/constans.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await GetStorage.init();
   runApp(const MyApp());
 }
