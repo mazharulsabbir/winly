@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-
 import 'package:winly/globals/configs/colors.dart';
-import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
@@ -167,45 +165,30 @@ class _SignInScreenState extends State<SignInScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextButton(
+        IconButton(
           onPressed: () async {
             if (await _authController.signInWithFacebook()) {
               Get.off(() => const BottomNavBar());
             }
           },
-          child: Container(
-              height: 70,
-              width: 70,
-              padding: const EdgeInsets.all(5),
-              child: Image.asset(Images.facebookLogo),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2),
-                shape: BoxShape.circle,
-              )),
+          icon: const Icon(PhosphorIcons.facebook_logo),
         ),
         const SizedBox(
           width: 20,
         ),
-        TextButton(
-            onPressed: () async {
-              if (await _authController.signInWithGoogle()) {
-                Get.off(() => const BottomNavBar());
-              } else {
-                snack(
-                    title: 'Google sign in unsuccessful',
-                    desc: 'Authenication problem',
-                    icon: const Icon(Icons.error));
-              }
-            },
-            child: Container(
-                height: 70,
-                width: 70,
-                padding: const EdgeInsets.all(5),
-                child: Image.asset(Images.googlelogo),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue, width: 2),
-                  shape: BoxShape.circle,
-                )))
+        IconButton(
+          onPressed: () async {
+            if (await _authController.signInWithGoogle()) {
+              Get.off(() => const BottomNavBar());
+            } else {
+              snack(
+                  title: 'Google sign in unsuccessful',
+                  desc: 'Authentication problem',
+                  icon: const Icon(Icons.error));
+            }
+          },
+          icon: const Icon(PhosphorIcons.google_logo),
+        )
       ],
     );
   }
@@ -221,7 +204,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: const Text("LOGIN"),
           ),
         ),
-        TextButton(
+        SizedBox(
           child: RichText(
             text: TextSpan(
               text: "Don't have an account ? ",
@@ -239,7 +222,6 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             ),
           ),
-          onPressed: () {},
         ),
       ],
     );

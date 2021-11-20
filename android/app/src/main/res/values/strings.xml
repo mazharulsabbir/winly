@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WinLy</string>
+    <string name="facebook_app_id">580831236333194</string>
+    <string name="fb_login_protocol_scheme">ab9a9baf9241fbcfb3e45d42313d18ed</string>
+</resources>

@@ -1,16 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/db/auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'dart:convert' as convert;
-
 
 class AuthController extends GetxController {
   var loggedIn = false;
@@ -98,16 +96,27 @@ class AuthController extends GetxController {
 
   Future<bool> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final LoginResult loginResult = await FacebookAuth.instance.login();
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login();
 
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
+      // Create a credential from the access token
+      if (loginResult.accessToken?.token != null) {
+        debugPrint(loginResult.accessToken?.token);
+        final OAuthCredential facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential)
-        .then((value) => value.user != null);
+        // Once signed in, return the UserCredential
+        return await FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential)
+            .then((value) => value.user != null);
+      } else {
+        debugPrint('Token not found!');
+        return false;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
   }
 
   void logOut() {
