@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/models/tournament.dart';
@@ -16,13 +15,13 @@ class Tournaments extends StatelessWidget {
       loading: false,
       child: GetBuilder<TournamentController>(
         builder: (controller) {
-          List<Tournament>? _upcommingEvents = controller.tournaments
+          List<Tournament>? _completedEvents = controller.tournaments
               ?.where((element) => element.status == "0")
               .toList();
-          List<Tournament>? _liveEvents = controller.tournaments
+          List<Tournament>? _upcommingEvents = controller.tournaments
               ?.where((element) => element.status == "1")
               .toList();
-          List<Tournament>? _completedEvents = controller.tournaments
+          List<Tournament>? _liveEvents = controller.tournaments
               ?.where((element) => element.status == "2")
               .toList();
 

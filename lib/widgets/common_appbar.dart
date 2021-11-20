@@ -9,7 +9,7 @@ PreferredSizeWidget buildCommonAppbar(
         {double? elevation, PreferredSizeWidget? bottom}) =>
     AppBar(
         elevation: elevation ?? 0,
-        title: const Text(APP_NAME),
+        title: const Text(appName),
         centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),

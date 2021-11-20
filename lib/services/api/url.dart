@@ -1,4 +1,4 @@
-const BASE_URL = 'https://winly.tauhidthecoder.com';
+const baseUrl = 'https://winly.tauhidthecoder.com';
 // const BASE_URL = 'http://ring.tauhidthecoder.com';
 // const BASE_URL = 'https://ref-system.everestbajar.com';
 
@@ -9,19 +9,19 @@ String urlBuilder(
   int? limit,
   String? withParam,
 }) {
-  String baseUrl = "$BASE_URL/$endpoint?";
+  String _baseUrl = "$baseUrl/$endpoint?";
 
   if (params != null) {
     if (params.isNotEmpty) {
-      params.forEach((param) {
-        baseUrl += "$param&";
-      });
+      for (var param in params) {
+        _baseUrl += "$param&";
+      }
     } else {
-      baseUrl += "";
+      _baseUrl += "";
     }
   }
 
-  return baseUrl;
+  return _baseUrl;
 }
 
 Map<String, String> commonHeader() {

@@ -21,7 +21,6 @@ class TournamentListWidget extends StatelessWidget {
         itemCount: tournaments?.length,
         itemBuilder: (context, index) => TournamentItemWidget(
           tournament: tournaments?[index],
-          tournamentController: tournamentController,
         ),
       ),
     );

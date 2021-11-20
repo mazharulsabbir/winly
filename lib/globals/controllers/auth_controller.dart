@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:winly/helpers/snack.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/login/login_screen.dart';
-import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/db/auth.dart';
-
-import 'dart:convert' as convert;
 
 class AuthController extends GetxController {
   var loggedIn = false;
@@ -50,6 +47,12 @@ class AuthController extends GetxController {
           // );
         } else {
           logIn(user!, token);
+          // Setting External User Id with Callback Available in SDK Version 3.9.3+
+          OneSignal.shared.setExternalUserId("${user!.id}").then((results) {
+            debugPrint(results.toString());
+          }).catchError((error) {
+            debugPrint(error.toString());
+          });
           loggedIn = true;
         }
       } else {
@@ -73,6 +76,9 @@ class AuthController extends GetxController {
   }
 
   void logOut() {
+    //usually called after the user logs out of your app
+    OneSignal.shared.removeExternalUserId();
+
     loggedIn = false;
     user = null;
     token = null;

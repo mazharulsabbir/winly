@@ -7,15 +7,15 @@ class Notices {
     if (json['all_notice'] != null) {
       notices = [];
       json['all_notice'].forEach((v) {
-        notices?.add(new Notice.fromJson(v));
+        notices?.add(Notice.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.notices != null) {
-      data['all_notice'] = this.notices?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (notices != null) {
+      data['all_notice'] = notices?.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -36,19 +36,18 @@ class Notice {
   Notice({this.id, this.title, this.details, this.createdAt, this.updatedAt});
 
   factory Notice.fromJson(Map<String, dynamic> json) => Notice(
-        id: json["id"] == null ? null : json["id"],
-        title: json["title"] == null ? null : json["title"],
-        details: json["details"] == null ? null : json["details"],
-        createdAt: json["created_at"] == null ? null : json["created_at"],
-        updatedAt: json["updated_at"] == null ? null : json["updated_at"],
-      );
+      id: json["id"],
+      title: json["title"],
+      details: json["details"],
+      createdAt: json["created_at"],
+      updatedAt: json["updated_at"]);
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "title": title == null ? null : title,
-        "details": details == null ? null : details,
-        "created_at": createdAt == null ? null : createdAt,
-        "updated_at": updatedAt == null ? null : updatedAt,
+        "id": id,
+        "title": title,
+        "details": details,
+        "created_at": createdAt,
+        "updated_at": updatedAt
       };
 
   @override

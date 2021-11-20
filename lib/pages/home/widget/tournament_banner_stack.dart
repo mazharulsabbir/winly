@@ -15,7 +15,15 @@ class TournamentBannerStack extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Image.network(
-            "${ApiService.baseUrl}${tournament?.banner_img}",
+            "${ApiService.baseUrl}${tournament?.bannerImg}",
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                "assets/icon/icon_transparent.png",
+                fit: BoxFit.contain,
+                height: 170.0,
+                width: double.infinity,
+              );
+            },
             height: 170.0,
             width: double.infinity,
             fit: BoxFit.cover,

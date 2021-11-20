@@ -3,8 +3,6 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:winly/globals/controllers/withdraw_controller.dart';
-import 'package:winly/models/wallet_model.dart';
-import 'package:winly/models/withdraws.dart';
 import 'package:winly/pages/withdeaw/withdraw_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
 
@@ -170,7 +168,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                Spacer(),
+                const Spacer(),
                 // _recentHistoryList()
                 _recentHistoryPart(context)
               ],

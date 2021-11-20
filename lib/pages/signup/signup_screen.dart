@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _loading = false;
 
   void onEnd() {
-    print("TIMEOUT");
+    debugPrint("TIMEOUT");
   }
 
   TextEditingController nameController = TextEditingController();
@@ -41,15 +41,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(text: '');
     userNameController = TextEditingController(text: '');
-    emailController = TextEditingController(text: 'example@gmail.com');
+    emailController = TextEditingController(text: '');
     phoneNumberController = TextEditingController(text: '');
     passwordController = TextEditingController(text: '');
+    confirmPasswordController = TextEditingController(text: '');
 
     controller = CountdownTimerController(
         endTime: DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 60,
@@ -152,7 +154,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return TextFormField(
       decoration: TextFieldHelpers.decoration(label: 'Confirm Password'),
       obscureText: true,
-      validator: (value) {},
+      validator: confirmPassValidarior,
+      controller: confirmPasswordController,
     );
   }
 
@@ -346,7 +349,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             onEnd: onEnd,
             widgetBuilder: (_, CurrentRemainingTime? time) {
               if (time == null) {
-                return SizedBox();
+                return const SizedBox();
               }
               return Text(
                 "00:${time.sec}",
@@ -359,7 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
           ),
         VerificationCode(
-          textStyle: TextStyle(fontSize: 20.0, color: Colors.black),
+          textStyle: const TextStyle(fontSize: 20.0, color: Colors.black),
           keyboardType: TextInputType.number,
           underlineColor: Colors.green,
           length: 6,
@@ -460,7 +463,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         if (response != null) {
           final data = jsonDecode(response.body);
-          print(data);
+          debugPrint(data);
           if (response.statusCode == 200) {
             if (data['error'] != null) {
               snack(
@@ -532,13 +535,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     password: passwordController.text,
                   );
                   setState(() => _step++);
-                  print(_formModel.phoneNumber);
+                  debugPrint(_formModel.phoneNumber);
                 }
               } else if (_step == 1) {
-                print('Step forward');
+                debugPrint('Step forward');
 
                 await _submit().then((value) {
-                  print('Submit called');
+                  debugPrint('Submit called');
                 });
                 manageCountdownTimer();
               } else if (isLastStep) {

@@ -124,7 +124,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                   ),
                 )),
             // ..._slider(),
-            Spacer(),
+            const Spacer(),
             Expanded(
               child: PageView(
                 controller: pageController,

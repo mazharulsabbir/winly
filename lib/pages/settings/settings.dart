@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:winly/models/settings.dart';
 
 class SettingsPage extends StatelessWidget {

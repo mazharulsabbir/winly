@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:winly/models/tournament.dart';
 import 'package:winly/pages/home/widget/tournament_participation.dart';
 import 'package:winly/widgets/common_icon_text_widget.dart';
 
 class TournamentInfoWidget extends StatelessWidget {
   final Tournament? tournament;
-  const TournamentInfoWidget({Key? key, this.tournament}) : super(key: key);
+  final bool isTournamentDetails;
+  const TournamentInfoWidget(
+      {Key? key, this.tournament, this.isTournamentDetails = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +45,13 @@ class TournamentInfoWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     CommonIconTextWidget(
-                      label: '${tournament?.require_tickets}',
+                      label: '${tournament?.requireTickets}',
                       icon: PhosphorIcons.ticket,
                     ),
                     const Divider(),
                     TournamentParticipation(
                       tournament: tournament,
+                      isTournamentDetails: isTournamentDetails,
                     )
                   ],
                 ),

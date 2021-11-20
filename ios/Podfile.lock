@@ -1,4 +1,8 @@
 PODS:
+  - facebook_audience_network (0.0.1):
+    - FBAudienceNetwork (~> 6.3)
+    - Flutter
+  - FBAudienceNetwork (6.9.0)
   - Flutter (1.0.0)
   - flutter_inappwebview (0.0.1):
     - Flutter
@@ -18,6 +22,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - facebook_audience_network (from `.symlinks/plugins/facebook_audience_network/ios`)
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -26,10 +31,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - FBAudienceNetwork
     - OneSignalXCFramework
     - OrderedSet
 
 EXTERNAL SOURCES:
+  facebook_audience_network:
+    :path: ".symlinks/plugins/facebook_audience_network/ios"
   Flutter:
     :path: Flutter
   flutter_inappwebview:
@@ -42,6 +50,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
+  facebook_audience_network: bb22bdda913d419d8c3247c9570bda4563302417
+  FBAudienceNetwork: 83096d73433759c10f9cf9b3bad5e5cff58694cb
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   onesignal_flutter: d63972959d66127e50f114ea8070ca540d79012a

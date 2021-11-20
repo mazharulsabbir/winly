@@ -31,14 +31,20 @@ class TournamentDetail extends StatelessWidget {
                     background: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                            "${tournament?.banner_img}",
-                          ),
+                          image: Image.network(
+                            "${tournament?.bannerImg}",
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                "assets/icon/icon_transparent.png",
+                              );
+                            },
+                          ).image,
                           fit: BoxFit.cover,
                         ),
                       ),
                       child: TournamentInfoWidget(
                         tournament: tournament,
+                        isTournamentDetails: true,
                       ),
                     ),
                   ),
@@ -76,7 +82,7 @@ class TournamentDetail extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  '${tournament?.description}',
+                  '${tournament?.points}',
                   textAlign: TextAlign.justify,
                 ),
               )

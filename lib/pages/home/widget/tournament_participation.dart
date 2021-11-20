@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:winly/globals/controllers/tournament_controller.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/tournament.dart';
+import 'package:winly/services/api/tournament_api.dart';
 
 class TournamentParticipation extends StatelessWidget {
   final Tournament? tournament;
-  final TournamentController? tournamentController;
+  final bool isTournamentDetails;
   const TournamentParticipation(
-      {Key? key, this.tournament, this.tournamentController})
+      {Key? key, this.tournament, this.isTournamentDetails = false})
       : super(key: key);
 
   @override
@@ -27,10 +28,7 @@ class TournamentParticipation extends StatelessWidget {
                       horizontal: 10,
                       vertical: 4,
                     ),
-                    child: CircleAvatar(
-                      radius: 16,
-                      child: Icon(PhosphorIcons.user),
-                    ),
+                    child: _image(tournament?.photos.first),
                   ),
                 ),
                 Positioned(
@@ -40,10 +38,7 @@ class TournamentParticipation extends StatelessWidget {
                       horizontal: 10,
                       vertical: 4,
                     ),
-                    child: CircleAvatar(
-                      radius: 16,
-                      child: Icon(PhosphorIcons.user),
-                    ),
+                    child: _image(tournament?.photos.last),
                   ),
                 ),
                 Positioned(
@@ -56,8 +51,8 @@ class TournamentParticipation extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 16,
                       child: Text(
-                        '+250',
-                        style: TextStyle(fontSize: 8),
+                        '+${tournament?.players}',
+                        style: const TextStyle(fontSize: 8),
                       ),
                     ),
                   ),
@@ -74,15 +69,18 @@ class TournamentParticipation extends StatelessWidget {
           onTap: () async {
             // todo: join on tournament
             try {
-              dynamic _res = await tournamentController?.joinTournament(
+              AuthController _auth = AuthController();
+              dynamic _res = await TournamentAPI.joinTournament(
                 tournament?.id,
-                tournament?.game_name,
+                tournament?.gameName,
+                _auth.token,
               );
 
               snack(
-                  title: 'Message',
-                  desc: "${_res.data['return_msg']}",
-                  icon: const Icon(Icons.done));
+                title: 'Message',
+                desc: "${_res.data['return_msg']}",
+                icon: const Icon(Icons.done),
+              );
             } catch (e) {
               debugPrint(e.toString());
             }
@@ -97,17 +95,45 @@ class TournamentParticipation extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(PhosphorIcons.ticket),
-                const SizedBox(width: 5),
-                Text('${tournament?.require_tickets}')
-              ],
-            ),
+            child: isTournamentDetails
+                ? const Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Text('JOIN'),
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(PhosphorIcons.ticket),
+                      const SizedBox(width: 5),
+                      Text('${tournament?.requireTickets}')
+                    ],
+                  ),
           ),
         )
       ],
     );
+  }
+
+  Widget _image(ProfileImage? image) {
+    debugPrint(image?.profileImage.toString());
+    if (image == null || image.profileImage == null) {
+      return const CircleAvatar(
+        radius: 16,
+        child: Icon(PhosphorIcons.user),
+      );
+    } else if (image.toString().contains('http')) {
+      return CircleAvatar(
+        radius: 16,
+        backgroundImage: Image.network(
+          image.profileImage!,
+          errorBuilder: (ctx, b, err) => const Icon(PhosphorIcons.user),
+        ).image,
+      );
+    } else {
+      return CircleAvatar(
+        radius: 16,
+        child: Text('${image.profileImage}'),
+      );
+    }
   }
 }

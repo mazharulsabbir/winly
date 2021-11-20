@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/pages/notification/view/notification_screen.dart';
-import 'package:winly/pages/tournament/view/tournament_details.dart';
 
 class OneSignalController extends GetxController {
   OneSignalController() {
@@ -25,11 +25,9 @@ class OneSignalController extends GetxController {
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       // Will be called whenever a notification is opened/button pressed.
       // result.notification.rawPayload;
-      print('Notification pressed');
+      debugPrint('Notification pressed');
 
-      Get.to(() => const TournamentDetail(
-            tournament: null,
-          ));
+      Get.to(() => const NotificationScreen());
     });
 
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {

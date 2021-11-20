@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 
-import 'package:winly/globals/configs/colors.dart';
-
 class CommonAvatar extends StatelessWidget {
   final double radius;
   final String? avatarUrl;

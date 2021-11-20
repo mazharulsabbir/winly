@@ -193,13 +193,13 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
           snack(
               title: 'No responce',
               desc: 'Server error',
-              icon: Icon(Icons.error));
+              icon: const Icon(Icons.error));
         }
       } catch (e) {
-        print('Error: $e');
+        debugPrint('Error: $e');
       } finally {}
     } else {
-      print('No tocken');
+      debugPrint('No tocken');
       snack(
         title: 'Tocken is not available',
         desc: 'You dont have valid tocken',
@@ -213,7 +213,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
       onPressed: () async {
         if (_formKey.currentState != null) {
           if (_formKey.currentState!.validate()) {
-            print(
+            debugPrint(
                 'amount${amountController.text} phone number ${phoneNumberController.text} and selected Methode ${PaymentmentMathodModel.paymentList[selectedIndex].tittle}');
             await sendWithDrawRequest();
           }

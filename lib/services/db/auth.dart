@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:winly/models/auth/user_model.dart';
 
@@ -46,17 +47,18 @@ class AuthDBService {
     try {
       final earningRaw = _box.read('dailyEarnings');
       if (earningRaw != null) {
-        var _result;
+        dynamic _result;
         if (earningRaw.runtimeType == String) {
           _result = jsonDecode(earningRaw);
         } else {
           _result = earningRaw;
         }
         return DailyEarnings.fromJson(_result);
-      } else
+      } else {
         return null;
+      }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return null;
     }
   }

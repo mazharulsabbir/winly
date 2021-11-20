@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
-import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
-import 'package:winly/pages/notification/view/notification_screen.dart';
-import 'package:winly/pages/wallet/wallet_screen.dart';
-import 'package:winly/widgets/common_appbar.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, this.index}) : super(key: key);

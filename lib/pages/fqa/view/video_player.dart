@@ -1,7 +1,4 @@
-import 'dart:convert' as convert;
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -19,8 +16,8 @@ class MyYoutubeVideoPlayer extends StatefulWidget {
 
 class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
   late YoutubePlayerController? _controller;
-  late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
+  // late PlayerState _playerState;
+  // late YoutubeMetaData _videoMetaData;
   bool _isPlayerReady = false;
   // DailyEarningController dailyEarningController =
   //     Get.find<DailyEarningController>();
@@ -46,8 +43,8 @@ class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
   void listener() {
     if (_isPlayerReady && mounted && !_controller!.value.isFullScreen) {
       setState(() {
-        _playerState = _controller!.value.playerState;
-        _videoMetaData = _controller!.metadata;
+        // _playerState = _controller!.value.playerState;
+        // _videoMetaData = _controller!.metadata;
       });
     }
   }

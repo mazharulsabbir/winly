@@ -27,7 +27,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  AuthController _authController = AuthController();
+  final AuthController _authController = AuthController();
 
   String email = "";
   String password = "";

@@ -31,7 +31,7 @@ class WithdrawController extends GetxController {
       isLoading.value = false;
 
       if (response != null) {
-        print(response.body);
+        debugPrint(response.body);
         dynamic result = convert.jsonDecode(response.body);
         debugPrint(result.toString());
         List<Withdraw> withdrawsFromApi =
@@ -42,7 +42,7 @@ class WithdrawController extends GetxController {
           withdraws = withdrawsFromApi;
         }
       } else {
-        print('Null responce');
+        debugPrint('Null responce');
       }
 
       update();

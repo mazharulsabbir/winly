@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert' as convert;
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:winly/services/api/url.dart';
 
@@ -25,7 +26,7 @@ class WithdrawAPI {
             'payment_method': paymentMethod,
           }));
 
-      print(response.body);
+      debugPrint(response.body);
       return Future.value(response);
     } on SocketException catch (_) {
       return null;
@@ -46,7 +47,7 @@ class WithdrawAPI {
         },
       );
 
-      print(response.body);
+      debugPrint(response.body);
       return Future.value(response);
     } on SocketException catch (_) {
       return null;

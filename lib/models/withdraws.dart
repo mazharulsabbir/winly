@@ -13,10 +13,9 @@ class WithdrawHistory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.withdraws != null) {
-      data['withdraw_history'] =
-          this.withdraws?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (withdraws != null) {
+      data['withdraw_history'] = withdraws?.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -26,66 +26,96 @@ class Tournament {
   final String title;
   final String description;
   final String rules;
-  final String banner_img;
-  final String game_name;
-  final String total_seats;
-  final String require_tickets;
+  final String points;
+  final String bannerImg;
+  final String gameName;
+  final String totalSeats;
+  final String requireTickets;
   final String status;
   final String deadline;
-  final String created_at;
-  final String updated_at;
+  final int players;
+  final List<ProfileImage> photos;
+  final String createdAt;
+  final String updatedAt;
 
   Tournament({
     required this.id,
     required this.title,
     required this.description,
     required this.rules,
-    required this.banner_img,
-    required this.game_name,
-    required this.total_seats,
-    required this.require_tickets,
+    required this.points,
+    required this.bannerImg,
+    required this.gameName,
+    required this.totalSeats,
+    required this.requireTickets,
     required this.status,
     required this.deadline,
-    required this.created_at,
-    required this.updated_at,
+    required this.players,
+    required this.photos,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  factory Tournament.fromJson(Map<String, dynamic> json) {
-    return Tournament(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      rules: json['rules'],
-      banner_img: json['banner_img'],
-      game_name: json['game_name'],
-      total_seats: json['total_seats'],
-      require_tickets: json['require_tickets'],
-      status: json['status'],
-      deadline: json['deadline'],
-      created_at: json['created_at'],
-      updated_at: json['updated_at'],
-    );
-  }
+  Tournament.fromJson(dynamic json)
+      : id = json['id'] as int,
+        title = json['title'] as String,
+        description = json['description'] as String,
+        rules = json['rules'] as String,
+        points = json['points'] as String,
+        bannerImg = json['banner_img'] as String,
+        gameName = json['game_name'] as String,
+        totalSeats = json['total_seats'] as String,
+        requireTickets = json['require_tickets'] as String,
+        status = json['status'] as String,
+        deadline = json['deadline'] as String,
+        players = json['players'] as int,
+        photos = (json['photos'] as List<dynamic>)
+            .map((e) => ProfileImage.fromJson(e))
+            .toList(),
+        createdAt = json['created_at'] as String,
+        updatedAt = json['updated_at'] as String;
 
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'id': id,
       'title': title,
       'description': description,
       'rules': rules,
-      'banner_img': banner_img,
-      'game_name': game_name,
-      'total_seats': total_seats,
-      'require_tickets': require_tickets,
+      'points': points,
+      'banner_img': bannerImg,
+      'game_name': gameName,
+      'total_seats': totalSeats,
+      'require_tickets': requireTickets,
       'status': status,
       'deadline': deadline,
-      'created_at': created_at,
-      'updated_at': updated_at,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
     };
   }
 
   @override
   String toString() {
-    return 'Tournament{id: $id, title: $title, description: $description, rules: $rules, banner_img: $banner_img, game_name: $game_name, total_seats: $total_seats, require_tickets: $require_tickets, status: $status, deadline: $deadline, created_at: $created_at, updated_at: $updated_at}';
+    return 'Tournament {id: $id, title: $title, description: $description, rules: $rules, bannerImg: $bannerImg, gameName: $gameName, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, createdAt: $createdAt, updatedAt: $updatedAt}';
+  }
+}
+
+class ProfileImage {
+  String? profileImage;
+
+  ProfileImage({required this.profileImage});
+
+  ProfileImage.fromJson(dynamic json) {
+    profileImage = json['profile_image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'profile_image': profileImage,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'ProfileImage {profileImage: $profileImage}';
   }
 }
