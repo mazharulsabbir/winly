@@ -50,17 +50,7 @@ class ProfileTab extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.settings)),
-          title: const Text('Settings'),
-          onTap: () {
-            // Get.to(() => const SettingsPage());
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const CircleAvatar(
-            child: Icon(Icons.wallet_giftcard),
-          ),
+          leading: defaultLeadingStyle(Icons.wallet_giftcard, Colors.green),
           title: const Text('Wallet'),
           trailing: Text('\$${user?.earnings?.totalBalance}'),
           onTap: () {
@@ -69,38 +59,21 @@ class ProfileTab extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.group_add_outlined)),
+          leading: defaultLeadingStyle(Icons.group_add_outlined, Colors.blue),
           title: const Text('Refer'),
           onTap: () {},
         ),
         const Divider(),
         ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.calendar_view_day)),
+          leading: defaultLeadingStyle(PhosphorIcons.ticket, Colors.teal),
           title: const Text('Total tickets'),
           trailing: Text('${user?.earnings?.totalTickets}'),
           onTap: () {},
         ),
         const Divider(),
         ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.person)),
-          title: const Text('Account'),
-          onTap: () {},
-        ),
-        const Divider(),
-        ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.notifications)),
-          title: const Text('Notifications'),
-          onTap: () {},
-        ),
-        const Divider(),
-        ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.lock)),
-          title: const Text('Security'),
-          onTap: () {},
-        ),
-        const Divider(),
-        ListTile(
-          leading: const CircleAvatar(child: Icon(PhosphorIcons.database)),
+          leading:
+              defaultLeadingStyle(PhosphorIcons.database, Colors.redAccent),
           title: const Text('About WinlLy'),
           onTap: () {},
         ),
@@ -108,14 +81,15 @@ class ProfileTab extends StatelessWidget {
         GetBuilder<ThemeController>(builder: (controller) {
           return SwitchListTile(
             value: controller.isDarkMode.value,
-            secondary: const CircleAvatar(child: Icon(PhosphorIcons.moon)),
+            secondary:
+                defaultLeadingStyle(PhosphorIcons.moon, Colors.blueAccent),
             title: const Text('Dark mode'),
             onChanged: controller.setMode,
           );
         }),
         const Divider(),
         ListTile(
-          leading: const CircleAvatar(child: Icon(PhosphorIcons.sign_out)),
+          leading: defaultLeadingStyle(PhosphorIcons.sign_out, Colors.red),
           title: const Text('Sign out'),
           onTap: () {
             final AuthController authController = Get.find<AuthController>();
@@ -123,6 +97,18 @@ class ProfileTab extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  defaultLeadingStyle(IconData icon, Color backColor) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: backColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      child: Icon(
+        icon,
+      ),
     );
   }
 
