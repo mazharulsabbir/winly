@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:winly/globals/configs/facebook_audience.dart';
 import 'package:winly/globals/configs/strings.dart';
 import 'package:winly/models/quizz.dart';
-import 'package:winly/widgets/common_leading.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 
 class QuizeScreen extends StatefulWidget {
   const QuizeScreen({Key? key}) : super(key: key);
@@ -16,6 +16,14 @@ class _QuizeScreenState extends State<QuizeScreen> {
 
   int selectedIndex = 0;
   int _questionIndex = 0;
+
+  bool _isInterstitialAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInterstitialAd();
+  }
 
   _questionTitle() {
     return RichText(
@@ -107,6 +115,10 @@ class _QuizeScreenState extends State<QuizeScreen> {
       onPressed: () {
         setState(() {
           // todo: show ad
+          if (_isInterstitialAdLoaded) {
+            _showInterstitialAd();
+          }
+
           selectedIndex = 0;
           if (_questionIndex == dummyQestion.length - 1) {
             _questionIndex = 0;
@@ -158,5 +170,33 @@ class _QuizeScreenState extends State<QuizeScreen> {
         ],
       ),
     );
+  }
+
+  void _loadInterstitialAd() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      placementId: adUnitId,
+      listener: (result, value) {
+        debugPrint(">> FAN > Interstitial Ad: $result --> $value");
+        if (result == InterstitialAdResult.LOADED) {
+          _isInterstitialAdLoaded = true;
+        }
+
+        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == InterstitialAdResult.DISMISSED &&
+            value["invalidated"] == true) {
+          _isInterstitialAdLoaded = false;
+          _loadInterstitialAd();
+        }
+      },
+    );
+  }
+
+  _showInterstitialAd() {
+    if (_isInterstitialAdLoaded == true) {
+      FacebookInterstitialAd.showInterstitialAd();
+    } else {
+      debugPrint("Interstial Ad not yet loaded!");
+    }
   }
 }
