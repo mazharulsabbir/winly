@@ -75,9 +75,33 @@ class ProfileTab extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const CircleAvatar(child: Icon(PhosphorIcons.ticket_bold)),
+          leading: const CircleAvatar(child: Icon(Icons.calendar_view_day)),
           title: const Text('Total tickets'),
           trailing: Text('${user?.earnings?.totalTickets}'),
+          onTap: () {},
+        ),
+        const Divider(),
+        ListTile(
+          leading: const CircleAvatar(child: Icon(Icons.person)),
+          title: const Text('Account'),
+          onTap: () {},
+        ),
+        const Divider(),
+        ListTile(
+          leading: const CircleAvatar(child: Icon(Icons.notifications)),
+          title: const Text('Notifications'),
+          onTap: () {},
+        ),
+        const Divider(),
+        ListTile(
+          leading: const CircleAvatar(child: Icon(Icons.lock)),
+          title: const Text('Security'),
+          onTap: () {},
+        ),
+        const Divider(),
+        ListTile(
+          leading: const CircleAvatar(child: Icon(PhosphorIcons.database)),
+          title: const Text('About WinlLy'),
           onTap: () {},
         ),
         const Divider(),
@@ -89,6 +113,15 @@ class ProfileTab extends StatelessWidget {
             onChanged: controller.setMode,
           );
         }),
+        const Divider(),
+        ListTile(
+          leading: const CircleAvatar(child: Icon(PhosphorIcons.sign_out)),
+          title: const Text('Sign out'),
+          onTap: () {
+            final AuthController authController = Get.find<AuthController>();
+            authController.logOut();
+          },
+        ),
       ],
     );
   }
