@@ -61,8 +61,9 @@ dependencies:
   facebook_audience_network: ^1.0.0-nullsafety.0
   firebase_core: ^1.10.0
   firebase_auth: ^3.2.0
-  google_sign_in: "^4.5.1"
+  
   flutter_facebook_auth: "^3.5.0"
+  google_sign_in: ^5.2.1
   
 
 dev_dependencies:

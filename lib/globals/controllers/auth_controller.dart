@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/login/login_screen.dart';
-import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/db/auth.dart';
 
