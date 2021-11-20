@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
-import 'package:winly/pages/settings/settings.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_avatar.dart';
@@ -81,8 +80,11 @@ class ProfileTab extends StatelessWidget {
         GetBuilder<ThemeController>(builder: (controller) {
           return SwitchListTile(
             value: controller.isDarkMode.value,
-            secondary:
-                defaultLeadingStyle(PhosphorIcons.moon, Colors.blueAccent),
+            secondary: defaultLeadingStyle(
+                controller.isDarkMode.value
+                    ? PhosphorIcons.moon
+                    : PhosphorIcons.sun,
+                Colors.blueAccent),
             title: const Text('Dark mode'),
             onChanged: controller.setMode,
           );
@@ -108,6 +110,7 @@ class ProfileTab extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Icon(
         icon,
+        color: Colors.white,
       ),
     );
   }
