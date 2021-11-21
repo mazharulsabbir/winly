@@ -198,7 +198,6 @@ class _QuizeScreenState extends State<QuizeScreen> {
 
   _showInterstitialAd() async {
     if (_isInterstitialAdLoaded == true) {
-      // todo: make an api call to reward a ticket
       AdAPI.requestForTicket(adStatus: '1');
       print('Show ad');
       await FacebookInterstitialAd.showInterstitialAd();
