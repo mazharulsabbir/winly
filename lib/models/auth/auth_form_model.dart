@@ -4,6 +4,7 @@ class AuthFormModel {
     this.username = "",
     this.email = "",
     this.phoneNumber = "",
+    this.referCode = "",
     this.password = "",
     this.passwordConfirmation = "",
   });
@@ -12,7 +13,7 @@ class AuthFormModel {
   String? username;
   String? email;
   String? phoneNumber;
-
+  String? referCode;
   String? password;
   String? passwordConfirmation;
 
@@ -21,6 +22,7 @@ class AuthFormModel {
         username: json['username'],
         email: json["email"],
         phoneNumber: json["phone_number"],
+        referCode: json["refferal_code"],
         password: json["password"],
         passwordConfirmation: json["password_confirmation"],
       );
@@ -29,6 +31,7 @@ class AuthFormModel {
         "name": name,
         "username": username,
         "email": email,
+        "refferal_code": referCode,
         "phone": phoneNumber,
         "password": password
       };

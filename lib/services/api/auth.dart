@@ -67,6 +67,8 @@ class AuthAPI {
     try {
       final url = urlBuilder('api/email-verify');
 
+      debugPrint("==== Verify Email Address ====");
+
       final response = await http.post(
         Uri.parse(url),
         body: {
@@ -79,6 +81,8 @@ class AuthAPI {
       return Future.value(response);
     } on SocketException catch (_) {
       return null;
+    } on Exception catch (e) {
+      debugPrint(e.toString());
     }
   }
 

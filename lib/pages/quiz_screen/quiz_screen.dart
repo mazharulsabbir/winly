@@ -4,6 +4,7 @@ import 'package:winly/globals/configs/strings.dart';
 import 'package:winly/models/quizz.dart';
 
 import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:winly/services/api/ad.dart';
 
 class QuizeScreen extends StatefulWidget {
   const QuizeScreen({Key? key}) : super(key: key);
@@ -118,6 +119,8 @@ class _QuizeScreenState extends State<QuizeScreen> {
           // todo: show ad
           if (_isInterstitialAdLoaded) {
             _showInterstitialAd();
+          } else {
+            debugPrint('Ad is not loaded');
           }
 
           selectedIndex = 0;
@@ -193,10 +196,11 @@ class _QuizeScreenState extends State<QuizeScreen> {
     );
   }
 
-  _showInterstitialAd() {
+  _showInterstitialAd() async {
     if (_isInterstitialAdLoaded == true) {
-      // todo: make an api call to reward a ticket
-      FacebookInterstitialAd.showInterstitialAd();
+      final _response = await AdAPI.requestForTicket(adStatus: '1');
+      debugPrint('Show ad' + _response.toString());
+      await FacebookInterstitialAd.showInterstitialAd();
     } else {
       debugPrint("Interstitial Ad not yet loaded!");
     }

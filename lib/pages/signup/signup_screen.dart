@@ -40,6 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController referCodeController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
@@ -50,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     userNameController = TextEditingController(text: '');
     emailController = TextEditingController(text: '');
     phoneNumberController = TextEditingController(text: '');
+    referCodeController = TextEditingController(text: '');
     passwordController = TextEditingController(text: '');
     confirmPasswordController = TextEditingController(text: '');
 
@@ -63,7 +65,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     nameController.dispose();
     userNameController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     phoneNumberController.dispose();
+    referCodeController.dispose();
     emailController.dispose();
     super.dispose();
   }
@@ -76,6 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         label: 'Name',
         hint: "John",
       ),
+      textCapitalization: TextCapitalization.words,
       validator: nameValidator,
       controller: nameController,
     );
@@ -130,13 +135,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Widget _referCodeField() {
+    return TextFormField(
+      decoration: TextFieldHelpers.decoration(
+        label: 'Refer Code',
+        hint: "MLKSDUIWER883",
+      ),
+      keyboardType: TextInputType.text,
+      controller: referCodeController,
+    );
+  }
+
   Widget _passwordForm() {
     final passwordValidator = MultiValidator([
       RequiredValidator(errorText: 'password is required'),
-      MinLengthValidator(8,
-          errorText: 'password must be at least 8 digits long'),
-      PatternValidator(r'(?=.*?[#?!@$%^&*-])',
-          errorText: 'passwords must have at least one special character')
+      MinLengthValidator(
+        8,
+        errorText: 'password must be at least 8 digits long',
+      ),
     ]);
 
     return TextFormField(
@@ -177,6 +193,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             height: 18,
           ),
           _phoneNumber(),
+          const SizedBox(
+            height: 18,
+          ),
+          _referCodeField(),
           const SizedBox(
             height: 18,
           ),
@@ -463,15 +483,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         if (response != null) {
           final data = jsonDecode(response.body);
-          debugPrint(data);
           if (response.statusCode == 200) {
-            if (data['error'] != null) {
+            if (data['errors'] != null) {
+              String errorMessageBuilder = "";
+
+              Map<String, dynamic> errors = data['errors'];
+
+              errors.forEach((index, value) {
+                errorMessageBuilder += '$value\n';
+              });
+
               snack(
-                title: "Error",
-                desc: data['error'],
+                title: data['message'],
+                desc: errorMessageBuilder,
                 icon: const Icon(Icons.error, color: Colors.red),
               );
-              debugPrint('${data['error']}');
+              debugPrint('${data['errors']}');
             } else {
               Get.off(() => const SignInScreen());
               snack(
@@ -481,16 +508,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
               );
             }
           } else {
-            snack(
-              title: "Error",
-              desc: data['error'],
-              icon: const Icon(Icons.done, color: Colors.green),
-            );
+            if (data['errors'] != null) {
+              String errorMessageBuilder = "";
+
+              Map<String, dynamic> errors = data['errors'];
+
+              errors.forEach((index, value) {
+                errorMessageBuilder += '$value\n';
+              });
+
+              snack(
+                title: data['message'],
+                desc: errorMessageBuilder,
+                icon: const Icon(Icons.error, color: Colors.red),
+              );
+            } else {
+              snack(
+                title: "Error",
+                desc: 'There was something unexpected. Please try again later!',
+                icon: const Icon(Icons.error, color: Colors.red),
+              );
+            }
           }
-        } else {}
+        } else {
+          snack(
+            title: "Error",
+            desc: 'Verification Failed!',
+            icon: const Icon(Icons.error, color: Colors.red),
+          );
+        }
       } catch (e) {
         snack(
-            title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
+          title: 'Error',
+          desc: e.toString(),
+          icon: const Icon(Icons.error),
+        );
       } finally {
         setState(() {
           _loading = false;
@@ -501,9 +553,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _loading = false;
       });
       snack(
-          title: "Error",
-          desc: "Code is not valid",
-          icon: const Icon(Icons.error, color: Colors.red));
+        title: "Error",
+        desc: "Code is not valid",
+        icon: const Icon(Icons.error, color: Colors.red),
+      );
     }
   }
 

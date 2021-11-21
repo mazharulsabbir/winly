@@ -76,16 +76,23 @@ class FqaItemWidget extends StatelessWidget {
                 children: [
                   const Icon(PhosphorIcons.play_circle_fill),
                   const SizedBox(width: 5),
-                  Text('${_video.contentDetails?.duration}'),
+                  Text(convertTime(_video.contentDetails?.duration)),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            )
+            const SizedBox(height: 10)
           ],
         ),
       ),
     );
+  }
+
+  String convertTime(String? duration) {
+    RegExp regex = RegExp(r'(\d+)');
+    List<String> durationList =
+        regex.allMatches(duration!).map((e) => e.group(0)!).toList();
+
+    String _durationString = durationList.join(':');
+    return _durationString;
   }
 }
