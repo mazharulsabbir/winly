@@ -12,27 +12,29 @@ class FqaItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("::::: Loading Faq item :::::");
     if (faqItem.type == FaqType.other) {
       FrequentlyAskedQuestion _faq = faqItem.item as FrequentlyAskedQuestion;
 
-      return ListTile(
-        title: Text("${_faq.question}"),
-        subtitle: Text("${_faq.ans}"),
-        trailing: const Icon(Icons.info),
-        onTap: () {},
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          color: Colors.grey.withOpacity(0.3),
+        ),
+        child: ListTile(
+          title: Text("${_faq.question}"),
+          subtitle: Text("${_faq.ans}"),
+          leading: const CircleAvatar(child: Icon(Icons.question_answer)),
+          onTap: () {},
+        ),
       );
     }
 
     YoutubeVideoItem _video = faqItem.item as YoutubeVideoItem;
-    debugPrint("::::: Loading youtube video item :::::");
-    debugPrint(_video.toString());
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => MyYoutubeVideoPlayer(
-              videoId: _video.id,
-            ));
+        Get.to(() => MyYoutubeVideoPlayer(videoId: _video.id));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
