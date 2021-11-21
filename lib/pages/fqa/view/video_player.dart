@@ -19,6 +19,7 @@ class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
   // late PlayerState _playerState;
   // late YoutubeMetaData _videoMetaData;
   bool _isPlayerReady = false;
+  bool _isFullScreen = false;
   // DailyEarningController dailyEarningController =
   //     Get.find<DailyEarningController>();
 
@@ -65,11 +66,13 @@ class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title ?? "Watch Video"),
-        elevation: 2.0,
-        leading: const CommonLeading(),
-      ),
+      appBar: _isFullScreen
+          ? null
+          : AppBar(
+              title: Text(widget.title ?? "Watch Video"),
+              elevation: 2.0,
+              leading: const CommonLeading(),
+            ),
       body: YoutubePlayerBuilder(
         player: YoutubePlayer(
           controller: _controller!,
@@ -97,6 +100,16 @@ class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
         ),
         builder: (_, player) {
           return player;
+        },
+        onEnterFullScreen: () {
+          setState(() {
+            _isFullScreen = true;
+          });
+        },
+        onExitFullScreen: () {
+          setState(() {
+            _isFullScreen = false;
+          });
         },
       ),
     );

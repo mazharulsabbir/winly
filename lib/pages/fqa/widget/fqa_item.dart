@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:winly/models/faq/faq.dart';
+import 'package:winly/models/faq/youtube_video_item.dart';
 import 'package:winly/pages/fqa/view/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 class FqaItemWidget extends StatelessWidget {
-  const FqaItemWidget({Key? key}) : super(key: key);
+  final FaqItem faqItem;
+  const FqaItemWidget({Key? key, required this.faqItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("::::: Loading Faq item :::::");
+    if (faqItem.type == FaqType.other) {
+      FrequentlyAskedQuestion _faq = faqItem.item as FrequentlyAskedQuestion;
+
+      return ListTile(
+        title: Text("${_faq.question}"),
+        subtitle: Text("${_faq.ans}"),
+        trailing: const Icon(Icons.info),
+        onTap: () {},
+      );
+    }
+
+    YoutubeVideoItem _video = faqItem.item as YoutubeVideoItem;
+    debugPrint("::::: Loading youtube video item :::::");
+    debugPrint(_video.toString());
+
     return GestureDetector(
       onTap: () {
-        String? videoId;
-        videoId = YoutubePlayer.convertUrlToId(
-          "https://www.youtube.com/watch?v=BBAyRBTfsOU",
-        );
         Get.to(() => MyYoutubeVideoPlayer(
-              videoId: videoId,
+              videoId: _video.id,
             ));
       },
       child: Container(
@@ -33,16 +48,18 @@ class FqaItemWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
-                  "https://images.firstpost.com/fpimages/1200x800/fixed/jpg/2019/01/PUBG-Lite-copy.jpg",
+                  "${_video.snippet?.thumbnails?.high?.url}",
                   width: double.infinity,
                   height: 150,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            const ListTile(
-              title: Text('Video Name'),
-              subtitle: Text('3 Days ago | 1.5k Views'),
+            ListTile(
+              title: Text("${_video.snippet?.title}"),
+              subtitle: Text(
+                '${_video.snippet?.publishedAt} | ${_video.statistics?.viewCount} Views',
+              ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -54,10 +71,10 @@ class FqaItemWidget extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Icon(PhosphorIcons.play_circle_fill),
-                  SizedBox(width: 5),
-                  Text('3 Mins'),
+                children: [
+                  const Icon(PhosphorIcons.play_circle_fill),
+                  const SizedBox(width: 5),
+                  Text('${_video.contentDetails?.duration}'),
                 ],
               ),
             ),

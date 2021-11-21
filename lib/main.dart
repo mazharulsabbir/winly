@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-
 import 'package:winly/globals/configs/themes.dart';
 import 'package:winly/pages/wrapper.dart';
 
@@ -22,6 +21,8 @@ void main() async {
     FacebookAudienceNetwork.init(
       testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
     );
+  } else {
+    FacebookAudienceNetwork.init();
   }
   runApp(const MyApp());
 }

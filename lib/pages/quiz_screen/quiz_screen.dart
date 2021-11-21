@@ -195,6 +195,7 @@ class _QuizeScreenState extends State<QuizeScreen> {
 
   _showInterstitialAd() {
     if (_isInterstitialAdLoaded == true) {
+      // todo: make an api call to reward a ticket
       FacebookInterstitialAd.showInterstitialAd();
     } else {
       debugPrint("Interstitial Ad not yet loaded!");

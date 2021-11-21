@@ -114,4 +114,18 @@ class ApiService {
     _dio.clear();
     return Future.value(responseJson);
   }
+
+  static Future<dynamic> getVideoDetails(String url) async {
+    final _dio = dio.Dio();
+    dio.Response? responseJson;
+    try {
+      responseJson = await _dio.get(url);
+    } on dio.DioError catch (e) {
+      return Future.error(e);
+    } on Exception catch (e) {
+      return Future.error(e);
+    }
+    _dio.clear();
+    return Future.value(responseJson);
+  }
 }
