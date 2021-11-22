@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/services/api/auth.dart';
@@ -14,6 +18,7 @@ class AuthController extends GetxController {
   var loggedIn = false;
   User? user;
   String? token;
+  bool isLoading = false;
 
   AuthController() {
     user = AuthDBService.getUser();
@@ -43,12 +48,6 @@ class AuthController extends GetxController {
       if (user != null) {
         if (user?.isSuspended != null && user?.isSuspended != 0) {
           logOut();
-          // snack(
-          //   title: 'Profile Suspended!',
-          //   desc:
-          //       'Your profile has been suspended! Please contact with customer care.',
-          //   icon: const Icon(Icons.block),
-          // );
         } else {
           logIn(user!, token);
           // Setting External User Id with Callback Available in SDK Version 3.9.3+
@@ -77,6 +76,53 @@ class AuthController extends GetxController {
     loggedIn = true;
 
     update();
+  }
+
+  Future<bool> forgatePassword(email) async {
+    isLoading = true;
+    update();
+    try {
+      final response = await AuthAPI.sendForgetPassResquest(email);
+
+      if (response != null) {
+        final data = jsonDecode(response.body);
+
+        int responseCode = response.statusCode;
+        print('Responce code $responseCode');
+        print('Responce Data: $data');
+        if (responseCode == 200) {
+          snack(
+            title: "Success",
+            desc: 'An OTP has sent to your email.',
+            icon: const Icon(Icons.error, color: Colors.red),
+          );
+          return true;
+        } else if (responseCode == 401) {
+          snack(
+            title: "Error",
+            desc: data['error'],
+            icon: const Icon(Icons.error, color: Colors.red),
+          );
+          return false;
+        } else {
+          snack(
+              title: 'Error',
+              desc: data['errors'],
+              icon: const Icon(Icons.error));
+          return false;
+        }
+      } else {
+        String message = jsonDecode(response?.body ?? 'No responce')['error'];
+        snack(title: 'Error', desc: message, icon: const Icon(Icons.error));
+        return false;
+      }
+    } catch (e) {
+      // snack(title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
+      return false;
+    } finally {
+      isLoading = false;
+      update();
+    }
   }
 
   Future<bool> signInWithGoogle() async {

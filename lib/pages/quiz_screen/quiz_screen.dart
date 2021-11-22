@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:winly/globals/configs/facebook_audience.dart';
 import 'package:winly/globals/configs/strings.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/models/quizz.dart';
 
 import 'package:facebook_audience_network/facebook_audience_network.dart';
@@ -15,6 +16,7 @@ class QuizeScreen extends StatefulWidget {
 
 class _QuizeScreenState extends State<QuizeScreen> {
   final List<QuizzQuestion> dummyQestion = quizzQuestions;
+  final AuthController authController = AuthController();
 
   int selectedIndex = 0;
   int _questionIndex = 0;

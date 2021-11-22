@@ -4,12 +4,30 @@ import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
+import 'package:winly/pages/about/about.dart';
+import 'package:winly/pages/privacy/privacy_policy.dart';
+import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_avatar.dart';
+import 'package:flutter/foundation.dart';
 
-class ProfileTab extends StatelessWidget {
+class ProfileTab extends StatefulWidget {
   const ProfileTab({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends State<ProfileTab> {
+  AuthController? authController;
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("==== Profile =====");
+    authController = Get.find<AuthController>();
+  }
 
   _heading(BuildContext context, User? user) {
     return Container(
@@ -71,10 +89,30 @@ class ProfileTab extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading:
-              defaultLeadingStyle(PhosphorIcons.database, Colors.redAccent),
+          leading: defaultLeadingStyle(
+            Icons.security,
+            Colors.amber,
+          ),
+          title: const Text('Terms and Conditions'),
+          onTap: () => Get.to(() => const TermsAndCondition()),
+        ),
+        const Divider(),
+        ListTile(
+          leading: defaultLeadingStyle(
+            Icons.privacy_tip,
+            Colors.greenAccent,
+          ),
+          title: const Text('Privacy Policy'),
+          onTap: () => Get.to(() => const PrivacyPolicy()),
+        ),
+        const Divider(),
+        ListTile(
+          leading: defaultLeadingStyle(
+            PhosphorIcons.database,
+            Colors.grey,
+          ),
           title: const Text('About WinlLy'),
-          onTap: () {},
+          onTap: () => Get.to(() => const AboutApp()),
         ),
         const Divider(),
         GetBuilder<ThemeController>(builder: (controller) {
@@ -134,7 +172,7 @@ class ProfileTab extends StatelessWidget {
     return Scaffold(
       appBar: buildCommonAppbar(),
       body: GetBuilder<AuthController>(
-        init: AuthController(),
+        init: authController,
         builder: (controller) => SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 30),

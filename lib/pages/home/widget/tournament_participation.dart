@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/tournament.dart';
+import 'package:winly/pages/tournament/view/join_tournament.dart';
 import 'package:winly/services/api/tournament_api.dart';
 
 class TournamentParticipation extends StatelessWidget {
@@ -66,25 +68,7 @@ class TournamentParticipation extends StatelessWidget {
           ],
         ),
         GestureDetector(
-          onTap: () async {
-            // todo: join on tournament
-            try {
-              AuthController _auth = AuthController();
-              dynamic _res = await TournamentAPI.joinTournament(
-                tournament?.id,
-                tournament?.gameName,
-                _auth.token,
-              );
-
-              snack(
-                title: 'Message',
-                desc: "${_res.data['return_msg']}",
-                icon: const Icon(Icons.done),
-              );
-            } catch (e) {
-              debugPrint(e.toString());
-            }
-          },
+          onTap: () => Get.to(() => JoinTournament(tournament: tournament)),
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
