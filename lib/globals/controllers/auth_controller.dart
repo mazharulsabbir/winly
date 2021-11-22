@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/foundation.dart';
@@ -86,38 +85,29 @@ class AuthController extends GetxController {
 
       if (response != null) {
         final data = jsonDecode(response.body);
-
-        int responseCode = response.statusCode;
-        print('Responce code $responseCode');
-        print('Responce Data: $data');
-        if (responseCode == 200) {
+        print(data);
+        if (data['error'] == null) {
           snack(
-            title: "Success",
-            desc: 'An OTP has sent to your email.',
-            icon: const Icon(Icons.error, color: Colors.red),
-          );
+              title: 'Success',
+              desc: 'An OPT has sent to the mail.',
+              icon: const Icon(Icons.error));
           return true;
-        } else if (responseCode == 401) {
-          snack(
-            title: "Error",
-            desc: data['error'],
-            icon: const Icon(Icons.error, color: Colors.red),
-          );
-          return false;
         } else {
           snack(
-              title: 'Error',
-              desc: data['errors'],
+              title: 'Erorr',
+              desc: data['error'],
               icon: const Icon(Icons.error));
           return false;
         }
       } else {
-        String message = jsonDecode(response?.body ?? 'No responce')['error'];
-        snack(title: 'Error', desc: message, icon: const Icon(Icons.error));
+        snack(
+            title: 'Erorr',
+            desc: 'Some thing went wrong',
+            icon: const Icon(Icons.error));
         return false;
       }
     } catch (e) {
-      // snack(title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
+      snack(title: 'Erorr', desc: e.toString(), icon: const Icon(Icons.error));
       return false;
     } finally {
       isLoading = false;
