@@ -115,6 +115,45 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> setNewPassword(
+      {required String code, required String newPass}) async {
+    isLoading = true;
+    update();
+    try {
+      final response = await AuthAPI.setNewPassword(code, newPass);
+
+      if (response != null) {
+        final data = jsonDecode(response.body);
+        print(data);
+        if (data['errors'] == null || data['error'] == null) {
+          snack(
+              title: 'Success',
+              desc: 'An OPT has sent to the mail.',
+              icon: const Icon(Icons.error));
+          return true;
+        } else {
+          snack(
+              title: 'Erorr',
+              desc: data['error'],
+              icon: const Icon(Icons.error));
+          return false;
+        }
+      } else {
+        snack(
+            title: 'Erorr',
+            desc: 'Some thing went wrong',
+            icon: const Icon(Icons.error));
+        return false;
+      }
+    } catch (e) {
+      snack(title: 'Erorr', desc: e.toString(), icon: const Icon(Icons.error));
+      return false;
+    } finally {
+      isLoading = false;
+      update();
+    }
+  }
+
   Future<bool> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

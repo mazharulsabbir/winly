@@ -63,7 +63,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           if (_emailFormKey.currentState != null) {
                             _emailFormKey.currentState!.save();
                             if (_emailFormKey.currentState!.validate()) {
-                              print(email);
                               await controller.forgatePassword(email).then(
                                   (value) => value
                                       ? Get.to(

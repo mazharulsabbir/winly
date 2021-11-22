@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
 import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/url.dart';
@@ -97,6 +100,26 @@ class AuthAPI {
         body: convert.jsonEncode({
           "email": email,
         }),
+        headers: commonHeader(),
+      );
+
+      return Future.value(response);
+    } on SocketException catch (_) {
+      return null;
+    }
+  }
+
+  static Future<http.Response?> setNewPassword(
+      String code, String password) async {
+    try {
+      final url = urlBuilder('api/reset-password');
+
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          "password_reset_code": code,
+          "new_password": password,
+        },
         headers: commonHeader(),
       );
 
