@@ -46,7 +46,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Container(
                           width: double.infinity,
                           alignment: Alignment.centerLeft,
-                          child: const Text('Input your valid password here')),
+                          child: const Text('Input your valid email here')),
                       TextFormField(
                         decoration: TextFieldHelpers.decoration(
                           label: 'Email',
