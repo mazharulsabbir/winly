@@ -102,6 +102,24 @@ class AuthAPI {
     }
   }
 
+  static Future<http.Response?> sendForgetPassResquest(String email) async {
+    try {
+      final url = urlBuilder('api/forgot-password');
+      final response = await http.post(
+        Uri.parse(url),
+        body: {'email': email},
+        headers: commonHeader(),
+      );
+
+      return Future.value(response);
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return null;
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   static Future<http.Response?> updateProfile({
     String? token,
     required String name,

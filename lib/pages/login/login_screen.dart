@@ -10,6 +10,7 @@ import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/user_model.dart';
+import 'package:winly/pages/forgot_password/forgot_password_screen.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
 import 'package:winly/services/api/auth.dart';
@@ -147,7 +148,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           TextButton(
             onPressed: () {
-              // Get.to(() => ForgotPasswordScreen());
+              Get.to(() => ForgotPasswordScreen());
             },
             child: const Text(
               "Forgot Password ? ",
