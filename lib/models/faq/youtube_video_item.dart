@@ -7,7 +7,6 @@ class YoutubeVideoItem {
   YoutubeVideoItem({this.snippet, this.contentDetails, this.statistics});
 
   YoutubeVideoItem.fromJson(Map<String, dynamic> json) {
-    print(json);
     id = json['id'];
     snippet = json['snippet'] != null
         ? Snippet.fromJson(

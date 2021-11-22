@@ -1,24 +1,23 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
+import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/services/api/api_service.dart';
-import 'package:winly/services/api/url.dart';
 
 class AdAPI {
-  static Future<http.Response?> requestForTicket(
-      {required String adStatus, String? token}) async {
+  static Future<dynamic> requestForTicket({
+    required String adStatus,
+  }) async {
     try {
-      final url = urlBuilder('api/user-ad');
+      final AuthController authController = AuthController();
+      final _response = await ApiService.post(
+        'api/user-ad',
+        token: authController.token,
+        body: {
+          'ad_status': adStatus,
+        },
+      );
 
-      final response = await http.post(Uri.parse(url), body: {
-        'ad_status': adStatus,
-      }, headers: {
-        "Accept": "application/json",
-        'Authorization': 'Bearer $token'
-      });
-      // debugPrint(response.body);
-      return Future.value(response);
+      return Future.value(_response);
     } on SocketException catch (_) {
       return null;
     }

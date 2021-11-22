@@ -46,14 +46,17 @@ class FaqController extends getx.GetxController {
             ]);
 
             final _videoDetails = await ApiService.getVideoDetails(_url);
-            YoutubeVideoItem item = YoutubeVideoItem.fromJson(
-              _videoDetails.data['items'][0],
-            );
 
-            FaqItem faqItem = FaqItem(type: FaqType.youtube, item: item);
-            faqItems.add(faqItem);
+            if (_videoDetails.data['items'] != null) {
+              _videoDetails.data['items'].forEach((e) {
+                YoutubeVideoItem item = YoutubeVideoItem.fromJson(e);
 
-            update();
+                FaqItem faqItem = FaqItem(type: FaqType.youtube, item: item);
+                faqItems.add(faqItem);
+              });
+
+              update();
+            }
           } else {
             FaqItem faqItem = FaqItem(type: FaqType.other, item: _faq);
             faqItems.add(faqItem);
