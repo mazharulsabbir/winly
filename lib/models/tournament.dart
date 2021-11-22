@@ -35,6 +35,7 @@ class Tournament {
   final String deadline;
   final int players;
   final List<ProfileImage> photos;
+  final List<Positions> positions;
   final String createdAt;
   final String updatedAt;
 
@@ -52,6 +53,7 @@ class Tournament {
     required this.deadline,
     required this.players,
     required this.photos,
+    required this.positions,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -72,6 +74,9 @@ class Tournament {
         photos = (json['photos'] as List<dynamic>)
             .map((e) => ProfileImage.fromJson(e))
             .toList(),
+        positions = (json['positions'] as List<dynamic>)
+            .map((e) => Positions.fromJson(e))
+            .toList(),
         createdAt = json['created_at'] as String,
         updatedAt = json['updated_at'] as String;
 
@@ -88,6 +93,9 @@ class Tournament {
       'require_tickets': requireTickets,
       'status': status,
       'deadline': deadline,
+      'players': players,
+      'photos': photos,
+      'positions': positions,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
@@ -95,7 +103,7 @@ class Tournament {
 
   @override
   String toString() {
-    return 'Tournament {id: $id, title: $title, description: $description, rules: $rules, bannerImg: $bannerImg, gameName: $gameName, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'Tournament{id: $id, title: $title, description: $description, rules: $rules, points: $points, bannerImg: $bannerImg, gameName: $gameName, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, players: $players, photos: $photos, positions: $positions, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 }
 
@@ -117,5 +125,47 @@ class ProfileImage {
   @override
   String toString() {
     return 'ProfileImage {profileImage: $profileImage}';
+  }
+}
+
+class Positions {
+  final int? id;
+  final String? tournamentId;
+  final String? amount;
+  final String? position;
+  final String? createdAt;
+  final String? updatedAt;
+
+  Positions({
+    this.id,
+    this.tournamentId,
+    this.amount,
+    this.position,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  Positions.fromJson(dynamic json)
+      : id = json['id'],
+        tournamentId = json['tournament_id'],
+        amount = json['amount'],
+        position = json['position'],
+        createdAt = json['created_at'],
+        updatedAt = json['updated_at'];
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'tournament_id': tournamentId,
+      'amount': amount,
+      'position': position,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'Positions {id: $id, tournamentId: $tournamentId, amount: $amount, position: $position, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 }

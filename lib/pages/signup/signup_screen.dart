@@ -453,7 +453,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             icon: const Icon(Icons.error, color: Colors.red),
           );
         } else if (response.statusCode == 201) {
-          debugPrint('Rewsponce code 201');
+          debugPrint('Responce code 201');
           setState(() {
             _step++;
           });
