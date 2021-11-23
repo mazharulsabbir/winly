@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:winly/globals/controllers/privacy_controller.dart';
 import 'package:winly/widgets/common_leading.dart';
+import 'package:winly/widgets/common_list_tile.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
 class PrivacyPolicy extends StatelessWidget {
@@ -19,14 +20,11 @@ class PrivacyPolicy extends StatelessWidget {
               title: const Text('Privacy Policy'),
               leading: const CommonLeading(),
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  "${controller.privacyPolicy}",
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.justify,
-                ),
+            body: ListView.builder(
+              itemCount: controller.privacyPolicy.length,
+              itemBuilder: (context, index) => CommonListTile(
+                title: "${controller.privacyPolicy[index].title}",
+                details: "${controller.privacyPolicy[index].details}",
               ),
             ),
           ),

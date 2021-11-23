@@ -200,9 +200,13 @@ class _QuizeScreenState extends State<QuizeScreen> {
 
   _showInterstitialAd() async {
     if (_isInterstitialAdLoaded == true) {
-      final _response = await AdAPI.requestForTicket(adStatus: '1');
-      debugPrint('Show ad' + _response.toString());
       await FacebookInterstitialAd.showInterstitialAd();
+      try {
+        final _response = await AdAPI.requestForTicket(adStatus: '1');
+        debugPrint('Ad reward -> ' + _response.toString());
+      } catch (e) {
+        debugPrint('Error to add reward -> ' + e.toString());
+      }
     } else {
       debugPrint("Interstitial Ad not yet loaded!");
     }

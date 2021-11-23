@@ -91,7 +91,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-              child: ListView.separated(
+              child: ListView.builder(
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
@@ -124,11 +124,6 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                             height: 20,
                             width: 20,
                           ),
-                  );
-                },
-                separatorBuilder: (_, i) {
-                  return const SizedBox(
-                    height: 10,
                   );
                 },
                 itemCount: PaymentmentMathodModel.paymentList.length,
@@ -261,7 +256,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                         ),
                         const Text('Balance: '),
                         Text(
-                          '\$ 65,000',
+                          '\$ ${authController.user?.earnings?.totalBalance ?? 0}',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1!

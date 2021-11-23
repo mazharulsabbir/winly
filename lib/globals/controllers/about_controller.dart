@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as getx;
+import 'package:winly/models/about.dart';
 import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/db/auth.dart';
 
@@ -7,7 +8,7 @@ class AboutController extends getx.GetxController {
   String? token;
   bool isLoading = false;
 
-  String? about;
+  List<AboutUs> about = [];
 
   AboutController() {
     token = AuthDBService.getToken();
@@ -25,7 +26,11 @@ class AboutController extends getx.GetxController {
       );
 
       if (_response != null && _response.data != null) {
-        about = _response.data['message'];
+        List<dynamic> _data = _response.data;
+        for (var element in _data) {
+          AboutUs _a = AboutUs.fromJson(element);
+          about.add(_a);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());

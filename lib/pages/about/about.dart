@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/globals/controllers/about_controller.dart';
 import 'package:winly/widgets/common_leading.dart';
+import 'package:winly/widgets/common_list_tile.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
 class AboutApp extends StatelessWidget {
@@ -20,14 +21,11 @@ class AboutApp extends StatelessWidget {
               title: const Text('About $appName'),
               leading: const CommonLeading(),
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Text(
-                  "${controller.about}",
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.justify,
-                ),
+            body: ListView.builder(
+              itemCount: controller.about.length,
+              itemBuilder: (context, index) => CommonListTile(
+                title: "${controller.about[index].title}",
+                details: "${controller.about[index].details}",
               ),
             ),
           ),

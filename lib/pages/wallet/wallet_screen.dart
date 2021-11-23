@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/withdraw_controller.dart';
 import 'package:winly/pages/withdeaw/withdraw_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
@@ -15,6 +16,7 @@ class WalletScreen extends StatefulWidget {
 
 class _WalletScreenState extends State<WalletScreen> {
   bool islOading = false;
+  AuthController authController = Get.find<AuthController>();
   _recentHistoryList() {
     return GetBuilder<WithdrawController>(
         init: WithdrawController(),
@@ -141,7 +143,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   height: 10,
                 ),
                 Text(
-                  '\$65,000',
+                  '\$${authController.user?.earnings?.totalBalance ?? 0}',
                   style: Theme.of(context).textTheme.headline4!
                   // .copyWith(color: Colors.black)
                   ,
