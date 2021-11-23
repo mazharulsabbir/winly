@@ -128,7 +128,7 @@ class AuthController extends GetxController {
         if (data['errors'] == null || data['error'] == null) {
           snack(
               title: 'Success',
-              desc: 'An OPT has sent to the mail.',
+              desc: 'Your password setting done.',
               icon: const Icon(Icons.error));
           return true;
         } else {
