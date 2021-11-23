@@ -46,7 +46,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Container(
                           width: double.infinity,
                           alignment: Alignment.centerLeft,
-                          child: const Text('Input your valid password here')),
+                          child: const Text('Input your valid email here')),
                       TextFormField(
                         decoration: TextFieldHelpers.decoration(
                           label: 'Email',
@@ -63,7 +63,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           if (_emailFormKey.currentState != null) {
                             _emailFormKey.currentState!.save();
                             if (_emailFormKey.currentState!.validate()) {
-                              print(email);
                               await controller.forgatePassword(email).then(
                                   (value) => value
                                       ? Get.to(
