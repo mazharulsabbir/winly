@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
+import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key, this.index}) : super(key: key);
+  final User? user;
+  const BottomNavBar({Key? key, this.index, this.user}) : super(key: key);
   final int? index;
 
   @override
@@ -11,11 +15,14 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   late int _currentIndex;
-
+  final AuthController _authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.index ?? 0;
+    if (widget.user != null) {
+      _authController.mUserObx.value = widget.user!;
+    }
   }
 
   @override

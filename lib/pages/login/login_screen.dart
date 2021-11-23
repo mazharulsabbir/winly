@@ -27,7 +27,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final AuthController _authController = AuthController();
+  final AuthController _authController = Get.find<AuthController>();
 
   String email = "";
   String password = "";
@@ -55,17 +55,17 @@ class _SignInScreenState extends State<SignInScreen> {
               try {
                 final userParsed = jsonDecode(userDataRaw.body);
                 final User user = User.fromJson(userParsed);
-                snack(
-                  title: "Success",
-                  desc: data['message'],
-                  icon: const Icon(Icons.done, color: Colors.green),
-                );
-                _authController.logIn(user, token);
-                Get.offAll(() => const BottomNavBar());
+                _authController.mUserObx.value = user;
+
+                _authController
+                    .logIn(user, token)
+                    .then((value) => Get.offAll(() => BottomNavBar(
+                          user: user,
+                        )));
               } catch (e) {
                 snack(
                   title: "Error",
-                  desc: "Something went wrong",
+                  desc: "Something went wrong" + e.toString(),
                   icon: const Icon(Icons.error, color: Colors.red),
                 );
               }
@@ -191,12 +191,19 @@ class _SignInScreenState extends State<SignInScreen> {
           child: IconButton(
             onPressed: () async {
               if (await _authController.signInWithGoogle()) {
-                Get.off(() => const BottomNavBar());
+                // Get.off(() => const BottomNavBar());
+                snack(
+                  title: 'Oops!',
+                  desc:
+                      'We are working on it. Please login using email and password!',
+                  icon: const Icon(Icons.error),
+                );
               } else {
                 snack(
-                    title: 'Google sign in unsuccessful',
-                    desc: 'Authentication problem',
-                    icon: const Icon(Icons.error));
+                  title: 'Google sign in unsuccessful',
+                  desc: 'Authentication problem',
+                  icon: const Icon(Icons.error),
+                );
               }
             },
             icon: const Icon(PhosphorIcons.google_logo),

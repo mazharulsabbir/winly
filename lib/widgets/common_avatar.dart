@@ -31,35 +31,45 @@ class CommonAvatar extends StatelessWidget {
         child: Center(
           child: Text(
             '$avatarUrl',
-            style: TextStyle(color: Colors.blue, fontSize: radius * 0.9),
+            style: TextStyle(color: Colors.blue, fontSize: radius * 0.5),
           ),
         ),
       );
     }
 
-    return Container(
-      height: radius,
-      width: radius,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-      child: Image.network(
-        avatarUrl!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Icon(
-                PhosphorIcons.user,
-                color: Colors.blue,
-                size: radius * 0.9,
-              ),
-            ),
-          );
-        },
+    return CircleAvatar(
+      radius: radius,
+      child: Center(
+        child: Icon(
+          PhosphorIcons.user,
+          color: Colors.white,
+          size: radius * 0.9,
+        ),
       ),
     );
+    // return Container(
+    //   padding: EdgeInsets.all(radius),
+    //   decoration: const BoxDecoration(
+    //     shape: BoxShape.circle,
+    //   ),
+    //   child: Image.network(
+    //     avatarUrl!,
+    //     fit: BoxFit.cover,
+    //     height: radius * 0.9,
+    //     width: radius * 0.9,
+    //     errorBuilder: (context, error, stackTrace) {
+    //       return CircleAvatar(
+    //         radius: radius,
+    //         child: Center(
+    //           child: Icon(
+    //             PhosphorIcons.user,
+    //             color: Colors.white,
+    //             size: radius * 0.9,
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

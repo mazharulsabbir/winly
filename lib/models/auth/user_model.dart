@@ -7,7 +7,7 @@ class User {
   String? referralCode;
   String? profileImage;
   int? referrals;
-  int? isSuspended;
+  String? isSuspended;
   DailyEarnings? earnings;
   dynamic membership;
 
@@ -30,7 +30,7 @@ class User {
     name = json['name'];
     username = json['username'];
     email = json['email'];
-    phoneNumber = json['phone_number'];
+    phoneNumber = json['phone'];
     referralCode = json['referral_code'];
     profileImage = json['profile_img'];
     referrals = json['referrals'];
@@ -38,7 +38,7 @@ class User {
         ? DailyEarnings.fromJson(json['earnings'])
         : null;
     membership = json['membership'];
-    isSuspended = json['is_suspended'];
+    isSuspended = json['is_suspend'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,15 +47,21 @@ class User {
     data['name'] = name;
     data['username'] = username;
     data['email'] = email;
-    data['phone_number'] = phoneNumber;
+    data['phone'] = phoneNumber;
     data['referral_code'] = referralCode;
     data['profile_img'] = profileImage;
     data['referrals'] = referrals;
-    // if (this.dailyEarnings != null) {
-    //   data['dailyEarnings'] = this.dailyEarnings!.toJson();
-    // }
+    if (earnings != null) {
+      data['earnings'] = earnings!.toJson();
+    }
     data['membership'] = membership;
+    data['is_suspend'] = isSuspended;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'User{id: $id, name: $name, username: $username, email: $email, phoneNumber: $phoneNumber, referralCode: $referralCode, profileImage: $profileImage, referrals: $referrals, earnings: $earnings, membership: $membership, isSuspended: $isSuspended}';
   }
 }
 

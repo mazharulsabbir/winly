@@ -19,10 +19,18 @@ class AuthController extends GetxController {
   String? token;
   bool isLoading = false;
 
+  var mUserObx = User().obs;
+
+  User get userObx {
+    debugPrint("Printing new data" + mUserObx.value.toString());
+    return mUserObx.value;
+  }
+
   AuthController() {
     user = AuthDBService.getUser();
     token = AuthDBService.getToken();
     if (token != null && user != null) {
+      mUserObx.value = user!;
       // print('token: $token');
       loggedIn = true;
     }
@@ -35,20 +43,23 @@ class AuthController extends GetxController {
     update();
   }
 
-  void getUserProfile(String token) async {
+  Future<void> getUserProfile(String token) async {
     try {
       final _response = await AuthAPI.profile(token);
+
       user = User.fromJson(_response.data);
       if (user != null) {
-        if (user?.isSuspended != null && user?.isSuspended != 0) {
+        mUserObx.value = user!;
+
+        if (user?.isSuspended != null && user?.isSuspended != "0") {
           logOut();
         } else {
           logIn(user!, token);
           // Setting External User Id with Callback Available in SDK Version 3.9.3+
           OneSignal.shared.setExternalUserId("${user!.id}").then((results) {
-            debugPrint(results.toString());
+            debugPrint("One Signal: " + results.toString());
           }).catchError((error) {
-            debugPrint(error.toString());
+            debugPrint("One Signal Error: " + error.toString());
           });
           loggedIn = true;
         }
@@ -61,15 +72,14 @@ class AuthController extends GetxController {
     }
   }
 
-  void logIn(User user, String token) {
+  Future<void> logIn(User user, String token) async {
     AuthDBService.setUser(token: token, user: user);
     // AuthDBService.setUserEarning();
     this.user = user;
+    mUserObx.value = user;
 
     this.token = token;
     loggedIn = true;
-
-    update();
   }
 
   Future<bool> forgatePassword(email) async {

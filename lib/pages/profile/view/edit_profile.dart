@@ -128,7 +128,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         Positioned(
             bottom: 0,
             right: 0,
-            child: TextButton(
+            child: IconButton(
               onPressed: () async {
                 var status = await Permission.camera.status;
                 if (status != PermissionStatus.granted) {
@@ -138,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   }
                 }
               },
-              child: const CircleAvatar(
+              icon: const CircleAvatar(
                 radius: 15,
                 backgroundColor: Color(0xff8FD8D8),
                 child: Icon(
@@ -172,6 +172,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       desc: data['message'],
                       icon: const Icon(Icons.done, color: Colors.green),
                     );
+                    authController.getUserProfile(authController.token!);
                   } else if (response.statusCode == 401) {
                     snack(
                       title: "Error",

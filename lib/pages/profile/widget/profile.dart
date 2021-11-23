@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/about/about.dart';
 import 'package:winly/pages/privacy/privacy_policy.dart';
-import 'package:winly/pages/profile/provider/profile_provider.dart';
 import 'package:winly/pages/profile/view/edit_profile.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
@@ -30,6 +28,9 @@ class _ProfileTabState extends State<ProfileTab> {
     super.initState();
     debugPrint("==== Profile =====");
     authController = Get.find<AuthController>();
+    // authController
+    //     ?.getUserProfile(authController!.token!)
+    //     .then((value) => null);
   }
 
   _heading(BuildContext context, User? user) {
@@ -178,24 +179,19 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCommonAppbar(),
-      body: GetBuilder<AuthController>(
-        init: authController,
-        builder: (controller) => SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Consumer(builder: (context, user, _) {
-              final profileChangeNotifier =
-                  user.watch(profileChangeNotifierProvider);
-              return Column(
-                children: [
-                  _heading(context, profileChangeNotifier.user),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _bodyPart(profileChangeNotifier.user),
-                ],
-              );
-            }),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Column(
+            children: [
+              Obx(() {
+                return _heading(context, authController?.mUserObx.value);
+              }),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => _bodyPart(authController?.mUserObx.value)),
+            ],
           ),
         ),
       ),

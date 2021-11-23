@@ -21,6 +21,7 @@ class _RootScreenState extends State<RootScreen> {
     if (SchedulerBinding.instance != null) {
       SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
         if (authController.loggedIn) {
+          authController.getUserProfile(authController.token!);
           Get.off(() => const BottomNavBar());
         } else {
           Get.off(() => const SignInScreen());
