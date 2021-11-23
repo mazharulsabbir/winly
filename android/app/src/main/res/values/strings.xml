@@ -3,4 +3,9 @@
     <string name="app_name">WinLy</string>
     <string name="facebook_app_id">580831236333194</string>
     <string name="fb_login_protocol_scheme">ab9a9baf9241fbcfb3e45d42313d18ed</string>
+    <string name="flutter_uploader_notification_started">Upload started</string>
+    <string name="flutter_uploader_notification_in_progress">Upload in progress</string>
+    <string name="flutter_uploader_notification_canceled">Upload canceled</string>
+    <string name="flutter_uploader_notification_failed">Upload failed</string>
+    <string name="flutter_uploader_notification_complete">Upload complete</string>
 </resources>

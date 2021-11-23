@@ -5,6 +5,7 @@ class User {
   String? email;
   String? phoneNumber;
   String? referralCode;
+  String? profileImage;
   int? referrals;
   int? isSuspended;
   DailyEarnings? earnings;
@@ -17,6 +18,7 @@ class User {
     this.email,
     this.phoneNumber,
     this.referralCode,
+    this.profileImage,
     this.referrals,
     this.earnings,
     this.membership,
@@ -30,6 +32,7 @@ class User {
     email = json['email'];
     phoneNumber = json['phone_number'];
     referralCode = json['referral_code'];
+    profileImage = json['profile_img'];
     referrals = json['referrals'];
     earnings = json['earnings'] != null
         ? DailyEarnings.fromJson(json['earnings'])
@@ -46,6 +49,7 @@ class User {
     data['email'] = email;
     data['phone_number'] = phoneNumber;
     data['referral_code'] = referralCode;
+    data['profile_img'] = profileImage;
     data['referrals'] = referrals;
     // if (this.dailyEarnings != null) {
     //   data['dailyEarnings'] = this.dailyEarnings!.toJson();

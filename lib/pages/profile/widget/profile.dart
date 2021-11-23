@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/about/about.dart';
 import 'package:winly/pages/privacy/privacy_policy.dart';
+import 'package:winly/pages/profile/provider/profile_provider.dart';
+import 'package:winly/pages/profile/view/edit_profile.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
@@ -30,35 +33,39 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   _heading(BuildContext context, User? user) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 25,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const CommonAvatar(
-            radius: 35,
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _nameTitle(user?.name, context: context),
-                    _username(user?.username, context),
-                  ],
-                ),
-              ],
+    return InkWell(
+      onTap: () => Get.to(() => const EditProfileScreen()),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CommonAvatar(
+              radius: 35,
+              avatarUrl: authController?.user?.profileImage,
             ),
-          ),
-        ],
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _nameTitle(user?.name, context: context),
+                      _username(user?.username, context),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -176,16 +183,19 @@ class _ProfileTabState extends State<ProfileTab> {
         builder: (controller) => SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 30),
-            child: Column(
-              children: [
-                _heading(context, controller.user),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Divider(),
-                _bodyPart(controller.user)
-              ],
-            ),
+            child: Consumer(builder: (context, user, _) {
+              final profileChangeNotifier =
+                  user.watch(profileChangeNotifierProvider);
+              return Column(
+                children: [
+                  _heading(context, profileChangeNotifier.user),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _bodyPart(profileChangeNotifier.user),
+                ],
+              );
+            }),
           ),
         ),
       ),

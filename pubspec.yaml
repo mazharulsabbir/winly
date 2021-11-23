@@ -44,6 +44,9 @@ dependencies:
   sharedpreference: ^0.0.1
   introduction_screen: ^2.1.0
 
+  # state management
+  flutter_riverpod: ^1.0.0
+
   # youtube video player from video link
   youtube_player_flutter: ^8.0.0
 
@@ -64,6 +67,15 @@ dependencies:
 
   flutter_facebook_auth: "^3.5.0"
   google_sign_in: ^5.2.1
+
+  # upload files in background
+  flutter_uploader: ^3.0.0-beta.3
+
+  # permissions hanlder
+  permission_handler: ^8.3.0
+
+  # image picker
+  image_picker: ^0.8.4+4
   
 
 dev_dependencies:

@@ -22,11 +22,6 @@ class AuthController extends GetxController {
   AuthController() {
     user = AuthDBService.getUser();
     token = AuthDBService.getToken();
-
-    if (token != null) {
-      getUserProfile(token!);
-    }
-
     if (token != null && user != null) {
       // print('token: $token');
       loggedIn = true;
@@ -85,7 +80,6 @@ class AuthController extends GetxController {
 
       if (response != null) {
         final data = jsonDecode(response.body);
-        print(data);
         if (data['error'] == null) {
           snack(
               title: 'Success',

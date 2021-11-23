@@ -162,7 +162,7 @@ class AuthAPI {
       String _body = convert.jsonEncode({
         'name': name,
         'email': email,
-        'phone_number': phoneNumber,
+        'phone': phoneNumber,
       });
 
       final response = await http.post(Uri.parse(_url), body: _body, headers: {
