@@ -22,22 +22,24 @@ class Tournaments {
 }
 
 class Tournament {
-  final int id;
-  final String title;
-  final String description;
-  final String rules;
-  final String points;
-  final String bannerImg;
-  final String gameName;
-  final String totalSeats;
-  final String requireTickets;
-  final String status;
-  final String deadline;
-  final int players;
-  final List<ProfileImage> photos;
-  final List<Positions> positions;
-  final String createdAt;
-  final String updatedAt;
+  int? id;
+  String? title;
+  String? description;
+  String? rules;
+  String? points;
+  String? bannerImg;
+  String? gameName;
+  String? gameType;
+  String? totalSeats;
+  String? requireTickets;
+  String? status;
+  String? deadline;
+  String? createdAt;
+  String? updatedAt;
+  int? players;
+  List<ProfileImage>? photos;
+  List<Positions>? positions;
+  int? field;
 
   Tournament({
     required this.id,
@@ -47,63 +49,80 @@ class Tournament {
     required this.points,
     required this.bannerImg,
     required this.gameName,
+    required this.gameType,
     required this.totalSeats,
     required this.requireTickets,
     required this.status,
     required this.deadline,
+    required this.createdAt,
+    required this.updatedAt,
     required this.players,
     required this.photos,
     required this.positions,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.field,
   });
 
-  Tournament.fromJson(dynamic json)
-      : id = json['id'] as int,
-        title = json['title'] as String,
-        description = json['description'] as String,
-        rules = json['rules'] as String,
-        points = json['points'] as String,
-        bannerImg = json['banner_img'] as String,
-        gameName = json['game_name'] as String,
-        totalSeats = json['total_seats'] as String,
-        requireTickets = json['require_tickets'] as String,
-        status = json['status'] as String,
-        deadline = json['deadline'] as String,
-        players = json['players'] as int,
-        photos = (json['photos'] as List<dynamic>)
-            .map((e) => ProfileImage.fromJson(e))
-            .toList(),
-        positions = (json['positions'] as List<dynamic>)
-            .map((e) => Positions.fromJson(e))
-            .toList(),
-        createdAt = json['created_at'] as String,
-        updatedAt = json['updated_at'] as String;
+  Tournament.fromJson(dynamic json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    rules = json['rules'];
+    points = json['points'];
+    bannerImg = json['banner_img'];
+    gameName = json['game_name'];
+    gameType = json['game_type'];
+    totalSeats = json['total_seats'];
+    requireTickets = json['require_tickets'];
+    status = json['status'];
+    deadline = json['deadline'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    players = json['players'];
+    photos = [];
+    if (json['photos'] != null) {
+      json['photos'].forEach((v) {
+        photos?.add(ProfileImage.fromJson(v));
+      });
+    }
+    positions = [];
+    if (json['positions'] != null) {
+      json['positions'].forEach((v) {
+        positions?.add(Positions.fromJson(v));
+      });
+    }
+    field = json['field'];
+  }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'title': title,
-      'description': description,
-      'rules': rules,
-      'points': points,
-      'banner_img': bannerImg,
-      'game_name': gameName,
-      'total_seats': totalSeats,
-      'require_tickets': requireTickets,
-      'status': status,
-      'deadline': deadline,
-      'players': players,
-      'photos': photos,
-      'positions': positions,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['description'] = description;
+    data['rules'] = rules;
+    data['points'] = points;
+    data['banner_img'] = bannerImg;
+    data['game_name'] = gameName;
+    data['game_type'] = gameType;
+    data['total_seats'] = totalSeats;
+    data['require_tickets'] = requireTickets;
+    data['status'] = status;
+    data['deadline'] = deadline;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['players'] = players;
+    if (photos != null) {
+      data['photos'] = photos?.map((v) => v.toJson()).toList();
+    }
+    if (positions != null) {
+      data['positions'] = positions?.map((v) => v.toJson()).toList();
+    }
+    data['field'] = field;
+    return data;
   }
 
   @override
   String toString() {
-    return 'Tournament{id: $id, title: $title, description: $description, rules: $rules, points: $points, bannerImg: $bannerImg, gameName: $gameName, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, players: $players, photos: $photos, positions: $positions, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'Tournament(id: $id, title: $title, description: $description, rules: $rules, points: $points, bannerImg: $bannerImg, gameName: $gameName, gameType: $gameType, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, createdAt: $createdAt, updatedAt: $updatedAt, players: $players, photos: $photos, positions: $positions, field: $field)';
   }
 }
 

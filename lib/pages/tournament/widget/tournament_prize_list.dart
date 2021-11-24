@@ -10,7 +10,7 @@ class TournamentPrizePositionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: tournament?.positions.length ?? 0,
+      itemCount: tournament?.positions?.length ?? 0,
       itemBuilder: (context, index) {
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -23,14 +23,14 @@ class TournamentPrizePositionsWidget extends StatelessWidget {
               child: Icon(PhosphorIcons.trophy),
             ),
             title: Text(
-              '${tournament?.positions[index].amount}',
+              '${tournament?.positions?[index].amount}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              '${tournament?.positions[index].position}',
+              '${tournament?.positions?[index].position}',
               style: const TextStyle(
                 fontSize: 16,
               ),

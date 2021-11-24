@@ -30,7 +30,7 @@ class TournamentParticipation extends StatelessWidget {
                       horizontal: 10,
                       vertical: 4,
                     ),
-                    child: _image(tournament?.photos.first),
+                    child: _image(tournament?.photos?.first),
                   ),
                 ),
                 Positioned(
@@ -40,7 +40,7 @@ class TournamentParticipation extends StatelessWidget {
                       horizontal: 10,
                       vertical: 4,
                     ),
-                    child: _image(tournament?.photos.last),
+                    child: _image(tournament?.photos?.last),
                   ),
                 ),
                 Positioned(

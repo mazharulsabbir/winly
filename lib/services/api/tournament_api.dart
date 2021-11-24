@@ -15,12 +15,14 @@ class TournamentAPI {
   static Future<dynamic> joinTournament(
     dynamic tournamentId,
     dynamic gameName,
+    dynamic gameIds,
     String? token,
   ) async {
+    print("${{"game_name": gameName, "game_id": gameIds}}");
     try {
       final _response = await ApiService.post(
         "api/join-tournament/$tournamentId",
-        body: {"game_name": gameName, "game_id": tournamentId.toString()},
+        body: {"game_name": gameName, "game_id": gameIds},
         token: token,
       );
 
