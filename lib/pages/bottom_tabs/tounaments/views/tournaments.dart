@@ -43,7 +43,7 @@ class Tournaments extends StatelessWidget {
                             'Live'.toUpperCase() + " (${_liveEvents?.length})",
                       ),
                       Tab(
-                        text: 'Complited'.toUpperCase() +
+                        text: 'Completed'.toUpperCase() +
                             " (${_completedEvents?.length})",
                       )
                     ],

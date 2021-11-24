@@ -59,6 +59,32 @@ class User {
     return data;
   }
 
+  User.copyWith({
+    int? id,
+    String? name,
+    String? username,
+    String? email,
+    String? phoneNumber,
+    String? referralCode,
+    String? profileImage,
+    int? referrals,
+    DailyEarnings? earnings,
+    dynamic membership,
+    String? isSuspended,
+  }) {
+    this.id = id ?? this.id;
+    this.name = name ?? this.name;
+    this.username = username ?? this.username;
+    this.email = email ?? this.email;
+    this.phoneNumber = phoneNumber ?? this.phoneNumber;
+    this.referralCode = referralCode ?? this.referralCode;
+    this.profileImage = profileImage ?? this.profileImage;
+    this.referrals = referrals ?? this.referrals;
+    this.earnings = earnings ?? this.earnings;
+    this.membership = membership ?? this.membership;
+    this.isSuspended = isSuspended ?? this.isSuspended;
+  }
+
   @override
   String toString() {
     return 'User{id: $id, name: $name, username: $username, email: $email, phoneNumber: $phoneNumber, referralCode: $referralCode, profileImage: $profileImage, referrals: $referrals, earnings: $earnings, membership: $membership, isSuspended: $isSuspended}';
@@ -88,6 +114,16 @@ class DailyEarnings {
     data['total_balance'] = totalBalance;
     data['refer_balance'] = totalReferBalance;
     return data;
+  }
+
+  DailyEarnings.copyWith({
+    String? totalTickets,
+    String? totalBalance,
+    String? totalReferBalance,
+  }) {
+    this.totalTickets = totalTickets ?? this.totalTickets;
+    this.totalBalance = totalBalance ?? this.totalBalance;
+    this.totalReferBalance = totalReferBalance ?? this.totalReferBalance;
   }
 
   @override

@@ -17,13 +17,17 @@ class FqaItemWidget extends StatelessWidget {
 
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           color: Colors.grey.withOpacity(0.3),
         ),
         child: ListTile(
           title: Text("${_faq.question}"),
-          subtitle: Text("${_faq.ans}"),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text("${_faq.ans}"),
+          ),
           leading: const CircleAvatar(child: Icon(Icons.question_answer)),
           onTap: () {},
         ),

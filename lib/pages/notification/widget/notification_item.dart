@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:winly/models/notice/notice.dart';
 
 class NotificationItem extends StatelessWidget {
-  const NotificationItem({Key? key}) : super(key: key);
-
-  final String subtitle =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.";
+  final Notice? notice;
+  const NotificationItem({Key? key, this.notice}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +14,12 @@ class NotificationItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: ListTile(
-        title: const Text('Lorem Ipsum is simply dummy text of the printing'),
+        title: Text("${notice?.title}"),
         isThreeLine: true,
         subtitle: Padding(
-          padding: const EdgeInsets.only(top:8.0),
+          padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            subtitle,
+            "${notice?.details}",
             maxLines: 3,
             overflow: TextOverflow.fade,
           ),

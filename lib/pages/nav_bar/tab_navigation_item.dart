@@ -17,7 +17,7 @@ class TabNavigationItem {
 
   static List<TabNavigationItem> items = [
     TabNavigationItem(
-      title: 'Tournaments ',
+      title: 'Tournaments',
       icon: PhosphorIcons.game_controller,
       page: const Tournaments(),
       index: 0,
@@ -29,7 +29,7 @@ class TabNavigationItem {
       icon: PhosphorIcons.ticket,
     ),
     TabNavigationItem(
-      title: 'FQA',
+      title: 'FAQ',
       icon: PhosphorIcons.question,
       page: const FQATab(),
       index: 2,

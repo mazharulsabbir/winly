@@ -27,7 +27,7 @@ class OneSignalController extends GetxController {
       // result.notification.rawPayload;
       debugPrint('Notification pressed');
 
-      Get.to(() => const NotificationScreen());
+      Get.to(() => NotificationScreen());
     });
 
     OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {

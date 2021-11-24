@@ -20,7 +20,7 @@ PreferredSizeWidget buildCommonAppbar(
         ),
         actions: [
           IconButton(
-            onPressed: () => Get.to(() => const NotificationScreen()),
+            onPressed: () => Get.to(() => NotificationScreen()),
             icon: const Icon(PhosphorIcons.bell),
           )
         ],

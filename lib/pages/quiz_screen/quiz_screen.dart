@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:winly/globals/configs/facebook_audience.dart';
 import 'package:winly/globals/configs/strings.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/models/quizz.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:facebook_audience_network/facebook_audience_network.dart';
-import 'package:winly/pages/profile/provider/profile_provider.dart';
 import 'package:winly/services/api/ad.dart';
 
 class QuizeScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class QuizeScreen extends StatefulWidget {
 
 class _QuizeScreenState extends State<QuizeScreen> {
   final List<QuizzQuestion> dummyQestion = quizzQuestions;
-  final AuthController authController = AuthController();
+  final AuthController authController = Get.find<AuthController>();
 
   int selectedIndex = 0;
   int _questionIndex = 0;
@@ -118,38 +117,34 @@ class _QuizeScreenState extends State<QuizeScreen> {
   }
 
   button() {
-    return Consumer(builder: (context, user, _) {
-      return ElevatedButton(
-        onPressed: () async {
-          if (_isInterstitialAdLoaded) {
-            DailyEarnings? _earnings = await _showInterstitialAd();
-            user
-                .read(profileChangeNotifierProvider)
-                .updateUserEarnings(_earnings);
-          } else {
-            debugPrint('Ad is not loaded');
-          }
+    return ElevatedButton(
+      onPressed: () async {
+        if (_isInterstitialAdLoaded) {
+          DailyEarnings? _earnings = await _showInterstitialAd();
+          authController.updateUser(_earnings);
+        } else {
+          debugPrint('Ad is not loaded');
+        }
 
-          setState(() {
-            selectedIndex = 0;
-            if (_questionIndex == dummyQestion.length - 1) {
-              _questionIndex = 0;
-            } else {
-              _questionIndex++;
-            }
-          });
-        },
-        child: const Text('Next'),
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(200, 50),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
+        setState(() {
+          selectedIndex = 0;
+          if (_questionIndex == dummyQestion.length - 1) {
+            _questionIndex = 0;
+          } else {
+            _questionIndex++;
+          }
+        });
+      },
+      child: const Text('Next'),
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(200, 50),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 
   @override

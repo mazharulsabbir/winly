@@ -21,6 +21,7 @@ class PrivacyPolicy extends StatelessWidget {
               leading: const CommonLeading(),
             ),
             body: ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               itemCount: controller.privacyPolicy.length,
               itemBuilder: (context, index) => CommonListTile(
                 title: "${controller.privacyPolicy[index].title}",

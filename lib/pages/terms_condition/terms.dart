@@ -21,6 +21,7 @@ class TermsAndCondition extends StatelessWidget {
               leading: const CommonLeading(),
             ),
             body: ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               itemCount: controller.termsAndCondition.length,
               itemBuilder: (context, index) => CommonListTile(
                 title: "${controller.termsAndCondition[index].title}",

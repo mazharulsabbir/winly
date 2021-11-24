@@ -63,6 +63,11 @@ class AuthDBService {
     }
   }
 
-  static void updateEarningStatus(DailyEarnings dailyEarnings) =>
-      _box.write('dailyEarnings', jsonEncode(dailyEarnings.toJson()));
+  static void updateEarningStatus(DailyEarnings? dailyEarnings) {
+    if (dailyEarnings != null) {
+      User? _user = getUser();
+      _user?.earnings = dailyEarnings;
+      _box.write('user', jsonEncode(_user?.toJson()));
+    }
+  }
 }

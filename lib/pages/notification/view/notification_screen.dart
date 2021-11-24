@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:winly/globals/controllers/notification_controller.dart';
 import 'package:winly/pages/notification/widget/notification_item.dart';
 import 'package:winly/widgets/common_leading.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  NotificationScreen({Key? key}) : super(key: key);
+
+  final NotificationController notificationController =
+      Get.find<NotificationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +17,14 @@ class NotificationScreen extends StatelessWidget {
         title: const Text('Notification'),
         leading: const CommonLeading(),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        itemBuilder: (context, index) => const NotificationItem(),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: notificationController.notifications.length,
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          itemBuilder: (context, index) => NotificationItem(
+            notice: notificationController.notifications[index],
+          ),
+        ),
       ),
     );
   }

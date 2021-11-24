@@ -44,9 +44,6 @@ dependencies:
   sharedpreference: ^0.0.1
   introduction_screen: ^2.1.0
 
-  # state management
-  flutter_riverpod: ^1.0.0
-
   # youtube video player from video link
   youtube_player_flutter: ^8.0.0
 

@@ -22,6 +22,7 @@ class AboutApp extends StatelessWidget {
               leading: const CommonLeading(),
             ),
             body: ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               itemCount: controller.about.length,
               itemBuilder: (context, index) => CommonListTile(
                 title: "${controller.about[index].title}",

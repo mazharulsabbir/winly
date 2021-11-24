@@ -26,11 +26,7 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   void initState() {
     super.initState();
-    debugPrint("==== Profile =====");
     authController = Get.find<AuthController>();
-    // authController
-    //     ?.getUserProfile(authController!.token!)
-    //     .then((value) => null);
   }
 
   _heading(BuildContext context, User? user) {
@@ -93,7 +89,9 @@ class _ProfileTabState extends State<ProfileTab> {
           leading: defaultLeadingStyle(PhosphorIcons.ticket, Colors.teal),
           title: const Text('Total tickets'),
           trailing: Text('${user?.earnings?.totalTickets ?? 0}'),
-          onTap: () {},
+          onTap: () {
+            authController?.updateUser(user!.earnings);
+          },
         ),
         const Divider(),
         ListTile(

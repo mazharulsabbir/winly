@@ -2,13 +2,11 @@ import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:winly/globals/configs/themes.dart';
-import 'package:winly/globals/logger.dart';
 import 'package:winly/pages/wrapper.dart';
 
 import 'globals/bindings.dart';
@@ -26,7 +24,7 @@ void main() async {
   } else {
     FacebookAudienceNetwork.init();
   }
-  runApp(ProviderScope(observers: [Logger()], child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
