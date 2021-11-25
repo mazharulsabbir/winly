@@ -59,7 +59,7 @@ class User {
     return data;
   }
 
-  User.copyWith({
+  User copyWith({
     int? id,
     String? name,
     String? username,
@@ -68,21 +68,23 @@ class User {
     String? referralCode,
     String? profileImage,
     int? referrals,
+    String? isSuspended,
     DailyEarnings? earnings,
     dynamic membership,
-    String? isSuspended,
   }) {
-    this.id = id ?? this.id;
-    this.name = name ?? this.name;
-    this.username = username ?? this.username;
-    this.email = email ?? this.email;
-    this.phoneNumber = phoneNumber ?? this.phoneNumber;
-    this.referralCode = referralCode ?? this.referralCode;
-    this.profileImage = profileImage ?? this.profileImage;
-    this.referrals = referrals ?? this.referrals;
-    this.earnings = earnings ?? this.earnings;
-    this.membership = membership ?? this.membership;
-    this.isSuspended = isSuspended ?? this.isSuspended;
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      referralCode: referralCode ?? this.referralCode,
+      profileImage: profileImage ?? this.profileImage,
+      referrals: referrals ?? this.referrals,
+      isSuspended: isSuspended ?? this.isSuspended,
+      earnings: earnings ?? this.earnings,
+      membership: membership ?? this.membership,
+    );
   }
 
   @override
@@ -116,14 +118,16 @@ class DailyEarnings {
     return data;
   }
 
-  DailyEarnings.copyWith({
+  DailyEarnings copyWith({
     String? totalTickets,
     String? totalBalance,
     String? totalReferBalance,
   }) {
-    this.totalTickets = totalTickets ?? this.totalTickets;
-    this.totalBalance = totalBalance ?? this.totalBalance;
-    this.totalReferBalance = totalReferBalance ?? this.totalReferBalance;
+    return DailyEarnings(
+      totalTickets: totalTickets ?? this.totalTickets,
+      totalBalance: totalBalance ?? this.totalBalance,
+      totalReferBalance: totalReferBalance ?? this.totalReferBalance,
+    );
   }
 
   @override

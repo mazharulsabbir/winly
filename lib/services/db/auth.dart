@@ -39,6 +39,12 @@ class AuthDBService {
     }
   }
 
+  static updateUserProfile(User? user) {
+    if (user != null) {
+      _box.write('user', jsonEncode(user.toJson()));
+    }
+  }
+
   static setUserEarning(DailyEarnings dailyEarnings) {
     _box.write('dailyEarnings', dailyEarnings.toJson());
   }

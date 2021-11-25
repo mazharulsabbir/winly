@@ -149,9 +149,9 @@ class AuthAPI {
 
   static Future<http.Response?> updateProfile({
     String? token,
-    required String name,
-    required String email,
-    required String phoneNumber,
+    required String? name,
+    required String? email,
+    required String? phoneNumber,
   }) async {
     try {
       final _url = urlBuilder('api/user');
@@ -159,17 +159,21 @@ class AuthAPI {
         return Future.error('Unauthorized!');
       }
 
-      String _body = convert.jsonEncode({
-        'name': name,
-        'email': email,
-        'phone': phoneNumber,
-      });
+      Map<String, dynamic> _body = {};
 
-      final response = await http.post(Uri.parse(_url), body: _body, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      });
+      if (name != null) _body['name'] = name;
+      if (email != null) _body['email'] = email;
+      if (phoneNumber != null) _body['phone_number'] = phoneNumber;
+
+      final response = await http.post(
+        Uri.parse(_url),
+        body: convert.jsonEncode(_body),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
       return Future.value(response);
     } on SocketException catch (_) {

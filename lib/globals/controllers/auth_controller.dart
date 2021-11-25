@@ -81,6 +81,14 @@ class AuthController extends GetxController {
     }
   }
 
+  void updateUserProfile(User? user) {
+    if (user != null) {
+      AuthDBService.updateUserProfile(user);
+      this.user = user;
+      mUserObx.value = user;
+    }
+  }
+
   Future<void> logIn(User user, String token) async {
     AuthDBService.setUser(token: token, user: user);
     // AuthDBService.setUserEarning();

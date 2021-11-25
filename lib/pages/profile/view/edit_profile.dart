@@ -11,6 +11,7 @@ import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
+import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/api/url.dart';
@@ -62,6 +63,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       decoration: TextFieldHelpers.decoration(
         label: 'Name',
       ),
+      textCapitalization: TextCapitalization.words,
       validator: _nameValidator,
       controller: nameController,
       onSaved: (value) {
@@ -130,11 +132,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             right: 0,
             child: IconButton(
               onPressed: () async {
-                var status = await Permission.camera.status;
-                if (status != PermissionStatus.granted) {
-                  final _request = await Permission.camera.request();
-                  if (_request == PermissionStatus.granted) {
-                    _pickImage();
+                debugPrint("=== update profile picture ===");
+                var cameraPermissionResult = await Permission.camera.status;
+                var storagePermissionResult = await Permission.storage.status;
+
+                if (cameraPermissionResult == PermissionStatus.granted &&
+                    storagePermissionResult == PermissionStatus.granted) {
+                  _pickImage();
+                } else {
+                  if (cameraPermissionResult != PermissionStatus.granted) {
+                    await Permission.camera.request();
+                  }
+
+                  if (storagePermissionResult != PermissionStatus.granted) {
+                    await Permission.storage.request();
                   }
                 }
               },
@@ -156,69 +167,68 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         onPressed: () async {
           if (_formKey.currentState != null) {
             _formKey.currentState!.save();
-            if (_formKey.currentState!.validate()) {
-              setState(() => _isLoading = true);
-              try {
-                final response = await AuthAPI.updateProfile(
-                    token: authController.token,
-                    name: nameController.text,
-                    email: emailController.text,
-                    phoneNumber: phoneNumberController.text);
-                if (response != null) {
+            setState(() => _isLoading = true);
+            try {
+              final response = await AuthAPI.updateProfile(
+                token: authController.token,
+                name: nameController.text,
+                email: emailController.text,
+                phoneNumber: phoneNumberController.text,
+              );
+              if (response != null) {
+                final data = jsonDecode(response.body);
+                if (response.statusCode == 200) {
+                  snack(
+                    title: "Success",
+                    desc: data['message'],
+                    icon: const Icon(Icons.done, color: Colors.green),
+                  );
+                  authController.getUserProfile(authController.token!);
+                } else if (response.statusCode == 401) {
+                  snack(
+                    title: "Error",
+                    desc: data['error'],
+                    icon: const Icon(Icons.error, color: Colors.red),
+                  );
+                } else if (response.statusCode == 422) {
                   final data = jsonDecode(response.body);
-                  if (response.statusCode == 200) {
-                    snack(
-                      title: "Success",
-                      desc: data['message'],
-                      icon: const Icon(Icons.done, color: Colors.green),
-                    );
-                    authController.getUserProfile(authController.token!);
-                  } else if (response.statusCode == 401) {
-                    snack(
-                      title: "Error",
-                      desc: data['error'],
-                      icon: const Icon(Icons.error, color: Colors.red),
-                    );
-                  } else if (response.statusCode == 422) {
-                    final data = jsonDecode(response.body);
-                    dynamic _emailError = data['errors']['email'];
-                    dynamic _phoneNumberError = data['errors']['phone_number'];
-                    dynamic _usernameError = data['errors']['username'];
+                  dynamic _emailError = data['errors']['email'];
+                  dynamic _phoneNumberError = data['errors']['phone_number'];
+                  dynamic _usernameError = data['errors']['username'];
 
-                    String _errorMessage = data['message'];
+                  String _errorMessage = data['message'];
 
-                    try {
-                      if (_emailError != null) {
-                        _errorMessage += " ${_emailError[0]}";
-                      }
-
-                      if (_phoneNumberError != null) {
-                        _errorMessage += " ${_phoneNumberError[0]}";
-                      }
-
-                      if (_usernameError != null) {
-                        _errorMessage += " ${_usernameError[0]}";
-                      }
-                    } catch (e) {
-                      log(e.toString());
+                  try {
+                    if (_emailError != null) {
+                      _errorMessage += " ${_emailError[0]}";
                     }
 
-                    snack(
-                      title: "Error",
-                      desc: _errorMessage,
-                      icon: const Icon(Icons.error, color: Colors.red),
-                    );
+                    if (_phoneNumberError != null) {
+                      _errorMessage += " ${_phoneNumberError[0]}";
+                    }
+
+                    if (_usernameError != null) {
+                      _errorMessage += " ${_usernameError[0]}";
+                    }
+                  } catch (e) {
+                    log(e.toString());
                   }
+
+                  snack(
+                    title: "Error",
+                    desc: _errorMessage,
+                    icon: const Icon(Icons.error, color: Colors.red),
+                  );
                 }
-                setState(() => _isLoading = false);
-              } catch (_) {
-                setState(() => _isLoading = false);
-                snack(
-                  title: "Error",
-                  desc: "Something went wrong",
-                  icon: const Icon(Icons.error, color: Colors.red),
-                );
               }
+              setState(() => _isLoading = false);
+            } catch (_) {
+              setState(() => _isLoading = false);
+              snack(
+                title: "Error",
+                desc: "Something went wrong",
+                icon: const Icon(Icons.error, color: Colors.red),
+              );
             }
           }
         },
@@ -302,7 +312,7 @@ void _pickImage() async {
     ),
   );
 
-  snack(title: 'Result', desc: '$response', icon: const Icon(Icons.image));
+  handleResponse(response);
 
   // final uploader = FlutterUploader();
   // String _url = ApiService.baseUrl + "api/user";
@@ -340,4 +350,48 @@ void _pickImage() async {
 
   // final _taskId = await uploader.enqueue(_upload);
   // debugPrint("Task Id: $_taskId");
+}
+
+void handleResponse(response) {
+  final AuthController authController = Get.find<AuthController>();
+
+  if (response.statusCode == 200) {
+    final data = response.data;
+    if (data['user'] != null) {
+      User? _user = authController.user;
+      _user?.copyWith(
+        profileImage: data['user']['profile_image'],
+        name: data['user']['name'],
+        email: data['user']['email'],
+        phoneNumber: data['user']['phone'],
+      );
+
+      authController.updateUserProfile(_user);
+      snack(
+        title: 'Result',
+        desc: '${response.data['message']}',
+        icon: const Icon(Icons.done),
+      );
+    } else {
+      snack(
+        title: 'Failed!',
+        desc: '${response.data['message']}',
+        icon: const Icon(Icons.error),
+      );
+    }
+  } else {
+    String errorMessageBuilder = "";
+
+    Map<String, dynamic> errors = response.data['errors'];
+
+    errors.forEach((index, value) {
+      errorMessageBuilder += '$value\n';
+    });
+
+    snack(
+      title: response.data['message'],
+      desc: errorMessageBuilder,
+      icon: const Icon(Icons.error, color: Colors.red),
+    );
+  }
 }
