@@ -54,9 +54,9 @@ class TournamentDetail extends StatelessWidget {
                   delegate: _SliverAppBarDelegate(
                     TabBar(
                       indicatorSize: TabBarIndicatorSize.label,
-                      unselectedLabelColor: Colors.teal,
-                      indicatorColor: Colors.amber,
-                      labelColor: Colors.amber,
+                      unselectedLabelColor: Colors.white.withOpacity(0.7),
+                      indicatorColor: Colors.white,
+                      labelColor: Colors.white,
                       isScrollable: true,
                       tabs: [
                         const Tab(text: "About"),
@@ -114,8 +114,14 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(child: _tabBar);
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      child: _tabBar,
+      decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+    );
   }
 
   @override

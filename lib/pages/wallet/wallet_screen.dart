@@ -93,7 +93,7 @@ class _WalletScreenState extends State<WalletScreen> {
             height: 5,
             width: 20,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: Colors.grey.withOpacity(0.3),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
