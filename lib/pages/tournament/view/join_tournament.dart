@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/services/api/tournament_api.dart';
 import 'package:winly/widgets/common_leading.dart';
 

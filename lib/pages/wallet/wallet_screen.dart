@@ -93,7 +93,9 @@ class _WalletScreenState extends State<WalletScreen> {
             height: 5,
             width: 20,
             decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
           const SizedBox(
             height: 20,
@@ -143,7 +145,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   height: 10,
                 ),
                 Text(
-                  '\$${authController.user?.earnings?.totalBalance ?? 0}',
+                  '৳ ${authController.user?.earnings?.totalBalance ?? 0}',
                   style: Theme.of(context).textTheme.headline4!
                   // .copyWith(color: Colors.black)
                   ,

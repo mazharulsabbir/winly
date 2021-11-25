@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
-import 'package:winly/globals/controllers/auth_controller.dart';
-import 'package:winly/helpers/snack.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/view/join_tournament.dart';
-import 'package:winly/services/api/tournament_api.dart';
 
 class TournamentParticipation extends StatelessWidget {
   final Tournament? tournament;
@@ -67,35 +64,56 @@ class TournamentParticipation extends StatelessWidget {
             const Text('Participants')
           ],
         ),
-        GestureDetector(
-          onTap: () => Get.to(() => JoinTournament(tournament: tournament)),
-          child: Container(
+        _joiningButton(tournament?.joinStatus, isTournamentDetails),
+      ],
+    );
+  }
+
+  Widget _joiningButton(bool? isJoined, bool isTournamentDetails) {
+    return isJoined == true
+        ? Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 10,
-              vertical: 4,
+              vertical: 8,
             ),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.greenAccent.withOpacity(0.5),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: isTournamentDetails
-                ? const Padding(
-                    padding: EdgeInsets.all(6),
-                    child: Text('JOIN'),
-                  )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(PhosphorIcons.ticket),
-                      const SizedBox(width: 5),
-                      Text('${tournament?.requireTickets}')
-                    ],
-                  ),
-          ),
-        )
-      ],
-    );
+            child: const Text('JOINED'),
+          )
+        : GestureDetector(
+            onTap: () => Get.to(() => JoinTournament(tournament: tournament)),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 4,
+              ),
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: _joiningButtonStatus(isTournamentDetails),
+            ),
+          );
+  }
+
+  Widget _joiningButtonStatus(isTournamentDetails) {
+    return isTournamentDetails
+        ? const Padding(
+            padding: EdgeInsets.all(6),
+            child: Text('JOIN'),
+          )
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(PhosphorIcons.ticket),
+              const SizedBox(width: 5),
+              Text('${tournament?.requireTickets}')
+            ],
+          );
   }
 
   Widget _image(ProfileImage? image) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/widget/tournament_prize_list.dart';
 import 'package:winly/services/api/api_service.dart';
 
@@ -72,10 +72,10 @@ class TournamentBannerStack extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Icon(PhosphorIcons.trophy),
-                    SizedBox(width: 5),
-                    Text('\$ 7873245'),
+                  children: [
+                    const Icon(PhosphorIcons.trophy),
+                    const SizedBox(width: 5),
+                    _buildPriceTextWidget(tournament?.positions),
                   ],
                 ),
               ),
@@ -100,6 +100,20 @@ class TournamentBannerStack extends StatelessWidget {
         //   ),
         // )
       ],
+    );
+  }
+}
+
+Widget _buildPriceTextWidget(List<Positions>? positions) {
+  if (positions != null && positions.isNotEmpty) {
+    return Text(
+      '৳ ${positions.first.amount}',
+      style: const TextStyle(fontSize: 18),
+    );
+  } else {
+    return const Text(
+      '৳ 0',
+      style: TextStyle(fontSize: 18),
     );
   }
 }

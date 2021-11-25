@@ -38,7 +38,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
   final InputDecoration _inputDecoration = const InputDecoration(
     focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
     enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-    hintText: "\$0",
+    hintText: "৳ 0",
   );
 
   amountField() {
@@ -67,8 +67,8 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
 
     return TextFormField(
       decoration: TextFieldHelpers.decoration(
-        label: 'Phone number',
-        hint: "01234567891",
+        label: 'Account Number',
+        hint: "01xxxxxxxx",
       ),
       keyboardType: TextInputType.number,
       validator: phoneValidator,
@@ -108,7 +108,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                     trailing: selectedIndex == index
                         ? Container(
                             decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.blue),
+                              shape: BoxShape.circle,
+                              color: Colors.blue,
+                            ),
                             height: 20,
                             width: 20,
                             child: const Icon(
@@ -118,9 +120,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                           )
                         : Container(
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.blue, width: 3)),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.blue, width: 3),
+                            ),
                             height: 20,
                             width: 20,
                           ),
@@ -208,8 +210,6 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
       onPressed: () async {
         if (_formKey.currentState != null) {
           if (_formKey.currentState!.validate()) {
-            debugPrint(
-                'amount${amountController.text} phone number ${phoneNumberController.text} and selected Methode ${PaymentmentMathodModel.paymentList[selectedIndex].tittle}');
             await sendWithDrawRequest();
           }
         }
@@ -256,7 +256,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                         ),
                         const Text('Balance: '),
                         Text(
-                          '\$ ${authController.user?.earnings?.totalBalance ?? 0}',
+                          '৳ ${authController.user?.earnings?.totalBalance ?? 0}',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1!
@@ -268,12 +268,12 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                   const SizedBox(
                     height: 50,
                   ),
+                  paymentSelectionPart(),
+                  const SizedBox(height: 20),
                   _phoneNumber(),
                   const SizedBox(
                     height: 20,
                   ),
-                  paymentSelectionPart(),
-                  const SizedBox(height: 20),
                   withDrawButton()
                 ],
               ),

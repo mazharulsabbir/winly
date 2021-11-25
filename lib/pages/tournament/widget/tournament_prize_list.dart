@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/models/tournament/tournament.dart';
 
 class TournamentPrizePositionsWidget extends StatelessWidget {
   final Tournament? tournament;

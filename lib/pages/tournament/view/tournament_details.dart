@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/widget/tournament_info.dart';
+import 'package:winly/pages/tournament/widget/tournament_joined_players.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 
 class TournamentDetail extends StatelessWidget {
@@ -13,7 +14,7 @@ class TournamentDetail extends StatelessWidget {
       loading: false,
       child: Scaffold(
         body: DefaultTabController(
-          length: 3,
+          length: tournament?.joinStatus == true ? 4 : 3,
           child: NestedScrollView(
             headerSliverBuilder: (
               BuildContext context,
@@ -51,15 +52,18 @@ class TournamentDetail extends StatelessWidget {
                 ),
                 SliverPersistentHeader(
                   delegate: _SliverAppBarDelegate(
-                    const TabBar(
+                    TabBar(
                       indicatorSize: TabBarIndicatorSize.label,
                       unselectedLabelColor: Colors.teal,
                       indicatorColor: Colors.amber,
                       labelColor: Colors.amber,
+                      isScrollable: true,
                       tabs: [
-                        Tab(text: "About"),
-                        Tab(text: "Rules"),
-                        Tab(text: "Point System"),
+                        const Tab(text: "About"),
+                        const Tab(text: "Rules"),
+                        const Tab(text: "Point System"),
+                        if (tournament?.joinStatus == true)
+                          const Tab(text: "Players"),
                       ],
                     ),
                   ),
@@ -89,6 +93,7 @@ class TournamentDetail extends StatelessWidget {
                   textAlign: TextAlign.justify,
                 ),
               ),
+              if (tournament?.joinStatus == true) TournamentJoinedPlayers()
             ]),
           ),
         ),

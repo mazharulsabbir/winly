@@ -73,7 +73,7 @@ class _ProfileTabState extends State<ProfileTab> {
         ListTile(
           leading: defaultLeadingStyle(Icons.wallet_giftcard, Colors.green),
           title: const Text('Wallet'),
-          trailing: Text('\$${user?.earnings?.totalBalance ?? 0}'),
+          trailing: Text('৳ ${user?.earnings?.totalBalance ?? 0}'),
           onTap: () {
             Get.to(() => const WalletScreen());
           },

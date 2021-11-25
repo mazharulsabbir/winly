@@ -40,6 +40,7 @@ class Tournament {
   List<ProfileImage>? photos;
   List<Positions>? positions;
   int? field;
+  bool? joinStatus;
 
   Tournament({
     required this.id,
@@ -60,6 +61,7 @@ class Tournament {
     required this.photos,
     required this.positions,
     required this.field,
+    required this.joinStatus,
   });
 
   Tournament.fromJson(dynamic json) {
@@ -91,6 +93,7 @@ class Tournament {
       });
     }
     field = json['field'];
+    joinStatus = json['join_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -117,12 +120,13 @@ class Tournament {
       data['positions'] = positions?.map((v) => v.toJson()).toList();
     }
     data['field'] = field;
+    data['join_status'] = joinStatus;
     return data;
   }
 
   @override
   String toString() {
-    return 'Tournament(id: $id, title: $title, description: $description, rules: $rules, points: $points, bannerImg: $bannerImg, gameName: $gameName, gameType: $gameType, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, createdAt: $createdAt, updatedAt: $updatedAt, players: $players, photos: $photos, positions: $positions, field: $field)';
+    return 'Tournament(id: $id, title: $title, description: $description, rules: $rules, points: $points, bannerImg: $bannerImg, gameName: $gameName, gameType: $gameType, totalSeats: $totalSeats, requireTickets: $requireTickets, status: $status, deadline: $deadline, createdAt: $createdAt, updatedAt: $updatedAt, players: $players, photos: $photos, positions: $positions, field: $field, joinStatus: $joinStatus)';
   }
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winly/models/tournament.dart';
+import 'package:winly/globals/controllers/auth_controller.dart';
+import 'package:winly/globals/controllers/tournament_controller.dart';
+import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/view/tournament_details.dart';
 import 'tournament_banner_stack.dart';
 import 'tournament_participation.dart';
@@ -12,9 +14,14 @@ class TournamentItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => TournamentDetail(
-            tournament: tournament,
-          )),
+      onTap: () async {
+        TournamentController tournamentController =
+            Get.find<TournamentController>();
+        await tournamentController.getTournamentPlayers(
+          tournament!.id.toString(),
+        );
+        Get.to(() => TournamentDetail(tournament: tournament));
+      },
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         shape: RoundedRectangleBorder(

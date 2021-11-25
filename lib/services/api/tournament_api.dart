@@ -32,4 +32,17 @@ class TournamentAPI {
       return Future.error(e);
     }
   }
+
+  static getTournamentPlayers(String? token, String tournamentId) async {
+    try {
+      final _response = await ApiService.get(
+        "api/tournament-players/$tournamentId",
+        token: token,
+      );
+      return Future.value(_response);
+    } catch (e) {
+      debugPrint("======== Error Getting Tournamet Players ========");
+      return Future.error(e);
+    }
+  }
 }

@@ -19,7 +19,7 @@ class TabNavigationItem {
     TabNavigationItem(
       title: 'Tournaments',
       icon: PhosphorIcons.game_controller,
-      page: const Tournaments(),
+      page: Tournaments(),
       index: 0,
     ),
     TabNavigationItem(

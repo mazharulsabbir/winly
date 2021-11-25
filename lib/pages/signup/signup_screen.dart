@@ -139,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return TextFormField(
       decoration: TextFieldHelpers.decoration(
         label: 'Refer Code',
-        hint: "MLKSDUIWER883",
+        hint: "MLKS-R883",
       ),
       keyboardType: TextInputType.text,
       controller: referCodeController,
@@ -565,6 +565,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("SIGN UP"),
+          elevation: 0,
           leading: const CommonLeading(),
         ),
         body: CommonLoadingOverlay(
