@@ -121,7 +121,7 @@ class _QuizeScreenState extends State<QuizeScreen> {
       onPressed: () async {
         if (_isInterstitialAdLoaded) {
           DailyEarnings? _earnings = await _showInterstitialAd();
-          authController.updateUser(_earnings);
+          authController.updateUserEarnings(_earnings);
         } else {
           debugPrint('Ad is not loaded');
         }

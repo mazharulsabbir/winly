@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart' as dio;
 import 'dart:convert' as convert;
 
+import 'package:image_picker/image_picker.dart';
+
 class ApiService {
   static const String baseUrl = "https://winly.tauhidthecoder.com/";
   static const String apiKey = "";
@@ -56,6 +58,45 @@ class ApiService {
     } on Exception catch (e) {
       return Future.error(e);
     }
+    _dio.clear();
+    return Future.value(responseJson);
+  }
+
+  static Future<dynamic> postMultipart(
+    String url,
+    XFile image, {
+    String? token,
+    Map<String, dynamic>? body,
+  }) async {
+    final _dio = dio.Dio();
+    dio.Response? responseJson;
+    try {
+      String fileName = image.path.split('/').last;
+
+      dio.FormData formData = dio.FormData.fromMap({
+        "file": await dio.MultipartFile.fromFile(
+          image.path,
+          filename: fileName,
+        ),
+      });
+
+      responseJson = await _dio.post(
+        baseUrl + url,
+        data: formData,
+        options: dio.Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+    } on dio.DioError catch (e) {
+      return Future.error(e.message);
+    } on Exception catch (e) {
+      return Future.error(e.toString());
+    }
+
     _dio.clear();
     return Future.value(responseJson);
   }

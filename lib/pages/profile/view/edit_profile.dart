@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -11,9 +7,6 @@ import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
-import 'package:winly/models/auth/user_model.dart';
-import 'package:winly/services/api/api_service.dart';
-import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_avatar.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
@@ -126,111 +119,110 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
         Positioned(
-            bottom: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: () async {
-                debugPrint("=== update profile picture ===");
-                var cameraPermissionResult = await Permission.camera.status;
-                var storagePermissionResult = await Permission.storage.status;
+          bottom: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: () async {
+              debugPrint("=== update profile picture ===");
+              var cameraPermissionResult = await Permission.camera.status;
+              var storagePermissionResult = await Permission.storage.status;
 
-                if (cameraPermissionResult == PermissionStatus.granted &&
-                    storagePermissionResult == PermissionStatus.granted) {
-                  _pickImage();
+              if (cameraPermissionResult == PermissionStatus.granted &&
+                  storagePermissionResult == PermissionStatus.granted) {
+                final ImagePicker _picker = ImagePicker();
+
+                // pick an image
+                final XFile? image = await _picker.pickImage(
+                  source: ImageSource.gallery,
+                );
+
+                if (image != null) {
+                  setState(() => _isLoading = true);
+                  await authController
+                      .updateProfileImage(image: image)
+                      .then((value) {
+                    snack(
+                      title: "Successfully updated",
+                      desc: value,
+                      icon: const Icon(Icons.done, color: Colors.green),
+                    );
+                    setState(() => _isLoading = false);
+                  }).onError((error, stackTrace) {
+                    snack(
+                      title: "Update failed!",
+                      desc: error.toString(),
+                      icon: const Icon(Icons.warning, color: Colors.red),
+                    );
+                    setState(() => _isLoading = false);
+                  });
                 } else {
-                  if (cameraPermissionResult != PermissionStatus.granted) {
-                    await Permission.camera.request();
-                  }
-
-                  if (storagePermissionResult != PermissionStatus.granted) {
-                    await Permission.storage.request();
-                  }
+                  snack(
+                    title: 'Image not selected!',
+                    desc: 'No image to upload! Pick image and try again.',
+                    icon: const Icon(Icons.image),
+                  );
                 }
-              },
-              icon: const CircleAvatar(
-                radius: 15,
-                backgroundColor: Color(0xff8FD8D8),
-                child: Icon(
-                  PhosphorIcons.pen,
-                  color: Colors.white,
-                ),
+              } else {
+                snack(
+                  title: 'Permission denied!',
+                  desc: 'Permission required!',
+                  icon: const Icon(Icons.image),
+                );
+                if (cameraPermissionResult != PermissionStatus.granted) {
+                  await Permission.camera.request();
+                }
+
+                if (storagePermissionResult != PermissionStatus.granted) {
+                  await Permission.storage.request();
+                }
+              }
+            },
+            icon: const CircleAvatar(
+              radius: 15,
+              backgroundColor: Color(0xff8FD8D8),
+              child: Icon(
+                PhosphorIcons.pen,
+                color: Colors.white,
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }
 
   Widget _button() {
     return ElevatedButton(
-        onPressed: () async {
-          if (_formKey.currentState != null) {
-            _formKey.currentState!.save();
-            setState(() => _isLoading = true);
-            try {
-              final response = await AuthAPI.updateProfile(
-                token: authController.token,
-                name: nameController.text,
-                email: emailController.text,
-                phoneNumber: phoneNumberController.text,
-              );
-              if (response != null) {
-                final data = jsonDecode(response.body);
-                if (response.statusCode == 200) {
-                  snack(
-                    title: "Success",
-                    desc: data['message'],
-                    icon: const Icon(Icons.done, color: Colors.green),
-                  );
-                  authController.getUserProfile(authController.token!);
-                } else if (response.statusCode == 401) {
-                  snack(
-                    title: "Error",
-                    desc: data['error'],
-                    icon: const Icon(Icons.error, color: Colors.red),
-                  );
-                } else if (response.statusCode == 422) {
-                  final data = jsonDecode(response.body);
-                  dynamic _emailError = data['errors']['email'];
-                  dynamic _phoneNumberError = data['errors']['phone_number'];
-                  dynamic _usernameError = data['errors']['username'];
+      onPressed: () async {
+        if (_formKey.currentState != null) {
+          _formKey.currentState!.save();
+          setState(() => _isLoading = true);
 
-                  String _errorMessage = data['message'];
-
-                  try {
-                    if (_emailError != null) {
-                      _errorMessage += " ${_emailError[0]}";
-                    }
-
-                    if (_phoneNumberError != null) {
-                      _errorMessage += " ${_phoneNumberError[0]}";
-                    }
-
-                    if (_usernameError != null) {
-                      _errorMessage += " ${_usernameError[0]}";
-                    }
-                  } catch (e) {
-                    log(e.toString());
-                  }
-
-                  snack(
-                    title: "Error",
-                    desc: _errorMessage,
-                    icon: const Icon(Icons.error, color: Colors.red),
-                  );
-                }
-              }
-              setState(() => _isLoading = false);
-            } catch (_) {
-              setState(() => _isLoading = false);
-              snack(
-                title: "Error",
-                desc: "Something went wrong",
-                icon: const Icon(Icons.error, color: Colors.red),
-              );
-            }
-          }
-        },
-        child: const Text('Submit'));
+          await authController
+              .updateProfile(
+            name: nameController.text,
+            email: emailController.text,
+            phoneNumber: phoneNumberController.text,
+          )
+              .then((value) {
+            snack(
+              title: "Successfully updated",
+              desc: value,
+              icon: const Icon(Icons.done, color: Colors.green),
+            );
+            setState(() => _isLoading = false);
+          }).onError((error, stackTrace) {
+            snack(
+              title: "Update failed!",
+              desc: error.toString(),
+              icon: const Icon(Icons.warning, color: Colors.red),
+            );
+            setState(() => _isLoading = false);
+          });
+        }
+      },
+      child: const Text('Submit'),
+    );
   }
 
   @override
@@ -273,123 +265,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-void _pickImage() async {
-  final ImagePicker _picker = ImagePicker();
-
-  // pick an image
-  final XFile? image = await _picker.pickImage(
-    source: ImageSource.gallery,
-  );
-
-  final AuthController authController = Get.find<AuthController>();
-
-  final _dio = dio.Dio();
-  String fileName = image!.path.split('/').last;
-
-  dio.FormData formData = dio.FormData.fromMap({
-    "file": await dio.MultipartFile.fromFile(
-      image.path,
-      filename: fileName,
-    ),
-  });
-
-  String _url = ApiService.baseUrl + "api/user";
-  final response = await _dio.post(
-    _url,
-    data: formData,
-    options: dio.Options(
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        'Authorization': 'Bearer ${authController.token}'
-      },
-    ),
-  );
-
-  handleResponse(response);
-
-  // final uploader = FlutterUploader();
-  // String _url = ApiService.baseUrl + "api/user";
-  // snack(title: 'Url', desc: _url, icon: const Icon(Icons.link));
-
-  // final _upload = MultipartFormDataUpload(
-  //   url: _url,
-  //   files: [
-  //     FileItem(
-  //       path: "${image?.path}",
-  //       field: "image",
-  //     )
-  //   ],
-  //   method: UploadMethod.POST,
-  //   allowCellular: true,
-  //   headers: {
-  //     "Authorization": "Bearer ${authController.token}",
-  //     "Accept": "application/json"
-  //   },
-  //   // showNotification: false,
-  //   tag: "${authController.token}",
-  // );
-
-  // // listen upload progress
-  // uploader.progress.listen((progress) {
-  //   debugPrint("Progress: $progress");
-  // });
-
-  // // listen upload stream response
-  // uploader.result.listen((result) {
-  //   debugPrint("Result: $result");
-  // }, onError: (ex, stacktrace) {
-  //   debugPrint("Error: $ex");
-  // });
-
-  // final _taskId = await uploader.enqueue(_upload);
-  // debugPrint("Task Id: $_taskId");
-}
-
-void handleResponse(response) {
-  final AuthController authController = Get.find<AuthController>();
-
-  if (response.statusCode == 200) {
-    final data = response.data;
-    if (data['user'] != null) {
-      User? _user = authController.user;
-      _user?.copyWith(
-        profileImage: data['user']['profile_image'],
-        name: data['user']['name'],
-        email: data['user']['email'],
-        phoneNumber: data['user']['phone'],
-      );
-
-      authController.updateUserProfile(_user);
-      snack(
-        title: 'Result',
-        desc: '${response.data['message']}',
-        icon: const Icon(Icons.done),
-      );
-    } else {
-      snack(
-        title: 'Failed!',
-        desc: '${response.data['message']}',
-        icon: const Icon(Icons.error),
-      );
-    }
-  } else {
-    String errorMessageBuilder = "";
-
-    Map<String, dynamic> errors = response.data['errors'];
-
-    errors.forEach((index, value) {
-      errorMessageBuilder += '$value\n';
-    });
-
-    snack(
-      title: response.data['message'],
-      desc: errorMessageBuilder,
-      icon: const Icon(Icons.error, color: Colors.red),
     );
   }
 }

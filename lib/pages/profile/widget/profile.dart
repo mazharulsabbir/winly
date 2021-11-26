@@ -88,7 +88,7 @@ class _ProfileTabState extends State<ProfileTab> {
           title: const Text('Total Tickets'),
           trailing: Text('${user?.earnings?.totalTickets ?? 0}'),
           onTap: () {
-            authController.updateUser(user!.earnings);
+            authController.updateUserEarnings(user!.earnings);
           },
         ),
         const Divider(),

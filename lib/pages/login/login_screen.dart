@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
@@ -14,7 +12,6 @@ import 'package:winly/pages/forgot_password/forgot_password_screen.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
 import 'package:winly/pages/support/support_chat.dart';
-import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
 
@@ -44,46 +41,26 @@ class _SignInScreenState extends State<SignInScreen> {
       });
 
       try {
-        final response = await AuthAPI.login(email: email, password: password);
-        if (response != null) {
-          final data = jsonDecode(response.body);
-
-          if (response.statusCode == 200) {
-            final token = data['token'];
-            final userDataRaw = await AuthAPI.me(token);
-
-            if (userDataRaw != null) {
-              try {
-                final userParsed = jsonDecode(userDataRaw.body);
-                final User user = User.fromJson(userParsed);
-                _authController.mUserObx.value = user;
-
-                _authController
-                    .logIn(user, token)
-                    .then((value) => Get.offAll(() => BottomNavBar(
-                          user: user,
-                        )));
-              } catch (e) {
-                snack(
-                  title: "Error",
-                  desc: "Something went wrong" + e.toString(),
-                  icon: const Icon(Icons.error, color: Colors.red),
-                );
-              }
-            }
-          } else if (response.statusCode == 401) {
-            snack(
-              title: "Error",
-              desc: data['error'],
-              icon: const Icon(Icons.error, color: Colors.red),
-            );
+        await _authController
+            .signInWithEmailAndPassword(email, password)
+            .then((value) {
+          if (value.runtimeType == User) {
+            User _user = value;
+            Get.offAll(() => BottomNavBar(user: _user));
           } else {
             snack(
-                title: 'Error',
-                desc: data['errors'],
-                icon: const Icon(Icons.error));
+              title: "Login Failed!",
+              desc: "Failed to login. Try again later",
+              icon: const Icon(Icons.error, color: Colors.red),
+            );
           }
-        }
+        }).onError((error, stackTrace) {
+          snack(
+            title: "Login Failed!",
+            desc: error.toString(),
+            icon: const Icon(Icons.error, color: Colors.red),
+          );
+        });
       } catch (_) {
       } finally {
         setState(() {
@@ -91,7 +68,6 @@ class _SignInScreenState extends State<SignInScreen> {
         });
       }
     }
-    // Get.offAll(() => HomeScreen());
   }
 
   Widget _signInText() {
@@ -141,8 +117,9 @@ class _SignInScreenState extends State<SignInScreen> {
             height: 18,
           ),
           TextFormField(
-            decoration: TextFieldHelpers.decoration(label: 'Password')
-                .copyWith(labelStyle: Theme.of(context).textTheme.subtitle1),
+            decoration: TextFieldHelpers.decoration(label: 'Password').copyWith(
+              labelStyle: Theme.of(context).textTheme.subtitle1,
+            ),
             obscureText: true,
             validator: passwordValidator,
             onSaved: (value) => password = value!,
@@ -241,14 +218,15 @@ class _SignInScreenState extends State<SignInScreen> {
               style: Theme.of(context).textTheme.subtitle1,
               children: [
                 TextSpan(
-                    text: "Sign up now !",
-                    style: const TextStyle(
-                      color: Paints.primayColor,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Get.to(() => const SignUpScreen());
-                      }),
+                  text: "Sign up now !",
+                  style: const TextStyle(
+                    color: Paints.primayColor,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.to(() => const SignUpScreen());
+                    },
+                ),
               ],
             ),
           ),

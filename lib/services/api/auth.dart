@@ -42,7 +42,6 @@ class AuthAPI {
     required String email,
     required String password,
   }) async {
-    debugPrint('Email: $email and password: $password calling for API');
     try {
       final url = urlBuilder('api/login');
 
@@ -54,8 +53,7 @@ class AuthAPI {
         },
         headers: commonHeader(),
       );
-
-      return Future.value(response);
+      return response;
     } on SocketException catch (_) {
       return null;
     }
@@ -161,7 +159,7 @@ class AuthAPI {
 
       if (name != null) _body['name'] = name;
       if (email != null) _body['email'] = email;
-      if (phoneNumber != null) _body['phone_number'] = phoneNumber;
+      if (phoneNumber != null) _body['phone'] = phoneNumber;
 
       final response = await http.post(
         Uri.parse(_url),

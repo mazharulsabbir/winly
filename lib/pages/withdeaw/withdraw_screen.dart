@@ -59,15 +59,15 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
 
   Widget _phoneNumber() {
     final phoneValidator = MultiValidator([
-      RequiredValidator(errorText: 'phone is required'),
-      MinLengthValidator(11, errorText: 'Please enter a valid mobile number'),
-      MaxLengthValidator(11, errorText: 'Please enter a valid mobile number')
+      RequiredValidator(errorText: 'Account is required'),
+      MinLengthValidator(11, errorText: 'Please enter a valid account number'),
+      MaxLengthValidator(11, errorText: 'Please enter a valid account number')
     ]);
 
     return TextFormField(
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
-        labelText: 'Phone Number',
+        labelText: 'Account Number',
         hintText: '01XXXXXXXXX',
         prefixIcon: Icon(Icons.phone),
       ),
