@@ -38,6 +38,7 @@ class _JoinTournamentState extends State<JoinTournament> {
     return ListView.builder(
       itemCount: widget.tournament?.field ?? 0,
       padding: const EdgeInsets.only(top: 16, bottom: 100),
+      cacheExtent: 1500.0,
       itemBuilder: (BuildContext context, int index) {
         TextEditingController controller = TextEditingController();
         TextEditingController controller2 = TextEditingController();
