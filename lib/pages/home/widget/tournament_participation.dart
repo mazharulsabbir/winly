@@ -64,12 +64,48 @@ class TournamentParticipation extends StatelessWidget {
             const Text('Participants')
           ],
         ),
-        _joiningButton(tournament?.joinStatus, isTournamentDetails),
+        _joiningButton(
+          tournament?.joinStatus,
+          tournament?.status,
+          isTournamentDetails,
+        ),
       ],
     );
   }
 
-  Widget _joiningButton(bool? isJoined, bool isTournamentDetails) {
+  Widget _joiningButton(
+    bool? isJoined,
+    String? state,
+    bool isTournamentDetails,
+  ) {
+    if (state == '0') {
+      return Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 8,
+        ),
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          color: Colors.amber.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Text('Closed'),
+      );
+    } else if (state == '2') {
+      return Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 8,
+        ),
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Text('Live'),
+      );
+    }
+
     return isJoined == true
         ? Container(
             padding: const EdgeInsets.symmetric(

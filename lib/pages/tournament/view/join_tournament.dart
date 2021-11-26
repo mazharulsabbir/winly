@@ -16,7 +16,7 @@ class JoinTournament extends StatefulWidget {
 class _JoinTournamentState extends State<JoinTournament> {
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _inGameNameControllers = [];
-  // final List<TextEditingController> _playerIdCodeControllers = [];
+  final List<TextEditingController> _playerIdCodeControllers = [];
 
   @override
   void initState() {
@@ -28,9 +28,9 @@ class _JoinTournamentState extends State<JoinTournament> {
     for (final controller in _inGameNameControllers) {
       controller.dispose();
     }
-    // for (final controller in _playerIdCodeControllers) {
-    //   controller.dispose();
-    // }
+    for (final controller in _playerIdCodeControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -40,32 +40,38 @@ class _JoinTournamentState extends State<JoinTournament> {
       padding: const EdgeInsets.only(top: 16, bottom: 100),
       itemBuilder: (BuildContext context, int index) {
         TextEditingController controller = TextEditingController();
-        // TextEditingController controller2 = TextEditingController();
+        TextEditingController controller2 = TextEditingController();
 
         _inGameNameControllers.add(controller);
-        // _playerIdCodeControllers.add(controller2);
+        _playerIdCodeControllers.add(controller2);
 
         final textField = TextFormField(
           controller: controller,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: "In Game Name",
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Enter in game name';
+            }
+            return null;
+          },
+        );
+
+        final textField2 = TextFormField(
+          controller: controller2,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             labelText: "Player Id Code",
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter a player id code';
+              return 'Enter player Id Code';
             }
             return null;
           },
         );
-
-        // final textField2 = TextField(
-        //   controller: controller2,
-        //   decoration: const InputDecoration(
-        //     border: OutlineInputBorder(),
-        //     labelText: "In Game Name",
-        //   ),
-        // );
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -90,10 +96,10 @@ class _JoinTournamentState extends State<JoinTournament> {
                 child: textField,
                 padding: const EdgeInsets.only(bottom: 10),
               ),
-              // Container(
-              //   child: textField2,
-              //   padding: const EdgeInsets.only(bottom: 10),
-              // ),
+              Container(
+                child: textField2,
+                padding: const EdgeInsets.only(bottom: 10),
+              ),
               const SizedBox(height: 12),
             ],
           ),
@@ -112,6 +118,7 @@ class _JoinTournamentState extends State<JoinTournament> {
       body: Form(key: _formKey, child: _textFieldBuilder()),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          _formKey.currentState!.save();
           if (_formKey.currentState!.validate()) {
             _submit();
           }
@@ -123,12 +130,15 @@ class _JoinTournamentState extends State<JoinTournament> {
 
   void _submit() async {
     List<String> _ids =
+        _playerIdCodeControllers.map((controller) => controller.text).toList();
+    List<String> _inGameNames =
         _inGameNameControllers.map((controller) => controller.text).toList();
+
     try {
       AuthController _auth = AuthController();
       dynamic _res = await TournamentAPI.joinTournament(
         widget.tournament?.id,
-        widget.tournament?.gameName,
+        _inGameNames.join(","),
         _ids.join(","),
         _auth.token,
       );

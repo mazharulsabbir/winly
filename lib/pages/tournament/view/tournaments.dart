@@ -36,7 +36,7 @@ class Tournaments extends StatelessWidget {
                   isScrollable: true,
                   tabs: [
                     Tab(
-                      text: 'Upcomming'.toUpperCase() +
+                      text: 'Upcoming'.toUpperCase() +
                           " (${_upcommingEvents.length})",
                     ),
                     Tab(
