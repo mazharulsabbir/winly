@@ -84,10 +84,12 @@ class AuthController extends GetxController {
   }
 
   void updateUserProfile(User? user) {
+    debugPrint("***** Updating user profile *****");
     if (user != null) {
       AuthDBService.updateUserProfile(user);
       this.user = user;
       mUserObx.value = user;
+      update();
     }
   }
 
@@ -108,8 +110,7 @@ class AuthController extends GetxController {
         final data = jsonDecode(response.body);
         if (response.statusCode == 200) {
           if (data['user'] != null) {
-            User? _user = user;
-            _user?.copyWith(
+            User? _user = user?.copyWith(
               profileImage: data['user']['profile_image'],
               name: data['user']['name'],
               email: data['user']['email'],
@@ -129,7 +130,7 @@ class AuthController extends GetxController {
 
             Map<String, dynamic> _errors = data['errors'];
             _errors.forEach((key, value) {
-              _errorMessage += value + "\n";
+              _errorMessage += "$value\n";
             });
 
             return Future.error(_errorMessage);
@@ -172,8 +173,7 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         final data = response.data;
         if (data['user'] != null) {
-          User? _user = user;
-          _user?.copyWith(
+          User? _user = user?.copyWith(
             profileImage: data['user']['profile_image'],
             name: data['user']['name'],
             email: data['user']['email'],
