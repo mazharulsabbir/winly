@@ -6,7 +6,6 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
-import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/payments_method.dart';
 import 'package:winly/services/api/withdraw.dart';
 import 'package:winly/widgets/common_leading.dart';

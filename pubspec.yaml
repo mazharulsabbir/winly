@@ -65,9 +65,6 @@ dependencies:
   flutter_facebook_auth: "^3.5.0"
   google_sign_in: ^5.2.1
 
-  # upload files in background
-  flutter_uploader: ^3.0.0-beta.3
-
   # permissions handler
   permission_handler: ^8.3.0
 

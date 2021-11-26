@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/pages/wallet/widget/withdraw_history.dart';
-import 'package:winly/pages/wallet/widget/withdraw_history_list_builder.dart';
 import 'package:winly/pages/withdeaw/withdraw_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
 
