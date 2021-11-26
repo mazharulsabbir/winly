@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
+import 'package:winly/globals/controllers/notification_controller.dart';
+import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/pages/nav_bar/tab_navigation_item.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -19,6 +21,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
+
+    Get.put<NotificationController>(NotificationController());
+    Get.put<TournamentController>(TournamentController());
+
     _currentIndex = widget.index ?? 0;
     if (widget.user != null) {
       _authController.mUserObx.value = widget.user!;

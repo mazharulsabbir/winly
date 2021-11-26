@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/view/tournament_details.dart';

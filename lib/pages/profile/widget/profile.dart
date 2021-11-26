@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:winly/globals/configs/colors.dart';
+import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/globals/controllers/theme_controller.dart';
+import 'package:winly/helpers/snack.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/about/about.dart';
 import 'package:winly/pages/privacy/privacy_policy.dart';
 import 'package:winly/pages/profile/view/edit_profile.dart';
+import 'package:winly/pages/support/support_chat.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
@@ -21,12 +26,11 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  AuthController? authController;
+  AuthController authController = Get.find<AuthController>();
 
   @override
   void initState() {
     super.initState();
-    authController = Get.find<AuthController>();
   }
 
   _heading(BuildContext context, User? user) {
@@ -41,7 +45,7 @@ class _ProfileTabState extends State<ProfileTab> {
           children: [
             CommonAvatar(
               radius: 35,
-              avatarUrl: authController?.user?.profileImage,
+              avatarUrl: authController.user?.profileImage,
             ),
             const SizedBox(
               width: 20,
@@ -80,17 +84,26 @@ class _ProfileTabState extends State<ProfileTab> {
         ),
         const Divider(),
         ListTile(
-          leading: defaultLeadingStyle(Icons.group_add_outlined, Colors.blue),
-          title: const Text('Refer'),
-          onTap: () {},
+          leading: defaultLeadingStyle(PhosphorIcons.ticket, Colors.teal),
+          title: const Text('Total Tickets'),
+          trailing: Text('${user?.earnings?.totalTickets ?? 0}'),
+          onTap: () {
+            authController.updateUser(user!.earnings);
+          },
         ),
         const Divider(),
         ListTile(
-          leading: defaultLeadingStyle(PhosphorIcons.ticket, Colors.teal),
-          title: const Text('Total tickets'),
-          trailing: Text('${user?.earnings?.totalTickets ?? 0}'),
+          leading: defaultLeadingStyle(Icons.group_add_outlined, Colors.blue),
+          title: const Text('Refer Friends'),
           onTap: () {
-            authController?.updateUser(user!.earnings);
+            Clipboard.setData(ClipboardData(
+              text: authController.user?.referralCode,
+            ));
+            snack(
+              title: "Code copied to clipboard.",
+              desc: "Share code with friends and get rewards.",
+              icon: const Icon(PhosphorIcons.link, color: kPrimaryColor),
+            );
           },
         ),
         const Divider(),
@@ -117,8 +130,17 @@ class _ProfileTabState extends State<ProfileTab> {
             PhosphorIcons.database,
             Colors.grey,
           ),
-          title: const Text('About WinlLy'),
+          title: const Text('About $appName'),
           onTap: () => Get.to(() => const AboutApp()),
+        ),
+        const Divider(),
+        ListTile(
+          leading: defaultLeadingStyle(
+            PhosphorIcons.chat,
+            kPrimaryColor,
+          ),
+          title: const Text('Need Support? Chat'),
+          onTap: () => Get.to(() => const SupportChatWebView()),
         ),
         const Divider(),
         GetBuilder<ThemeController>(builder: (controller) {
@@ -129,14 +151,14 @@ class _ProfileTabState extends State<ProfileTab> {
                     ? PhosphorIcons.moon
                     : PhosphorIcons.sun,
                 Colors.blueAccent),
-            title: const Text('Dark mode'),
+            title: const Text('Dark Mode'),
             onChanged: controller.setMode,
           );
         }),
         const Divider(),
         ListTile(
           leading: defaultLeadingStyle(PhosphorIcons.sign_out, Colors.red),
-          title: const Text('Sign out'),
+          title: const Text('Sign Out'),
           onTap: () {
             final AuthController authController = Get.find<AuthController>();
             authController.logOut();
@@ -150,8 +172,9 @@ class _ProfileTabState extends State<ProfileTab> {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: backColor,
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+        color: backColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
       child: Icon(
         icon,
         color: Colors.white,
@@ -183,12 +206,12 @@ class _ProfileTabState extends State<ProfileTab> {
           child: Column(
             children: [
               Obx(() {
-                return _heading(context, authController?.mUserObx.value);
+                return _heading(context, authController.mUserObx.value);
               }),
               const SizedBox(
                 height: 20,
               ),
-              Obx(() => _bodyPart(authController?.mUserObx.value)),
+              Obx(() => _bodyPart(authController.mUserObx.value)),
             ],
           ),
         ),

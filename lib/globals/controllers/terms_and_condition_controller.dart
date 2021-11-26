@@ -27,10 +27,10 @@ class TermsAndConditionController extends getx.GetxController {
 
       if (_response != null && _response.data != null) {
         List<dynamic> _data = _response.data;
-        _data.forEach((element) {
+        for (var element in _data) {
           TermsAndCondition _tc = TermsAndCondition.fromJson(element);
           termsAndCondition.add(_tc);
-        });
+        }
       }
     } catch (e) {
       debugPrint(e.toString());

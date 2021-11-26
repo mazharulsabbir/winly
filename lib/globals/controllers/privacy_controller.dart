@@ -27,10 +27,10 @@ class PrivacyController extends getx.GetxController {
 
       if (_response != null && _response.data != null) {
         List<dynamic> _data = _response.data;
-        _data.forEach((element) {
+        for (var element in _data) {
           PrivacyPolicy _p = PrivacyPolicy.fromJson(element);
           privacyPolicy.add(_p);
-        });
+        }
       }
     } catch (e) {
       debugPrint(e.toString());

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:winly/pages/bottom_tabs/tabs.dart';
+import 'package:winly/pages/nav_bar/index.dart';
 
 class TabNavigationItem {
   TabNavigationItem({

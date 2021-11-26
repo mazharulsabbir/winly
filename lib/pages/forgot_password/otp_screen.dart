@@ -6,7 +6,6 @@ import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
 import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/pages/login/login_screen.dart';
-import 'package:winly/pages/signup/signup_screen.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 

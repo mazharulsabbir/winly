@@ -13,6 +13,7 @@ import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/forgot_password/forgot_password_screen.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
+import 'package:winly/pages/support/support_chat.dart';
 import 'package:winly/services/api/auth.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
@@ -148,10 +149,10 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           TextButton(
             onPressed: () {
-              Get.to(() => ForgotPasswordScreen());
+              Get.to(() => const ForgotPasswordScreen());
             },
             child: const Text(
-              "Forgot Password ? ",
+              "Reset Password",
               style: TextStyle(
                 color: Colors.grey,
               ),
@@ -175,6 +176,12 @@ class _SignInScreenState extends State<SignInScreen> {
             onPressed: () async {
               if (await _authController.signInWithFacebook()) {
                 Get.off(() => const BottomNavBar());
+              } else {
+                snack(
+                  title: 'Facebook log in unsuccessful',
+                  desc: 'Authentication problem',
+                  icon: const Icon(Icons.error),
+                );
               }
             },
             icon: const Icon(PhosphorIcons.facebook_logo),
@@ -250,6 +257,13 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Widget _supportButton() {
+    return TextButton(
+      onPressed: () => Get.to(() => const SupportChatWebView()),
+      child: const Text('Need Support? Chat'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CommonLoadingOverlay(
@@ -264,21 +278,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // CommonLogo(),
-                  const SizedBox(
-                    height: 60,
-                  ),
+                  const SizedBox(height: 60),
                   _signInText(),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const SizedBox(height: 50),
                   _formBox(),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   _bottomPart(),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const SizedBox(height: 20),
+                  _supportButton(),
+                  const SizedBox(height: 50),
                   _socialButtons(),
                 ],
               ),

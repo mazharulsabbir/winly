@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/home/widget/tournament_widget.dart';
+import 'package:winly/widgets/empty_list.dart';
 
 class TournamentListWidget extends StatelessWidget {
   final List<Tournament>? tournaments;
@@ -17,13 +18,16 @@ class TournamentListWidget extends StatelessWidget {
       onRefresh: () async {
         await tournamentController.getTournaments();
       },
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 10).copyWith(bottom: 100),
-        itemCount: tournaments?.length,
-        itemBuilder: (context, index) => TournamentItemWidget(
-          tournament: tournaments?[index],
-        ),
-      ),
+      child: tournaments == null || tournaments!.isEmpty
+          ? const CommonEmptyScreenWidget()
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 10)
+                  .copyWith(bottom: 100),
+              itemCount: tournaments?.length,
+              itemBuilder: (context, index) => TournamentItemWidget(
+                tournament: tournaments?[index],
+              ),
+            ),
     );
   }
 }

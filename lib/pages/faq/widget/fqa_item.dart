@@ -3,7 +3,7 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
 import 'package:winly/models/faq/faq.dart';
 import 'package:winly/models/faq/youtube_video_item.dart';
-import 'package:winly/pages/fqa/view/video_player.dart';
+import 'package:winly/pages/faq/view/video_player.dart';
 import 'package:flutter/foundation.dart';
 
 class FqaItemWidget extends StatelessWidget {

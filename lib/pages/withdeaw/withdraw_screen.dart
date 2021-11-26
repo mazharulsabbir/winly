@@ -66,11 +66,13 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
     ]);
 
     return TextFormField(
-      decoration: TextFieldHelpers.decoration(
-        label: 'Account Number',
-        hint: "01xxxxxxxx",
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Phone Number',
+        hintText: '01XXXXXXXXX',
+        prefixIcon: Icon(Icons.phone),
       ),
-      keyboardType: TextInputType.number,
+      keyboardType: const TextInputType.numberWithOptions(signed: false),
       validator: phoneValidator,
       controller: phoneNumberController,
     );
@@ -78,9 +80,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
 
   paymentSelectionPart() {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(6),
           color: Colors.grey.withOpacity(0.3),
         ),
         child: Column(
@@ -90,7 +92,9 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+              ).copyWith(top: 5),
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return ListTile(

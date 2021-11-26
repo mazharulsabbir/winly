@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:winly/pages/quiz_screen/quiz_screen.dart';
+import 'package:winly/pages/ticket/widget/quiz_screen.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 

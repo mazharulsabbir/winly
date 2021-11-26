@@ -5,6 +5,7 @@ import 'package:winly/globals/controllers/about_controller.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_list_tile.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
+import 'package:winly/widgets/empty_list.dart';
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
@@ -21,14 +22,16 @@ class AboutApp extends StatelessWidget {
               title: const Text('About $appName'),
               leading: const CommonLeading(),
             ),
-            body: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: controller.about.length,
-              itemBuilder: (context, index) => CommonListTile(
-                title: "${controller.about[index].title}",
-                details: "${controller.about[index].details}",
-              ),
-            ),
+            body: controller.about.isEmpty
+                ? const CommonEmptyScreenWidget()
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: controller.about.length,
+                    itemBuilder: (context, index) => CommonListTile(
+                      title: "${controller.about[index].title}",
+                      details: "${controller.about[index].details}",
+                    ),
+                  ),
           ),
         );
       },

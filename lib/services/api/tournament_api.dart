@@ -18,7 +18,6 @@ class TournamentAPI {
     dynamic gameIds,
     String? token,
   ) async {
-    print("${{"game_name": gameName, "game_id": gameIds}}");
     try {
       final _response = await ApiService.post(
         "api/join-tournament/$tournamentId",

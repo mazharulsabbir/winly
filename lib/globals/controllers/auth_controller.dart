@@ -175,6 +175,7 @@ class AuthController extends GetxController {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+
     return await FirebaseAuth.instance
         .signInWithCredential(credential)
         .then((value) => value.user != null);
@@ -189,7 +190,9 @@ class AuthController extends GetxController {
       if (loginResult.accessToken?.token != null) {
         debugPrint(loginResult.accessToken?.token);
         final OAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+            FacebookAuthProvider.credential(
+          loginResult.accessToken!.token,
+        );
 
         // Once signed in, return the UserCredential
         return await FirebaseAuth.instance

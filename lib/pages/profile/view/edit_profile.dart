@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart' as Dio;
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -14,12 +14,10 @@ import 'package:winly/models/auth/auth_form_model.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/services/api/api_service.dart';
 import 'package:winly/services/api/auth.dart';
-import 'package:winly/services/api/url.dart';
 import 'package:winly/widgets/common_avatar.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_uploader/flutter_uploader.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -289,11 +287,11 @@ void _pickImage() async {
 
   final AuthController authController = Get.find<AuthController>();
 
-  final _dio = Dio.Dio();
+  final _dio = dio.Dio();
   String fileName = image!.path.split('/').last;
 
-  Dio.FormData formData = Dio.FormData.fromMap({
-    "file": await Dio.MultipartFile.fromFile(
+  dio.FormData formData = dio.FormData.fromMap({
+    "file": await dio.MultipartFile.fromFile(
       image.path,
       filename: fileName,
     ),
@@ -303,7 +301,7 @@ void _pickImage() async {
   final response = await _dio.post(
     _url,
     data: formData,
-    options: Dio.Options(
+    options: dio.Options(
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",

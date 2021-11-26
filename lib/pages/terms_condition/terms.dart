@@ -4,6 +4,7 @@ import 'package:winly/globals/controllers/terms_and_condition_controller.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_list_tile.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
+import 'package:winly/widgets/empty_list.dart';
 
 class TermsAndCondition extends StatelessWidget {
   const TermsAndCondition({Key? key}) : super(key: key);
@@ -20,14 +21,16 @@ class TermsAndCondition extends StatelessWidget {
               title: const Text('Terms and Conditions'),
               leading: const CommonLeading(),
             ),
-            body: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: controller.termsAndCondition.length,
-              itemBuilder: (context, index) => CommonListTile(
-                title: "${controller.termsAndCondition[index].title}",
-                details: "${controller.termsAndCondition[index].details}",
-              ),
-            ),
+            body: controller.termsAndCondition.isEmpty
+                ? const CommonEmptyScreenWidget()
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: controller.termsAndCondition.length,
+                    itemBuilder: (context, index) => CommonListTile(
+                      title: "${controller.termsAndCondition[index].title}",
+                      details: "${controller.termsAndCondition[index].details}",
+                    ),
+                  ),
           ),
         );
       },

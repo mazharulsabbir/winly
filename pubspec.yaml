@@ -68,11 +68,18 @@ dependencies:
   # upload files in background
   flutter_uploader: ^3.0.0-beta.3
 
-  # permissions hanlder
+  # permissions handler
   permission_handler: ^8.3.0
 
   # image picker
   image_picker: ^0.8.4+4
+
+  # webview for support chat
+  webview_flutter: ^2.1.1
+
+  # internet connectivity check
+  connectivity: ^3.0.6
+
   
 
 dev_dependencies:
