@@ -78,27 +78,33 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
 
   _button(context, int legnth) {
     return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: 50,
-        child: ElevatedButton(
-            onPressed: () async {
-              if (pageIndex < legnth - 1) {
-                pageController
-                    .nextPage(
-                        duration: const Duration(milliseconds: 100),
-                        curve: Curves.easeIn)
-                    .then((_) => setState(() => pageIndex));
-              } else if (pageIndex == legnth - 1) {
-                SharedPreferences _pref = await SharedPreferences.getInstance();
-                _pref.setBool(appFirstTimeLoadingKey, false);
-                Get.off(() => const RootScreen());
-              }
-            },
-            child: Text(pageIndex == 0
-                ? 'Get Started'
-                : pageIndex == legnth - 1
-                    ? 'Finish'
-                    : 'Next')));
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: () async {
+          if (pageIndex < legnth - 1) {
+            pageController
+                .nextPage(
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeIn)
+                .then(
+                  (_) => setState(() => pageIndex),
+                );
+          } else if (pageIndex == legnth - 1) {
+            SharedPreferences _pref = await SharedPreferences.getInstance();
+            _pref.setBool(appFirstTimeLoadingKey, false);
+            Get.off(
+              () => const RootScreen(),
+            );
+          }
+        },
+        child: Text(pageIndex == 0
+            ? 'Get Started'
+            : pageIndex == legnth - 1
+                ? 'Finish'
+                : 'Next'),
+      ),
+    );
   }
 
   setNewPage(int index) => setState(() => pageIndex = index);
@@ -117,8 +123,13 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {
-                      Get.off(() => const RootScreen());
+                    onPressed: () async {
+                      SharedPreferences _pref =
+                          await SharedPreferences.getInstance();
+                      _pref.setBool(appFirstTimeLoadingKey, false);
+                      Get.off(
+                        () => const RootScreen(),
+                      );
                     },
                     child: const Text('Skip'),
                   ),
@@ -129,8 +140,12 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
               child: PageView(
                 controller: pageController,
                 scrollDirection: Axis.horizontal,
-                children: List.generate(IntroPageModel.introPages.length,
-                    (index) => _slider(IntroPageModel.introPages[index])),
+                children: List.generate(
+                  IntroPageModel.introPages.length,
+                  (index) => _slider(
+                    IntroPageModel.introPages[index],
+                  ),
+                ),
                 onPageChanged: setNewPage,
               ),
               flex: 5,
@@ -141,8 +156,12 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
               alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(IntroPageModel.introPages.length,
-                    (index) => _dot(index == pageIndex)),
+                children: List.generate(
+                  IntroPageModel.introPages.length,
+                  (index) => _dot(
+                    index == pageIndex,
+                  ),
+                ),
               ),
             )),
 
