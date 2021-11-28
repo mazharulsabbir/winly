@@ -325,46 +325,116 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<bool> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  int _loginCount = 0;
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+  Future<dynamic> loginWithSocialMedia({
+    required String? name,
+    required String? email,
+    required String? profileImg,
+  }) async {
+    isLoading = true;
+    update();
+    try {
+      final response = await AuthAPI.loginWithSocialMedia(
+          name: name, email: email, profileImg: profileImg);
+      if (response != null) {
+        final data = jsonDecode(response.body);
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+        if (data['token'] == null && _loginCount == 0) {
+          _loginCount++;
+          return loginWithSocialMedia(
+            name: name,
+            email: email,
+            profileImg: profileImg,
+          );
+        }
 
-    return await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((value) => value.user != null);
+        if (response.statusCode == 200) {
+          final token = data['token'];
+          final userDataRaw = await AuthAPI.me(token);
+
+          if (userDataRaw != null) {
+            try {
+              final userParsed = jsonDecode(userDataRaw.body);
+              final User user = User.fromJson(userParsed);
+              mUserObx.value = user;
+
+              logIn(user, token);
+              return Future.value(user);
+            } catch (e) {
+              return Future.error(e.toString());
+            }
+          }
+        } else if (response.statusCode == 401) {
+          return Future.error(data['error']);
+        } else {
+          return Future.error(
+            "There was something unexpected happened! Try again later.",
+          );
+        }
+      } else {
+        return Future.error(
+          "There was something unexpected happened! Try again later.",
+        );
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
   }
 
-  Future<bool> signInWithFacebook() async {
+  Future<dynamic> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final String? name = googleUser?.displayName;
+      final String? email = googleUser?.email;
+      final String? profileImg = googleUser?.photoUrl;
+
+      dynamic _response = await loginWithSocialMedia(
+        name: name,
+        email: email,
+        profileImg: profileImg,
+      );
+
+      print(_response.toString());
+
+      if (_response != null) {
+        try {
+          return Future.value(_response);
+        } catch (e) {
+          return Future.error(e.toString());
+        }
+      }
+    } catch (e) {
+      return Future.error("Login failed! $e");
+    }
+  }
+
+  Future<dynamic> signInWithFacebook() async {
     // Trigger the sign-in flow
     try {
       final LoginResult loginResult = await FacebookAuth.instance.login();
+      final userData = await FacebookAuth.instance.getUserData();
 
-      // Create a credential from the access token
-      if (loginResult.accessToken?.token != null) {
-        debugPrint(loginResult.accessToken?.token);
-        final OAuthCredential facebookAuthCredential =
-            FacebookAuthProvider.credential(
-          loginResult.accessToken!.token,
-        );
+      final String? name = userData['name'];
+      final String? email = userData['email'];
+      final String? profileImg = userData["picture"]["data"]["url"];
 
-        // Once signed in, return the UserCredential
-        return await FirebaseAuth.instance
-            .signInWithCredential(facebookAuthCredential)
-            .then((value) => value.user != null);
-      } else {
-        debugPrint('Token not found!');
-        return false;
+      dynamic _response = await loginWithSocialMedia(
+        name: name,
+        email: email,
+        profileImg: profileImg,
+      );
+      print(_response.toString());
+      if (_response != null) {
+        try {
+          return Future.value(_response);
+        } catch (e) {
+          return Future.error(e.toString());
+        }
       }
     } catch (e) {
-      debugPrint(e.toString());
-      return false;
+      return Future.error("Login failed! $e");
     }
   }
 

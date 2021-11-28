@@ -151,14 +151,34 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           child: IconButton(
             onPressed: () async {
-              if (await _authController.signInWithFacebook()) {
-                Get.off(() => const BottomNavBar());
-              } else {
-                snack(
-                  title: 'Facebook log in unsuccessful',
-                  desc: 'Authentication problem',
-                  icon: const Icon(Icons.error),
-                );
+              setState(() {
+                _loading = true;
+              });
+
+              try {
+                await _authController.signInWithFacebook().then((value) {
+                  if (value.runtimeType == User) {
+                    User _user = value;
+                    Get.offAll(() => BottomNavBar(user: _user));
+                  } else {
+                    snack(
+                      title: "Login Failed!",
+                      desc: "Failed to login. Try again later",
+                      icon: const Icon(Icons.error, color: Colors.red),
+                    );
+                  }
+                }).onError((error, stackTrace) {
+                  snack(
+                    title: "Login Failed!",
+                    desc: error.toString(),
+                    icon: const Icon(Icons.error, color: Colors.red),
+                  );
+                });
+              } catch (_) {
+              } finally {
+                setState(() {
+                  _loading = false;
+                });
               }
             },
             icon: const Icon(PhosphorIcons.facebook_logo),
@@ -174,20 +194,34 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           child: IconButton(
             onPressed: () async {
-              if (await _authController.signInWithGoogle()) {
-                // Get.off(() => const BottomNavBar());
-                snack(
-                  title: 'Oops!',
-                  desc:
-                      'We are working on it. Please login using email and password!',
-                  icon: const Icon(Icons.error),
-                );
-              } else {
-                snack(
-                  title: 'Google sign in unsuccessful',
-                  desc: 'Authentication problem',
-                  icon: const Icon(Icons.error),
-                );
+              setState(() {
+                _loading = true;
+              });
+
+              try {
+                await _authController.signInWithGoogle().then((value) {
+                  if (value.runtimeType == User) {
+                    User _user = value;
+                    Get.offAll(() => BottomNavBar(user: _user));
+                  } else {
+                    snack(
+                      title: "Login Failed!",
+                      desc: "Failed to login. Try again later",
+                      icon: const Icon(Icons.error, color: Colors.red),
+                    );
+                  }
+                }).onError((error, stackTrace) {
+                  snack(
+                    title: "Login Failed!",
+                    desc: error.toString(),
+                    icon: const Icon(Icons.error, color: Colors.red),
+                  );
+                });
+              } catch (_) {
+              } finally {
+                setState(() {
+                  _loading = false;
+                });
               }
             },
             icon: const Icon(PhosphorIcons.google_logo),
