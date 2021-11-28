@@ -305,8 +305,10 @@ class AuthController extends GetxController {
               String? _refCode = AuthDBService.getParentReferCode();
               if (_refCode != null) {
                 AuthDBService.removeParentReferCode();
-                AuthAPI.setReferCode(referCode: _refCode)
-                    .onError((error, stackTrace) {
+                AuthAPI.setReferCode(
+                  referCode: _refCode,
+                  token: token,
+                ).onError((error, stackTrace) {
                   debugPrint(error.toString());
                 });
               }
