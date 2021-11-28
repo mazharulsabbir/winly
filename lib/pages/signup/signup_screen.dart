@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/index.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:winly/helpers/snack.dart';
@@ -9,9 +11,9 @@ import 'package:winly/helpers/text_field_helpers.dart';
 import 'package:winly/models/auth/auth_form_model.dart';
 import 'package:winly/pages/login/login_screen.dart';
 import 'package:winly/services/api/auth.dart';
+import 'package:winly/services/db/auth.dart';
 import 'package:winly/widgets/common_leading.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -411,6 +413,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     final response = await AuthAPI.register(_formModel);
+    if (_formModel.referCode != null) {
+      AuthDBService.setParentReferCode(referCode: _formModel.referCode!);
+    }
 
     try {
       if (response != null) {
@@ -430,12 +435,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               desc: errorMessageBuilder,
               icon: const Icon(Icons.error, color: Colors.red),
             );
+
+            setState(() {
+              _loading = false;
+            });
           } else {
             snack(
-              title: 'Resitration Succress',
+              title: 'Email Sent!',
               desc: data['message'],
-              icon: const Icon(Icons.thumb_up),
+              icon: const Icon(Icons.email),
             );
+            setState(() {
+              _loading = false;
+              _step++;
+            });
           }
         } else if (response.statusCode == 422) {
           final data = jsonDecode(response.body);
@@ -452,20 +465,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
             desc: errorMessageBuilder,
             icon: const Icon(Icons.error, color: Colors.red),
           );
-        } else if (response.statusCode == 201) {
-          debugPrint('Responce code 201');
           setState(() {
-            _step++;
+            _loading = false;
+          });
+        } else if (response.statusCode == 201) {
+          setState(() {
+            _loading = false;
           });
         }
       }
     } catch (e) {
-      debugPrint(e.toString());
-    } finally {
       setState(() {
         _loading = false;
-        _step++;
       });
+      debugPrint(e.toString());
     }
   }
 

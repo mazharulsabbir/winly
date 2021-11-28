@@ -229,20 +229,20 @@ class AuthController extends GetxController {
           return true;
         } else {
           snack(
-              title: 'Erorr',
+              title: 'Error',
               desc: data['error'],
               icon: const Icon(Icons.error));
           return false;
         }
       } else {
         snack(
-            title: 'Erorr',
-            desc: 'Some thing went wrong',
+            title: 'Error',
+            desc: 'Something went wrong',
             icon: const Icon(Icons.error));
         return false;
       }
     } catch (e) {
-      snack(title: 'Erorr', desc: e.toString(), icon: const Icon(Icons.error));
+      snack(title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
       return false;
     } finally {
       isLoading = false;
@@ -273,7 +273,7 @@ class AuthController extends GetxController {
         return false;
       }
     } catch (e) {
-      snack(title: 'Erorr', desc: e.toString(), icon: const Icon(Icons.error));
+      snack(title: 'Error', desc: e.toString(), icon: const Icon(Icons.error));
       return false;
     } finally {
       isLoading = false;
@@ -301,6 +301,15 @@ class AuthController extends GetxController {
               final userParsed = jsonDecode(userDataRaw.body);
               final User user = User.fromJson(userParsed);
               mUserObx.value = user;
+
+              String? _refCode = AuthDBService.getParentReferCode();
+              if (_refCode != null) {
+                AuthDBService.removeParentReferCode();
+                AuthAPI.setReferCode(referCode: _refCode)
+                    .onError((error, stackTrace) {
+                  debugPrint(error.toString());
+                });
+              }
 
               logIn(user, token);
               return Future.value(user);
@@ -396,8 +405,6 @@ class AuthController extends GetxController {
         profileImg: profileImg,
       );
 
-      print(_response.toString());
-
       if (_response != null) {
         try {
           return Future.value(_response);
@@ -425,7 +432,7 @@ class AuthController extends GetxController {
         email: email,
         profileImg: profileImg,
       );
-      print(_response.toString());
+
       if (_response != null) {
         try {
           return Future.value(_response);
@@ -438,7 +445,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void logOut() {
+  Future<void> logOut() async {
     //usually called after the user logs out of your app
     OneSignal.shared.removeExternalUserId();
 
@@ -447,7 +454,10 @@ class AuthController extends GetxController {
     token = null;
     AuthDBService.removeUser();
     FirebaseAuth.instance.signOut();
-    // todo: go to signin screen
+    // go to sign-in screen
     Get.offAll(const SignInScreen());
+
+    await FacebookAuth.instance.logOut();
+    await GoogleSignIn().signOut();
   }
 }

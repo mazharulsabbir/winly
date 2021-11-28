@@ -12,8 +12,8 @@ import 'package:winly/services/api/url.dart';
 class AuthAPI {
   static Future<dynamic> profile(String token) async {
     try {
-      final responce = await ApiService.get('api/user', token: token);
-      return Future.value(responce);
+      final response = await ApiService.get('api/user', token: token);
+      return Future.value(response);
     } on SocketException catch (_) {
       return Future.value(null);
     } on DioError catch (e) {
@@ -51,6 +51,25 @@ class AuthAPI {
         body: {
           'email': email,
           'password': password,
+        },
+        headers: commonHeader(),
+      );
+      return response;
+    } on SocketException catch (_) {
+      return null;
+    }
+  }
+
+  static Future<http.Response?> setReferCode({
+    required String referCode,
+  }) async {
+    try {
+      final url = urlBuilder('api/login');
+
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'referral_code': referCode,
         },
         headers: commonHeader(),
       );

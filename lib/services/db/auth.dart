@@ -21,6 +21,20 @@ class AuthDBService {
     _box.write('user', jsonEncode(user.toJson()));
   }
 
+  static String? getParentReferCode() {
+    return _box.read<String>('parent_ref_code');
+  }
+
+  static void setParentReferCode({
+    required String referCode
+  }) {
+    _box.write('parent_ref_code', referCode.toString());
+  }
+
+  static void removeParentReferCode() {
+    _box.remove('parent_ref_code');
+  }
+
   static void removeUser() {
     _box.remove('token');
     _box.remove('user');
