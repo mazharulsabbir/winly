@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:winly/globals/configs/colors.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/helpers/snack.dart';
@@ -12,6 +13,7 @@ import 'package:winly/pages/forgot_password/forgot_password_screen.dart';
 import 'package:winly/pages/nav_bar/bottom_nav_bar.dart';
 import 'package:winly/pages/signup/signup_screen.dart';
 import 'package:winly/pages/support/support_chat.dart';
+import 'package:winly/services/api/url.dart';
 import 'package:winly/widgets/common_loading_overly.dart';
 import 'package:winly/widgets/custom_button_sizer.dart';
 
@@ -271,7 +273,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _supportButton() {
     return TextButton(
-      onPressed: () => Get.to(() => const SupportChatWebView()),
+      onPressed: () async {
+        if (!await launch(supportChatBaseUrl)) {
+          Get.to(() => const SupportChatWebView());
+        }
+      },
       child: const Text('Need Support? Chat'),
     );
   }

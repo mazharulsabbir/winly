@@ -77,7 +77,8 @@ dependencies:
   # internet connectivity check
   connectivity: ^3.0.6
 
-  
+  # open link in another app
+  url_launcher: ^6.0.15
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:winly/globals/configs/colors.dart';
 import 'package:winly/globals/configs/constans.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
@@ -14,6 +15,7 @@ import 'package:winly/pages/profile/view/edit_profile.dart';
 import 'package:winly/pages/support/support_chat.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
+import 'package:winly/services/api/url.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_avatar.dart';
 import 'package:flutter/foundation.dart';
@@ -140,7 +142,11 @@ class _ProfileTabState extends State<ProfileTab> {
             kPrimaryColor,
           ),
           title: const Text('Need Support? Chat'),
-          onTap: () => Get.to(() => const SupportChatWebView()),
+          onTap: () async {
+            if (!await launch(supportChatBaseUrl)) {
+              Get.to(() => const SupportChatWebView());
+            }
+          },
         ),
         const Divider(),
         GetBuilder<ThemeController>(builder: (controller) {

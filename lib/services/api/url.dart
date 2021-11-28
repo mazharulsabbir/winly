@@ -1,9 +1,7 @@
-// const baseUrl = 'https://winly.app/api';
-const baseUrl = 'https://winly.tauhidthecoder.com';
-const supportChatBaseUrl = 'https://winly.tauhidthecoder.com/support-chat';
+const baseUrl = 'https://winly.app';
+// const baseUrl = 'https://winly.tauhidthecoder.com';
+const supportChatBaseUrl = baseUrl + '/support-chat';
 const youtubeBaseUrl = 'https://www.googleapis.com';
-// const BASE_URL = 'http://ring.tauhidthecoder.com';
-// const BASE_URL = 'https://ref-system.everestbajar.com';
 
 String urlBuilder(
   String endpoint, {
