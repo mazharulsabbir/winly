@@ -62,6 +62,7 @@ class AuthAPI {
 
   static Future<http.Response?> setReferCode({
     required String referCode,
+    required String token,
   }) async {
     try {
       final url = urlBuilder('api/login');
@@ -71,7 +72,11 @@ class AuthAPI {
         body: {
           'referral_code': referCode,
         },
-        headers: commonHeader(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
       );
       return response;
     } on SocketException catch (_) {
