@@ -21,7 +21,7 @@ class TournamentBannerStack extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Image.network(
-            "${ApiService.baseUrl}${tournament?.bannerImg}",
+            "${tournament?.bannerImg}",
             errorBuilder: (context, error, stackTrace) {
               return Image.asset(
                 "assets/icon/icon_transparent.png",

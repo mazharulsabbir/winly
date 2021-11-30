@@ -111,10 +111,10 @@ class AuthController extends GetxController {
         if (response.statusCode == 200) {
           if (data['profile'] != null) {
             User? _user = user?.copyWith(
-              profileImage: data['profile']['profile_img'],
-              name: data['profile']['name'],
-              email: data['profile']['email'],
-              phoneNumber: data['profile']['phone'],
+              profileImage: data['profile'][0]['profile_img'],
+              name: data['profile'][0]['name'],
+              email: data['profile'][0]['email'],
+              phoneNumber: data['profile'][0]['phone'],
             );
 
             updateUserProfile(_user);
@@ -174,10 +174,10 @@ class AuthController extends GetxController {
         final data = response.data;
         if (data['profile'] != null) {
           User? _user = user?.copyWith(
-            profileImage: data['profile']['profile_img'],
-            name: data['profile']['name'],
-            email: data['profile']['email'],
-            phoneNumber: data['profile']['phone'],
+            profileImage: data['profile'][0]['profile_img'],
+            name: data['profile'][0]['name'],
+            email: data['profile'][0]['email'],
+            phoneNumber: data['profile'][0]['phone'],
           );
 
           updateUserProfile(_user);
