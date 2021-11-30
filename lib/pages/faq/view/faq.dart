@@ -20,11 +20,16 @@ class FQATab extends StatelessWidget {
               appBar: buildCommonAppbar(),
               body: controller.faqItems.isEmpty
                   ? const CommonEmptyScreenWidget()
-                  : ListView.builder(
-                      itemCount: controller.faqItems.length,
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      itemBuilder: (context, index) => FqaItemWidget(
-                        faqItem: controller.faqItems[index],
+                  : RefreshIndicator(
+                      onRefresh: () async {
+                        return await controller.getFaqs();
+                      },
+                      child: ListView.builder(
+                        itemCount: controller.faqItems.length,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        itemBuilder: (context, index) => FqaItemWidget(
+                          faqItem: controller.faqItems[index],
+                        ),
                       ),
                     ),
             ),

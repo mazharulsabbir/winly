@@ -65,7 +65,8 @@ class AuthAPI {
     required String token,
   }) async {
     try {
-      final url = urlBuilder('api/login');
+      final url = urlBuilder('api/user-referrer');
+      debugPrint("POST: $referCode api/user-referrer");
 
       final response = await http.post(
         Uri.parse(url),
@@ -73,11 +74,12 @@ class AuthAPI {
           'referral_code': referCode,
         },
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       );
+
+      debugPrint("Response: ${response.body}");
       return response;
     } on SocketException catch (_) {
       return null;

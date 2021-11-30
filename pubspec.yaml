@@ -80,6 +80,11 @@ dependencies:
   # open link in another app
   url_launcher: ^6.0.15
 
+  # cached image
+  cached_network_image: ^3.2.0
+
+  flutter_html: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

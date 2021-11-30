@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommonListTile extends StatelessWidget {
   final String? title;
@@ -18,9 +20,22 @@ class CommonListTile extends StatelessWidget {
           title ?? '',
           style: const TextStyle(fontSize: 18),
         ),
-        subtitle: Text(
-          details ?? '',
-          textAlign: TextAlign.justify,
+        subtitle: Html(
+          data: details ?? '',
+          onLinkTap: (url, _, __, ___) async {
+            if (url != null) {
+              if (await canLaunch(url)) {
+                await launch(url);
+              }
+            }
+          },
+          onImageTap: (src, _, __, ___) async {
+            if (src != null) {
+              if (await canLaunch(src)) {
+                await launch(src);
+              }
+            }
+          },
         ),
       ),
     );

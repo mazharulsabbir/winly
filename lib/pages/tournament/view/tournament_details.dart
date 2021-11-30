@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/widget/tournament_info.dart';
@@ -32,13 +33,9 @@ class TournamentDetail extends StatelessWidget {
                     background: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: Image.network(
-                            "${tournament?.bannerImg}",
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                "assets/icon/icon_transparent.png",
-                              );
-                            },
+                          image: Image(
+                            image: CachedNetworkImageProvider(
+                                "${tournament?.bannerImg}"),
                           ).image,
                           fit: BoxFit.cover,
                         ),

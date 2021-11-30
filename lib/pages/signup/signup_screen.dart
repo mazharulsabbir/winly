@@ -414,7 +414,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     final response = await AuthAPI.register(_formModel);
     if (_formModel.referCode != null) {
-      AuthDBService.setParentReferCode(referCode: _formModel.referCode!);
+      AuthDBService.setParentReferCode(referCode: referCodeController.text);
     }
 
     try {

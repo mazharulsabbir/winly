@@ -21,11 +21,16 @@ class NotificationScreen extends StatelessWidget {
       body: Obx(
         () => notificationController.notifications.isEmpty
             ? const CommonEmptyScreenWidget()
-            : ListView.builder(
-                itemCount: notificationController.notifications.length,
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                itemBuilder: (context, index) => NotificationItem(
-                  notice: notificationController.notifications[index],
+            : RefreshIndicator(
+                onRefresh: () async {
+                  return notificationController.fetchNotifications();
+                },
+                child: ListView.builder(
+                  itemCount: notificationController.notifications.length,
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  itemBuilder: (context, index) => NotificationItem(
+                    notice: notificationController.notifications[index],
+                  ),
                 ),
               ),
       ),

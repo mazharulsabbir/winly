@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'dart:convert' as convert;
@@ -31,7 +29,7 @@ class ApiService {
           },
         ),
       );
-      debugPrint(responseJson.toString());
+      // debugPrint(responseJson.toString());
     } on dio.DioError catch (e) {
       debugPrint(e.toString());
       return Future.error(e);
@@ -92,7 +90,7 @@ class ApiService {
       dio.FormData formData = dio.FormData.fromMap({
         "profile_img": await dio.MultipartFile.fromFile(
           image.path,
-          filename: 'profile_img',
+          filename: "profile_img",
         ),
       });
 

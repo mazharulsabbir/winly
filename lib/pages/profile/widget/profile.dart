@@ -15,7 +15,9 @@ import 'package:winly/pages/profile/view/edit_profile.dart';
 import 'package:winly/pages/support/support_chat.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
+import 'package:winly/services/api/auth.dart';
 import 'package:winly/services/api/url.dart';
+import 'package:winly/services/db/auth.dart';
 import 'package:winly/widgets/common_appbar.dart';
 import 'package:winly/widgets/common_avatar.dart';
 import 'package:flutter/foundation.dart';
@@ -36,40 +38,20 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   _heading(BuildContext context, User? user) {
-    return InkWell(
+    return ListTile(
       onTap: () => Get.to(() => const EditProfileScreen()),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 25,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CommonAvatar(
-              radius: 35,
-              avatarUrl: authController.user?.profileImage,
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _nameTitle(user?.name, context: context),
-                      _username(user?.username, context),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+      leading: CommonAvatar(
+        radius: 35,
+        avatarUrl: authController.user?.profileImage,
+      ),
+      title: Text(
+        authController.user?.name ?? '',
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
         ),
       ),
+      subtitle: Text(user?.username ?? ''),
     );
   }
 
@@ -185,20 +167,6 @@ class _ProfileTabState extends State<ProfileTab> {
         icon,
         color: Colors.white,
       ),
-    );
-  }
-
-  _nameTitle(String? nameTitle, {required BuildContext context}) {
-    return Text(
-      nameTitle ?? 'No Name',
-      style: Theme.of(context).textTheme.headline5,
-    );
-  }
-
-  _username(String? username, BuildContext context) {
-    return Text(
-      username ?? 'username',
-      style: Theme.of(context).textTheme.subtitle2,
     );
   }
 

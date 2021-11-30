@@ -196,9 +196,12 @@ class AuthController extends GetxController {
 
         return Future.error(errorMessageBuilder);
       }
-    } catch (_) {
+    } catch (e) {
+      if (e.toString().contains("422")) {
+        return Future.error('Unsupportable file! Try with another.');
+      }
       return Future.error(
-        'Something unexpected happenned! Try again later.',
+        'Something unexpected happenned! Try again later. $e',
       );
     }
   }

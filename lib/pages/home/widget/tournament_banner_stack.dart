@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/widget/tournament_prize_list.dart';
-import 'package:winly/services/api/api_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class TournamentBannerStack extends StatelessWidget {
   final Tournament? tournament;
@@ -20,19 +20,24 @@ class TournamentBannerStack extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.network(
-            "${tournament?.bannerImg}",
-            errorBuilder: (context, error, stackTrace) {
-              return Image.asset(
-                "assets/icon/icon_transparent.png",
-                fit: BoxFit.contain,
-                height: 170.0,
-                width: double.infinity,
-              );
-            },
+          child: CachedNetworkImage(
+            imageUrl: "${tournament?.bannerImg}",
             height: 170.0,
             width: double.infinity,
             fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Image.asset(
+              "assets/icon/icon_transparent.png",
+              fit: BoxFit.contain,
+              height: 170.0,
+              width: double.infinity,
+            ),
+            errorWidget: (context, url, error) => Image.asset(
+              "assets/icon/icon_transparent.png",
+              fit: BoxFit.contain,
+              height: 170.0,
+              width: double.infinity,
+            ),
           ),
         ),
         Positioned(
