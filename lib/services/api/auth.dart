@@ -85,6 +85,7 @@ class AuthAPI {
   }
 
   static Future<http.Response?> loginWithSocialMedia({
+    String? token,
     required String? name,
     required String? email,
     required String? profileImg,
@@ -100,11 +101,17 @@ class AuthAPI {
           'phone': "0",
           'profile_img': profileImg,
         },
-        headers: commonHeader(),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
       );
       return response;
-    } on SocketException catch (_) {
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
       return null;
+    } on Exception catch (e) {
+      debugPrint(e.toString());
     }
   }
 

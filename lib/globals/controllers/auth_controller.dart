@@ -109,12 +109,12 @@ class AuthController extends GetxController {
       if (response != null) {
         final data = jsonDecode(response.body);
         if (response.statusCode == 200) {
-          if (data['user'] != null) {
+          if (data['profile'] != null) {
             User? _user = user?.copyWith(
-              profileImage: data['user']['profile_image'],
-              name: data['user']['name'],
-              email: data['user']['email'],
-              phoneNumber: data['user']['phone'],
+              profileImage: data['profile']['profile_img'],
+              name: data['profile']['name'],
+              email: data['profile']['email'],
+              phoneNumber: data['profile']['phone'],
             );
 
             updateUserProfile(_user);
@@ -172,12 +172,12 @@ class AuthController extends GetxController {
 
       if (response.statusCode == 200) {
         final data = response.data;
-        if (data['user'] != null) {
+        if (data['profile'] != null) {
           User? _user = user?.copyWith(
-            profileImage: data['user']['profile_image'],
-            name: data['user']['name'],
-            email: data['user']['email'],
-            phoneNumber: data['user']['phone'],
+            profileImage: data['profile']['profile_img'],
+            name: data['profile']['name'],
+            email: data['profile']['email'],
+            phoneNumber: data['profile']['phone'],
           );
 
           updateUserProfile(_user);
@@ -223,15 +223,17 @@ class AuthController extends GetxController {
         final data = jsonDecode(response.body);
         if (data['error'] == null) {
           snack(
-              title: 'Success',
-              desc: 'An OPT has sent to the mail.',
-              icon: const Icon(Icons.error));
+            title: 'Success',
+            desc: 'An OPT has sent to the mail.',
+            icon: const Icon(Icons.error),
+          );
           return true;
         } else {
           snack(
-              title: 'Error',
-              desc: data['error'],
-              icon: const Icon(Icons.error));
+            title: 'Error',
+            desc: data['error'],
+            icon: const Icon(Icons.error),
+          );
           return false;
         }
       } else {
@@ -339,6 +341,7 @@ class AuthController extends GetxController {
   int _loginCount = 0;
 
   Future<dynamic> loginWithSocialMedia({
+    String? token,
     required String? name,
     required String? email,
     required String? profileImg,
@@ -347,13 +350,18 @@ class AuthController extends GetxController {
     update();
     try {
       final response = await AuthAPI.loginWithSocialMedia(
-          name: name, email: email, profileImg: profileImg);
+        token: token,
+        name: name,
+        email: email,
+        profileImg: profileImg,
+      );
       if (response != null) {
         final data = jsonDecode(response.body);
 
         if (data['token'] == null && _loginCount == 0) {
           _loginCount++;
           return loginWithSocialMedia(
+            token: token,
             name: name,
             email: email,
             profileImg: profileImg,
@@ -396,12 +404,15 @@ class AuthController extends GetxController {
   Future<dynamic> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       final String? name = googleUser?.displayName;
       final String? email = googleUser?.email;
       final String? profileImg = googleUser?.photoUrl;
 
       dynamic _response = await loginWithSocialMedia(
+        token: googleAuth?.accessToken,
         name: name,
         email: email,
         profileImg: profileImg,
@@ -430,6 +441,7 @@ class AuthController extends GetxController {
       final String? profileImg = userData["picture"]["data"]["url"];
 
       dynamic _response = await loginWithSocialMedia(
+        token: loginResult.accessToken?.token,
         name: name,
         email: email,
         profileImg: profileImg,

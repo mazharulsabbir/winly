@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 const baseUrl = 'https://winly.app';
 // const baseUrl = 'https://winly.tauhidthecoder.com';
 const supportChatBaseUrl = baseUrl + '/support-chat';
@@ -22,6 +24,7 @@ String urlBuilder(
     }
   }
 
+  debugPrint("URL: /$endpoint");
   return _baseUrl;
 }
 

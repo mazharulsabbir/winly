@@ -27,7 +27,7 @@ class TournamentAPI {
 
       return Future.value(_response);
     } catch (e) {
-      debugPrint("======== Error Getting Tournamets ========");
+      debugPrint("======== Error Joining Tournamets ========");
       return Future.error(e);
     }
   }
