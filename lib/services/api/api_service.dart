@@ -90,9 +90,9 @@ class ApiService {
       String fileName = image.path.split('/').last;
 
       dio.FormData formData = dio.FormData.fromMap({
-        "file": await dio.MultipartFile.fromFile(
+        "profile_img": await dio.MultipartFile.fromFile(
           image.path,
-          filename: fileName,
+          filename: 'profile_img',
         ),
       });
 
