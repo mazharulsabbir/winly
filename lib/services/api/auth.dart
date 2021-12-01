@@ -100,7 +100,6 @@ class AuthAPI {
         body: {
           'name': name,
           'email': email,
-          'phone': "0",
           'profile_img': profileImg,
         },
         headers: commonHeader(),
