@@ -13,11 +13,11 @@ class WithdrawController extends GetxController {
 
   @override
   void onInit() {
-    _getWithdrawTimeline();
+    getWithdrawTimeline();
     super.onInit();
   }
 
-  Future<void> _getWithdrawTimeline() async {
+  Future<void> getWithdrawTimeline() async {
     if (token == null) {
       return;
     }

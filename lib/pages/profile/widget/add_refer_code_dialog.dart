@@ -46,7 +46,7 @@ class _AddReferCodeWidgetState extends State<AddReferCodeWidget> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
                     child: const Text('Submit'),

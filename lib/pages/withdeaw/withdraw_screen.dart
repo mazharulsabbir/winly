@@ -61,7 +61,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
     final phoneValidator = MultiValidator([
       RequiredValidator(errorText: 'Account is required'),
       MinLengthValidator(11, errorText: 'Please enter a valid account number'),
-      MaxLengthValidator(11, errorText: 'Please enter a valid account number')
+      MaxLengthValidator(12, errorText: 'Please enter a valid account number')
     ]);
 
     return TextFormField(
@@ -211,15 +211,14 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
   withDrawButton() {
     return ElevatedButton(
       onPressed: () async {
-        if (_formKey.currentState != null) {
-          if (_formKey.currentState!.validate()) {
-            await sendWithDrawRequest();
-          }
+        if (_formKey.currentState!.validate()) {
+          await sendWithDrawRequest();
         }
       },
       child: const Text('WithDraw'),
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 40)),
+        minimumSize: Size(MediaQuery.of(context).size.width * 0.9, 40),
+      ),
     );
   }
 

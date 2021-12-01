@@ -45,7 +45,11 @@ class WithdrawHistoryWidget extends StatelessWidget {
                     'Recent history',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  TextButton(onPressed: () {}, child: const Text('See all')),
+                  TextButton(
+                      onPressed: () {
+                        controller.getWithdrawTimeline();
+                      },
+                      child: const Text('Refresh')),
                 ],
               ),
               Expanded(

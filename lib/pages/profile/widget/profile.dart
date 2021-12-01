@@ -103,8 +103,9 @@ class _ProfileTabState extends State<ProfileTab> {
                   top: Radius.circular(25.0),
                 ),
               ),
-              isScrollControlled: true,
-              builder: (_) => const AddReferCodeWidget(),
+              builder: (_) => AddReferCodeWidget(
+                token: authController.token,
+              ),
             );
           },
         ),
@@ -198,21 +199,15 @@ class _ProfileTabState extends State<ProfileTab> {
           return authController.getUserProfile("${authController.token}");
         },
         child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 30),
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Column(
-                children: [
-                  Obx(() {
-                    return _heading(context, authController.mUserObx.value);
-                  }),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Obx(() => _bodyPart(authController.mUserObx.value)),
-                ],
-              ),
-            )
+            Obx(() {
+              return _heading(context, authController.mUserObx.value);
+            }),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => _bodyPart(authController.mUserObx.value)),
           ],
         ),
       ),
