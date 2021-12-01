@@ -305,7 +305,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: 4,
         ),
         const Text(
-          "We have sent a code to your email address",
+          "We have sent a code to your email address. Please check your spam folder & other folders if you don't find it in your inbox.",
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey,
@@ -631,8 +631,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     controller = CountdownTimerController(
-        endTime: DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 60,
-        onEnd: onEnd);
+      endTime: DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 120,
+      onEnd: onEnd,
+    );
 
     controller?.addListener(() {
       if (controller?.currentRemainingTime?.sec == 1) {
