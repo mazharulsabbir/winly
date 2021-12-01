@@ -306,18 +306,6 @@ class AuthController extends GetxController {
               final userParsed = jsonDecode(userDataRaw.body);
               final User user = User.fromJson(userParsed);
               mUserObx.value = user;
-
-              String? _refCode = AuthDBService.getParentReferCode();
-              if (_refCode != null) {
-                AuthDBService.removeParentReferCode();
-                AuthAPI.setReferCode(
-                  referCode: _refCode,
-                  token: token,
-                ).onError((error, stackTrace) {
-                  debugPrint(error.toString());
-                });
-              }
-
               logIn(user, token);
               return Future.value(user);
             } catch (e) {
@@ -363,6 +351,7 @@ class AuthController extends GetxController {
 
         if (data['token'] == null && _loginCount == 0) {
           _loginCount++;
+          debugPrint("Social Login ++ : $data");
           return loginWithSocialMedia(
             token: token,
             name: name,
@@ -371,6 +360,7 @@ class AuthController extends GetxController {
           );
         }
 
+        debugPrint("Social Login: $data");
         if (response.statusCode == 200) {
           final token = data['token'];
           final userDataRaw = await AuthAPI.me(token);
@@ -390,9 +380,13 @@ class AuthController extends GetxController {
         } else if (response.statusCode == 401) {
           return Future.error(data['error']);
         } else {
-          return Future.error(
-            "There was something unexpected happened! Try again later.",
-          );
+          if (data['error'] != null) {
+            return Future.error(data['error']);
+          } else {
+            return Future.error(
+              "There was something unexpected happened! Try again later. ${response.statusCode}",
+            );
+          }
         }
       } else {
         return Future.error(
@@ -425,10 +419,12 @@ class AuthController extends GetxController {
         try {
           return Future.value(_response);
         } catch (e) {
+          await GoogleSignIn().signOut();
           return Future.error(e.toString());
         }
       }
     } catch (e) {
+      await GoogleSignIn().signOut();
       return Future.error("Login failed! $e");
     }
   }
@@ -454,10 +450,12 @@ class AuthController extends GetxController {
         try {
           return Future.value(_response);
         } catch (e) {
+          await FacebookAuth.instance.logOut();
           return Future.error(e.toString());
         }
       }
     } catch (e) {
+      await FacebookAuth.instance.logOut();
       return Future.error("Login failed! $e");
     }
   }

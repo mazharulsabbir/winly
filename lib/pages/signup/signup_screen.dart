@@ -137,16 +137,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _referCodeField() {
-    return TextFormField(
-      decoration: TextFieldHelpers.decoration(
-        label: 'Refer Code',
-        hint: "MLKS-R883",
-      ),
-      keyboardType: TextInputType.text,
-      controller: referCodeController,
-    );
-  }
+  // Widget _referCodeField() {
+  //   return TextFormField(
+  //     decoration: TextFieldHelpers.decoration(
+  //       label: 'Refer Code',
+  //       hint: "MLKS-R883",
+  //     ),
+  //     keyboardType: TextInputType.text,
+  //     controller: referCodeController,
+  //   );
+  // }
 
   Widget _passwordForm() {
     final passwordValidator = MultiValidator([
@@ -195,10 +195,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             height: 18,
           ),
           _phoneNumber(),
-          const SizedBox(
-            height: 18,
-          ),
-          _referCodeField(),
+          // const SizedBox(
+          //   height: 18,
+          // ),
+          // _referCodeField(),
           const SizedBox(
             height: 18,
           ),

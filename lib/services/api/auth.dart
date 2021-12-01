@@ -60,7 +60,7 @@ class AuthAPI {
     }
   }
 
-  static Future<http.Response?> setReferCode({
+  static Future<dynamic> setReferCode({
     required String referCode,
     required String token,
   }) async {
@@ -80,7 +80,7 @@ class AuthAPI {
       );
 
       debugPrint("Response: ${response.body}");
-      return response;
+      return response.body;
     } on SocketException catch (_) {
       return null;
     }
@@ -103,10 +103,7 @@ class AuthAPI {
           'phone': "0",
           'profile_img': profileImg,
         },
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+        headers: commonHeader(),
       );
       return response;
     } on SocketException catch (e) {

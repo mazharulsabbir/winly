@@ -12,6 +12,7 @@ import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/pages/about/about.dart';
 import 'package:winly/pages/privacy/privacy_policy.dart';
 import 'package:winly/pages/profile/view/edit_profile.dart';
+import 'package:winly/pages/profile/widget/add_refer_code_dialog.dart';
 import 'package:winly/pages/support/support_chat.dart';
 import 'package:winly/pages/terms_condition/terms.dart';
 import 'package:winly/pages/wallet/wallet_screen.dart';
@@ -87,6 +88,23 @@ class _ProfileTabState extends State<ProfileTab> {
               title: "Code copied to clipboard.",
               desc: "Share code with friends and get rewards.",
               icon: const Icon(PhosphorIcons.link, color: kPrimaryColor),
+            );
+          },
+        ),
+        const Divider(),
+        ListTile(
+          leading: defaultLeadingStyle(Icons.code, Colors.cyanAccent),
+          title: const Text('Add Refer Code'),
+          onTap: () async {
+            await showModalBottomSheet(
+              context: context,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25.0),
+                ),
+              ),
+              isScrollControlled: true,
+              builder: (_) => const AddReferCodeWidget(),
             );
           },
         ),
@@ -174,20 +192,28 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCommonAppbar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Column(
-            children: [
-              Obx(() {
-                return _heading(context, authController.mUserObx.value);
-              }),
-              const SizedBox(
-                height: 20,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final AuthController authController = Get.find<AuthController>();
+          return authController.getUserProfile("${authController.token}");
+        },
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Column(
+                children: [
+                  Obx(() {
+                    return _heading(context, authController.mUserObx.value);
+                  }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Obx(() => _bodyPart(authController.mUserObx.value)),
+                ],
               ),
-              Obx(() => _bodyPart(authController.mUserObx.value)),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
