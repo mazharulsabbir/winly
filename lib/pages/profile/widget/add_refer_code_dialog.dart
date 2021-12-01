@@ -27,7 +27,6 @@ class _AddReferCodeWidgetState extends State<AddReferCodeWidget> {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             TextFormField(
               controller: nameController,
@@ -47,6 +46,7 @@ class _AddReferCodeWidgetState extends State<AddReferCodeWidget> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ),
+                const SizedBox(height: 16),
                 Expanded(
                   child: ElevatedButton(
                     child: const Text('Submit'),
