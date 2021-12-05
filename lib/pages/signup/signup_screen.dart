@@ -249,7 +249,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               _formModel.name ?? '',
               style: const TextStyle(
                 fontSize: 18.0,
-                color: Colors.black,
               ),
             ),
           ),
@@ -267,7 +266,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               '${_formModel.email}',
               style: const TextStyle(
                 fontSize: 18.0,
-                color: Colors.black,
               ),
             ),
           ),
@@ -285,7 +283,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               '${_formModel.phoneNumber}',
               style: const TextStyle(
                 fontSize: 18.0,
-                color: Colors.black,
               ),
             ),
           ),
@@ -310,6 +307,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             fontSize: 14,
             color: Colors.grey,
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(
           height: 24,
@@ -327,42 +325,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               TextButton(
-                  onPressed: () async {
-                    setState(() {
-                      _loading = true;
-                    });
+                onPressed: () async {
+                  setState(() {
+                    _loading = true;
+                  });
 
-                    try {
-                      final response = await AuthAPI.resendVerificationEmail(
-                        email: _formModel.email!,
-                      );
+                  try {
+                    final response = await AuthAPI.resendVerificationEmail(
+                      email: _formModel.email!,
+                    );
 
-                      if (response != null) {
-                        dynamic responseBody = jsonDecode(response.body);
-                        if (responseBody['error'] != null) {
-                          snack(
-                            title: 'Failed',
-                            desc: responseBody['error'],
-                            icon: const Icon(Icons.error, color: Colors.red),
-                          );
-                        } else if (responseBody['message'] != null) {
-                          manageCountdownTimer();
-                          snack(
-                            title: 'Success',
-                            desc: responseBody['message'],
-                            icon: const Icon(Icons.done, color: Colors.green),
-                          );
-                        }
+                    if (response != null) {
+                      dynamic responseBody = jsonDecode(response.body);
+                      if (responseBody['error'] != null) {
+                        snack(
+                          title: 'Failed',
+                          desc: responseBody['error'],
+                          icon: const Icon(Icons.error, color: Colors.red),
+                        );
+                      } else if (responseBody['message'] != null) {
+                        manageCountdownTimer();
+                        snack(
+                          title: 'Success',
+                          desc: responseBody['message'],
+                          icon: const Icon(Icons.done, color: Colors.green),
+                        );
                       }
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    } finally {
-                      setState(() {
-                        _loading = false;
-                      });
                     }
-                  },
-                  child: const Text("Resend again")),
+                  } catch (e) {
+                    debugPrint(e.toString());
+                    snack(
+                      title: 'Failed!',
+                      desc: e.toString(),
+                      icon: const Icon(Icons.done, color: Colors.green),
+                    );
+                  } finally {
+                    setState(() {
+                      _loading = false;
+                    });
+                  }
+                },
+                child: const Text("Resend again"),
+              ),
             ],
           )
         else
@@ -384,7 +388,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
           ),
         VerificationCode(
-          textStyle: const TextStyle(fontSize: 20.0, color: Colors.black),
+          textStyle: const TextStyle(fontSize: 20.0),
           keyboardType: TextInputType.number,
           underlineColor: Colors.green,
           length: 6,
@@ -488,12 +492,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     if (_code != null) {
-      final response = await AuthAPI.verify(
-        email: _formModel.email!,
-        code: _code!,
-      );
-
       try {
+        final response = await AuthAPI.verify(
+          email: _formModel.email!,
+          code: _code!,
+        );
+
         if (response != null) {
           final data = jsonDecode(response.body);
           if (response.statusCode == 200) {
@@ -552,7 +556,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       } catch (e) {
         snack(
-          title: 'Error',
+          title: 'Verification Failed!',
           desc: e.toString(),
           icon: const Icon(Icons.error),
         );

@@ -50,6 +50,8 @@ dependencies:
   # The following adds the dio network calling library.
   # Use with the Dio class for network calls.
   dio: ^4.0.1
+  pretty_dio_logger: ^1.1.1
+  
   flutter_countdown_timer: ^4.1.0
   lottie: ^1.2.1
   flutter_svg: ^0.23.0+1

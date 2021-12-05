@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-// const baseUrl = 'https://winly.app';
-const baseUrl = 'https://winly.tauhidthecoder.com';
+const baseUrl = 'https://winly.app';
+// const baseUrl = 'https://winly.tauhidthecoder.com';
 const supportChatBaseUrl = baseUrl + '/support-chat';
 const youtubeBaseUrl = 'https://www.googleapis.com';
 

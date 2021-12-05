@@ -105,9 +105,9 @@ class DailyEarnings {
   });
 
   DailyEarnings.fromJson(Map<String, dynamic> json) {
-    totalTickets = json['total_tickets'];
-    totalBalance = json['total_balance'];
-    totalReferBalance = json['refer_balance'];
+    totalTickets = json['total_tickets'].toString();
+    totalBalance = json['total_balance'].toString();
+    totalReferBalance = json['refer_balance'].toString();
   }
 
   Map<String, dynamic> toJson() {

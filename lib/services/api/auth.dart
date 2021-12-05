@@ -24,18 +24,22 @@ class AuthAPI {
   static Future<http.Response?> register(AuthFormModel form) async {
     try {
       final url = urlBuilder('api/register');
+      debugPrint("POST: /api/register");
       final response = await http.post(
         Uri.parse(url),
         body: form.toJson(),
         headers: commonHeader(),
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
     } on SocketException catch (e) {
       debugPrint('Socket error:$e');
-      return null;
+      return Future.error('No Internet connection 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
     } on Exception catch (e) {
       debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -45,6 +49,7 @@ class AuthAPI {
   }) async {
     try {
       final url = urlBuilder('api/login');
+      debugPrint("POST: api/login");
 
       final response = await http.post(
         Uri.parse(url),
@@ -54,9 +59,16 @@ class AuthAPI {
         },
         headers: commonHeader(),
       );
+      debugPrint(response.body.toString());
       return response;
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('No Internet connection 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -81,8 +93,14 @@ class AuthAPI {
 
       debugPrint("Response: ${response.body}");
       return response.body;
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('No Internet connection 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -94,6 +112,7 @@ class AuthAPI {
   }) async {
     try {
       final url = urlBuilder('api/social-auth');
+      debugPrint("POST: $token api/social-auth");
 
       final response = await http.post(
         Uri.parse(url),
@@ -104,23 +123,27 @@ class AuthAPI {
         },
         headers: commonHeader(),
       );
+
+      debugPrint(response.body.toString());
       return response;
     } on SocketException catch (e) {
       debugPrint('Socket error:$e');
-      return null;
+      return Future.error('No Internet connection 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
     } on Exception catch (e) {
       debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
-  static Future<http.Response?> verify({
+  static Future<dynamic> verify({
     required String code,
     required String email,
   }) async {
     try {
       final url = urlBuilder('api/email-verify');
-
-      debugPrint("==== Verify Email Address ====");
+      debugPrint("POST: $code api/email-verify");
 
       final response = await http.post(
         Uri.parse(url),
@@ -130,12 +153,16 @@ class AuthAPI {
         },
         headers: commonHeader(),
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
     } on Exception catch (e) {
       debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -144,6 +171,7 @@ class AuthAPI {
   }) async {
     try {
       final url = urlBuilder('api/resend-email-verify');
+      debugPrint("==== Resend Email Verification ====");
 
       final response = await http.post(
         Uri.parse(url),
@@ -152,10 +180,16 @@ class AuthAPI {
         }),
         headers: commonHeader(),
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -163,6 +197,7 @@ class AuthAPI {
       String code, String password) async {
     try {
       final url = urlBuilder('api/reset-password');
+      debugPrint("POST: $code api/reset-password");
 
       final response = await http.post(
         Uri.parse(url),
@@ -172,28 +207,38 @@ class AuthAPI {
         },
         headers: commonHeader(),
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
   static Future<http.Response?> sendForgetPassResquest(String email) async {
     try {
       final url = urlBuilder('api/forgot-password');
+      debugPrint("POST: $email api/forgot-password");
       final response = await http.post(
         Uri.parse(url),
         body: {'email': email},
         headers: commonHeader(),
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
     } on SocketException catch (e) {
       debugPrint('Socket error:$e');
-      return null;
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
     } on Exception catch (e) {
       debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
@@ -204,6 +249,7 @@ class AuthAPI {
     required String? phoneNumber,
   }) async {
     try {
+      debugPrint("==== Update Profile ====");
       final _url = urlBuilder('api/user');
       if (token == null) {
         return Future.error('Unauthorized!');
@@ -224,17 +270,23 @@ class AuthAPI {
           'Authorization': 'Bearer $token',
         },
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 
   static Future<http.Response?> me(String token) async {
     try {
       final url = urlBuilder('api/user');
-
+      debugPrint("===== me =====");
       final response = await http.get(
         Uri.parse(url),
         headers: {
@@ -243,10 +295,16 @@ class AuthAPI {
           'Authorization': 'Bearer $token',
         },
       );
-
+      debugPrint(response.body.toString());
       return Future.value(response);
-    } on SocketException catch (_) {
-      return null;
+    } on SocketException catch (e) {
+      debugPrint('Socket error:$e');
+      return Future.error('Failed to communicate with server. 😑');
+    } on FormatException {
+      return Future.error('Bad response format 👎');
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      return Future.error('Unexpected Error 😢');
     }
   }
 }

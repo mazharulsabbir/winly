@@ -54,8 +54,10 @@ class AuthController extends GetxController {
         mUserObx.value = user!;
 
         if (user?.isSuspended != null && user?.isSuspended != "0") {
+          debugPrint("User is suspended. ${user?.isSuspended}");
           logOut();
         } else {
+          debugPrint("User is not suspended. ${user?.isSuspended}");
           logIn(user!, token);
           // Setting External User Id with Callback Available in SDK Version 3.9.3+
           OneSignal.shared.setExternalUserId("${user!.id}").then((results) {
@@ -66,10 +68,11 @@ class AuthController extends GetxController {
           loggedIn = true;
         }
       } else {
+        debugPrint("User is null");
         logOut();
       }
     } catch (e) {
-      // print(e);
+      debugPrint(e.toString());
       logOut();
     }
   }
