@@ -46,8 +46,23 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const Wrapper(),
       initialBinding: GlobalBindings(),
-      theme: MyAppThemes.lightTheme,
-      darkTheme: MyAppThemes.darkTheme,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey[100],
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(color: Colors.black),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+        backgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(color: Colors.white),
+        ),
+      ),
       builder: (context, widget) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget!),
         maxWidth: 1200,
