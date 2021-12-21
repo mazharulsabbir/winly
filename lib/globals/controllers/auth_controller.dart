@@ -435,29 +435,47 @@ class AuthController extends GetxController {
   Future<dynamic> signInWithFacebook() async {
     // Trigger the sign-in flow
     try {
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-      final userData = await FacebookAuth.instance.getUserData();
-
-      final String? name = userData['name'];
-      final String? email = userData['email'];
-      final String? profileImg = userData["picture"]["data"]["url"];
-
-      dynamic _response = await loginWithSocialMedia(
-        token: loginResult.accessToken?.token,
-        name: name,
-        email: email,
-        profileImg: profileImg,
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ['public_profile', 'email'],
       );
 
-      if (_response != null) {
-        try {
-          return Future.value(_response);
-        } catch (e) {
-          await FacebookAuth.instance.logOut();
-          return Future.error(e.toString());
+      debugPrint("=== Login Success ===");
+
+      if (loginResult.status == LoginStatus.success) {
+        final userData = await FacebookAuth.i.getUserData();
+        debugPrint("=== Received User Data ===");
+
+        final String? name = userData['name'];
+        final String? email = userData['email'];
+        final String? profileImg = userData["picture"]["data"]["url"];
+
+        dynamic _response = await loginWithSocialMedia(
+          token: loginResult.accessToken?.token,
+          name: name,
+          email: email,
+          profileImg: profileImg,
+        );
+
+        if (_response != null) {
+          try {
+            return Future.value(_response);
+          } catch (e) {
+            await FacebookAuth.instance.logOut();
+            return Future.error(e.toString());
+          }
         }
+      } else {
+        debugPrint(loginResult.message.toString());
+
+        await FacebookAuth.instance.logOut();
+        return Future.error(
+          "Login failed! ${loginResult.message.toString()}",
+        );
       }
     } catch (e) {
+      debugPrint("=== Error ===");
+      debugPrint("$e");
+
       await FacebookAuth.instance.logOut();
       return Future.error("Login failed! $e");
     }
