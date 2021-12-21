@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:winly/globals/configs/facebook_audience.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:winly/globals/configs/admob_ids.dart';
 import 'package:winly/globals/configs/strings.dart';
 import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/models/auth/user_model.dart';
 import 'package:winly/models/quizz.dart';
 
-import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:winly/services/api/ad.dart';
 
 class QuizeScreen extends StatefulWidget {
@@ -20,29 +20,34 @@ class _QuizeScreenState extends State<QuizeScreen> {
   final List<QuizzQuestion> dummyQestion = quizzQuestions;
   final AuthController authController = Get.find<AuthController>();
 
+  static const AdRequest request = AdRequest(nonPersonalizedAds: true);
+
+  InterstitialAd? _interstitialAd;
+
   int selectedIndex = 0;
   int _questionIndex = 0;
-
-  bool _isInterstitialAdLoaded = false;
 
   @override
   void initState() {
     super.initState();
-    _loadInterstitialAd();
+    _createInterstitialAd();
   }
 
   _questionTitle() {
     return RichText(
-        text: TextSpan(children: [
-      TextSpan(
-        text: 'Question ${dummyQestion[_questionIndex].id}',
-        style: const TextStyle(fontSize: 25, color: Colors.blue),
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'Question ${dummyQestion[_questionIndex].id}',
+            style: const TextStyle(fontSize: 25, color: Colors.blue),
+          ),
+          TextSpan(
+            text: '/${dummyQestion.length}',
+            style: const TextStyle(color: Colors.grey),
+          )
+        ],
       ),
-      TextSpan(
-        text: '/${dummyQestion.length}',
-        style: const TextStyle(color: Colors.grey),
-      )
-    ]));
+    );
   }
 
   _questionBody(QuizzQuestion question) {
@@ -119,12 +124,7 @@ class _QuizeScreenState extends State<QuizeScreen> {
   button() {
     return ElevatedButton(
       onPressed: () async {
-        if (_isInterstitialAdLoaded) {
-          DailyEarnings? _earnings = await _showInterstitialAd();
-          authController.updateUserEarnings(_earnings);
-        } else {
-          debugPrint('Ad is not loaded');
-        }
+        _showInterstitialAd();
 
         setState(() {
           selectedIndex = 0;
@@ -180,42 +180,66 @@ class _QuizeScreenState extends State<QuizeScreen> {
     );
   }
 
-  void _loadInterstitialAd() {
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: adUnitId,
-      listener: (result, value) {
-        debugPrint(">> FAN > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED) {
-          _isInterstitialAdLoaded = true;
-        }
+  void _createInterstitialAd() {
+    debugPrint("Loading ads ....");
 
-        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
-        /// load a fresh Ad by calling this function.
-        if (result == InterstitialAdResult.DISMISSED &&
-            value["invalidated"] == true) {
-          _isInterstitialAdLoaded = false;
-          _loadInterstitialAd();
-        }
-      },
+    // "ca-app-pub-2245972702677610/3391545597"
+    InterstitialAd.load(
+      adUnitId: interstitialAdUnitId,
+      request: request,
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          debugPrint('$ad loaded');
+          _interstitialAd = ad;
+          _interstitialAd!.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          _createInterstitialAd();
+          debugPrint("Failed to load ad. ${error.message}");
+        },
+      ),
     );
   }
 
-  Future<DailyEarnings?> _showInterstitialAd() async {
-    if (_isInterstitialAdLoaded == true) {
-      await FacebookInterstitialAd.showInterstitialAd();
-      try {
-        final _response = await AdAPI.requestForTicket(adStatus: '1');
-        DailyEarnings _earnings = DailyEarnings.fromJson(
-          _response.data['user_wallet'],
-        );
-        debugPrint('Ad reward -> ' + _earnings.toString());
-        return _earnings;
-      } catch (e) {
-        debugPrint('Error to add reward -> ' + e.toString());
-        return null;
-      }
-    } else {
-      debugPrint("Interstitial Ad not yet loaded!");
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      debugPrint('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          debugPrint('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        debugPrint('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+
+        _getAdReward().then((value) {
+          DailyEarnings? _earnings = value;
+          authController.updateUserEarnings(_earnings);
+        });
+
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  Future<DailyEarnings?> _getAdReward() async {
+    try {
+      final _response = await AdAPI.requestForTicket(adStatus: '1');
+      DailyEarnings _earnings = DailyEarnings.fromJson(
+        _response.data['user_wallet'],
+      );
+      debugPrint('Ad reward -> ' + _earnings.toString());
+      return _earnings;
+    } catch (e) {
+      debugPrint('Error to add reward -> ' + e.toString());
       return null;
     }
   }

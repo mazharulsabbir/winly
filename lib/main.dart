@@ -1,13 +1,10 @@
-import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:winly/globals/configs/themes.dart';
 import 'package:winly/pages/wrapper.dart';
 
 import 'globals/bindings.dart';
@@ -26,13 +23,7 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
-  if (kDebugMode) {
-    FacebookAudienceNetwork.init(
-      testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
-    );
-  } else {
-    FacebookAudienceNetwork.init();
-  }
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
