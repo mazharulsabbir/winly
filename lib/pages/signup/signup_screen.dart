@@ -224,11 +224,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: const Text("Preview"),
         content: _preview(),
       ),
-      Step(
-        isActive: _step == 2,
-        title: const Text("Verify"),
-        content: _verify(),
-      ),
+      // Step(
+      //   isActive: _step == 2,
+      //   title: const Text("Verify"),
+      //   content: _verify(),
+      // ),
     ];
   }
 
@@ -449,10 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               desc: data['message'],
               icon: const Icon(Icons.email),
             );
-            setState(() {
-              _loading = false;
-              _step++;
-            });
+            Get.off(() => const SignInScreen());
           }
         } else if (response.statusCode == 422) {
           final data = jsonDecode(response.body);
@@ -615,10 +612,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   debugPrint('Submit called');
                 });
                 manageCountdownTimer();
-              } else if (isLastStep) {
-                controller?.disposeTimer();
-                _verifyCode();
               }
+              //  else if (isLastStep) {
+              //   controller?.disposeTimer();
+              //   _verifyCode();
+              // }
             },
             onStepCancel: _step == 0 ? null : () => setState(() => _step--),
           ),
