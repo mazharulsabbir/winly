@@ -110,10 +110,22 @@ class TournamentInfoWidget extends StatelessWidget {
 
 Widget _buildPriceTextWidget(List<Positions>? positions) {
   if (positions != null && positions.isNotEmpty) {
-    return Text(
-      '৳ ${positions.first.amount}',
-      style: const TextStyle(fontSize: 18),
-    );
+    try {
+      int total = positions
+          .map((position) => int.parse(position.amount.toString().trim()))
+          .toList()
+          .reduce((a, b) => a + b);
+
+      return Text(
+        '৳ $total',
+        style: const TextStyle(fontSize: 18),
+      );
+    } catch (e) {
+      return const Text(
+        '৳ 0',
+        style: TextStyle(fontSize: 18),
+      );
+    }
   } else {
     return const Text(
       '৳ 0',

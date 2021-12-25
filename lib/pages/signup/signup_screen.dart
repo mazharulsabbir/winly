@@ -34,6 +34,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _code;
   bool _loading = false;
 
+  String _registrationMessage = "";
+
   void onEnd() {
     debugPrint("TIMEOUT");
   }
@@ -227,7 +229,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Step(
         isActive: _step == 2,
         title: const Text("Verify"),
-        content: _verify(),
+        content: _response(),
       ),
     ];
   }
@@ -411,6 +413,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Widget _response() {
+    return Center(
+      child: Text(_registrationMessage),
+    );
+  }
+
   Future<void> _submit() async {
     setState(() {
       _loading = true;
@@ -440,15 +448,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               icon: const Icon(Icons.error, color: Colors.red),
             );
 
+            _registrationMessage = errorMessageBuilder;
+
             setState(() {
               _loading = false;
             });
           } else {
             snack(
-              title: 'Email Sent!',
+              title: 'Success',
               desc: data['message'],
               icon: const Icon(Icons.email),
             );
+
+            _registrationMessage = data['message'];
             setState(() {
               _loading = false;
               _step++;
@@ -469,6 +481,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             desc: errorMessageBuilder,
             icon: const Icon(Icons.error, color: Colors.red),
           );
+          _registrationMessage = errorMessageBuilder;
           setState(() {
             _loading = false;
           });
@@ -476,6 +489,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             _loading = false;
           });
+          _registrationMessage = "Account created!";
         }
       }
     } catch (e) {
@@ -617,7 +631,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 manageCountdownTimer();
               } else if (isLastStep) {
                 controller?.disposeTimer();
-                _verifyCode();
+                Get.back();
               }
             },
             onStepCancel: _step == 0 ? null : () => setState(() => _step--),
