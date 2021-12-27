@@ -34,9 +34,9 @@ class TournamentDetail extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: Image(
-                            image: CachedNetworkImageProvider(
-                                "${tournament?.bannerImg}"),
-                          ).image,
+                                  image: CachedNetworkImageProvider(
+                                      "${tournament?.bannerImg}"))
+                              .image,
                           fit: BoxFit.cover,
                         ),
                       ),

@@ -38,7 +38,7 @@ class FqaItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => MyYoutubeVideoPlayer(videoId: _video.id));
+        Get.to(() => MyYoutubeVideoPlayer(video: _video));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

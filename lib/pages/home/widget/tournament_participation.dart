@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:get/get.dart';
@@ -153,7 +154,8 @@ class TournamentParticipation extends StatelessWidget {
   }
 
   Widget _image(ProfileImage? image) {
-    debugPrint(image?.profileImage.toString());
+    debugPrint("Image: ${image?.profileImage.toString()}");
+
     if (image == null || image.profileImage == null) {
       return const CircleAvatar(
         radius: 16,
@@ -162,15 +164,18 @@ class TournamentParticipation extends StatelessWidget {
     } else if (image.toString().contains('http')) {
       return CircleAvatar(
         radius: 16,
-        backgroundImage: Image.network(
-          image.profileImage!,
-          errorBuilder: (ctx, b, err) => const Icon(PhosphorIcons.user),
-        ).image,
+        backgroundImage: CachedNetworkImageProvider(
+          "${tournament?.bannerImg}",
+          errorListener: () => const Icon(PhosphorIcons.user),
+        ),
       );
     } else {
       return CircleAvatar(
         radius: 16,
-        child: Text('${image.profileImage}'),
+        child: Text(
+          '${image.profileImage}',
+          style: const TextStyle(fontSize: 10),
+        ),
       );
     }
   }

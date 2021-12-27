@@ -136,18 +136,18 @@ class ProfileImage {
   ProfileImage({required this.profileImage});
 
   ProfileImage.fromJson(dynamic json) {
-    profileImage = json['profile_image'];
+    profileImage = json['profile_img'];
   }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'profile_image': profileImage,
+      'profile_img': profileImage,
     };
   }
 
   @override
   String toString() {
-    return 'ProfileImage {profileImage: $profileImage}';
+    return 'ProfileImage {profile_img: $profileImage}';
   }
 }
 

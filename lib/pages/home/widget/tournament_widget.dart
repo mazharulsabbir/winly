@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winly/globals/controllers/ads_controller.dart';
 import 'package:winly/globals/controllers/tournament_controller.dart';
 import 'package:winly/models/tournament/tournament.dart';
 import 'package:winly/pages/tournament/view/tournament_details.dart';
@@ -14,11 +15,12 @@ class TournamentItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        TournamentController tournamentController =
-            Get.find<TournamentController>();
-        await tournamentController.getTournamentPlayers(
-          tournament!.id.toString(),
-        );
+        AdsController _adsController = Get.find<AdsController>();
+        _adsController.showInterstitialAd();
+
+        TournamentController _tc = Get.find<TournamentController>();
+        _tc.getTournamentPlayers(tournament!.id.toString());
+
         Get.to(() => TournamentDetail(tournament: tournament));
       },
       child: Card(
