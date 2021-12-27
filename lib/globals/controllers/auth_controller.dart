@@ -61,7 +61,9 @@ class AuthController extends GetxController {
           logIn(user!, token);
           // Setting External User Id with Callback Available in SDK Version 3.9.3+
           OneSignal.shared.setExternalUserId("${user!.id}").then((results) {
-            debugPrint("One Signal: " + results.toString());
+            debugPrint(
+              "One Signal, Set external user id: " + results.toString(),
+            );
           }).catchError((error) {
             debugPrint("One Signal Error: " + error.toString());
           });
