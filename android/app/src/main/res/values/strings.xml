@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WinLy</string>
-    <string name="facebook_app_id">580831236333194</string>
-    <string name="facebook_client_token">55dbbb9bc1f3fc5d0024bb171f1ce496</string>
-    <string name="fb_login_protocol_scheme">fb580831236333194</string>
+    <string name="facebook_app_id">799919548074888</string>
+    <string name="facebook_client_token">77415a12a434d202f4758ea8cab379e3</string>
+    <string name="fb_login_protocol_scheme">fb799919548074888</string>
     <string name="flutter_uploader_notification_started">Upload started</string>
     <string name="flutter_uploader_notification_in_progress">Upload in progress</string>
     <string name="flutter_uploader_notification_canceled">Upload canceled</string>
