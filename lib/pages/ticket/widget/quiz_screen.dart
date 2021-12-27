@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winly/globals/configs/strings.dart';
 import 'package:winly/globals/controllers/ads_controller.dart';
-import 'package:winly/globals/controllers/auth_controller.dart';
 import 'package:winly/models/quizz.dart';
 
 class QuizeScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class QuizeScreen extends StatefulWidget {
 
 class _QuizeScreenState extends State<QuizeScreen> {
   final List<QuizzQuestion> dummyQestion = quizzQuestions;
-  final AuthController authController = Get.find<AuthController>();
   final AdsController _adController = Get.find<AdsController>();
 
   int selectedIndex = 0;
@@ -116,7 +114,7 @@ class _QuizeScreenState extends State<QuizeScreen> {
   button() {
     return ElevatedButton(
       onPressed: () async {
-        _adController.showRewardVideoAd();
+        _adController.showRewardVideoAd(true);
 
         setState(() {
           selectedIndex = 0;

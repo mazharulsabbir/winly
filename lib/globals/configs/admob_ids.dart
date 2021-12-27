@@ -7,6 +7,6 @@ String interstitialAdUnitId = !kReleaseMode
 
 String rewardVideoAdUnitId = !kReleaseMode
     ? RewardedAd.testAdUnitId
-    : "ca-app-pub-2245972702677610/3391545597";
+    : "ca-app-pub-2245972702677610/5796951737";
 
 const String adUnitId = "923695764907385_923696928240602";

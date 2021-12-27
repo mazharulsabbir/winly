@@ -18,6 +18,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   late int _currentIndex;
   final AuthController _authController = Get.find<AuthController>();
+
   @override
   void initState() {
     super.initState();

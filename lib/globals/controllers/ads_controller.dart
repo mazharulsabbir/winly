@@ -15,6 +15,8 @@ class AdsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    debugPrint("==== ads controller init =====");
+
     _createInterstitialAd();
     _createRewardVideoAd();
   }
@@ -40,7 +42,7 @@ class AdsController extends GetxController {
     );
   }
 
-  void showInterstitialAd() {
+  void showInterstitialAd([bool adReward = false]) {
     if (_interstitialAd == null) {
       debugPrint('Warning: attempt to show interstitial before loaded.');
       return;
@@ -53,10 +55,12 @@ class AdsController extends GetxController {
         debugPrint('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
 
-        _getAdReward().then((value) {
-          DailyEarnings? _earnings = value;
-          _authController.updateUserEarnings(_earnings);
-        });
+        if (adReward) {
+          _getAdReward().then((value) {
+            DailyEarnings? _earnings = value;
+            _authController.updateUserEarnings(_earnings);
+          });
+        }
 
         _createInterstitialAd();
       },
@@ -68,36 +72,6 @@ class AdsController extends GetxController {
     );
     _interstitialAd!.show();
     _interstitialAd = null;
-  }
-
-  void showRewardVideoAd() {
-    _rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (RewardedAd ad) =>
-          debugPrint('$ad onAdShowedFullScreenContent.'),
-      onAdDismissedFullScreenContent: (RewardedAd ad) {
-        debugPrint('$ad onAdDismissedFullScreenContent.');
-        ad.dispose();
-      },
-      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
-        ad.dispose();
-      },
-      onAdImpression: (RewardedAd ad) => debugPrint('$ad impression occurred.'),
-    );
-
-    _rewardedAd?.show(onUserEarnedReward: (
-      RewardedAd ad,
-      RewardItem rewardItem,
-    ) {
-      // Reward the user for watching an ad.
-      _getAdReward().then((value) {
-        DailyEarnings? _earnings = value;
-        _authController.updateUserEarnings(_earnings);
-      });
-
-      // create new reward
-      _createRewardVideoAd();
-    });
   }
 
   void _createRewardVideoAd() {
@@ -117,6 +91,38 @@ class AdsController extends GetxController {
         },
       ),
     );
+  }
+
+  void showRewardVideoAd([bool adReward = false]) {
+    _rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) =>
+          debugPrint('$ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        debugPrint('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+      },
+      onAdImpression: (RewardedAd ad) => debugPrint('$ad impression occurred.'),
+    );
+
+    _rewardedAd?.show(onUserEarnedReward: (
+      RewardedAd ad,
+      RewardItem rewardItem,
+    ) {
+      // Reward the user for watching an ad.
+      if (adReward) {
+        _getAdReward().then((value) {
+          DailyEarnings? _earnings = value;
+          _authController.updateUserEarnings(_earnings);
+        });
+      }
+
+      // create new reward
+      _createRewardVideoAd();
+    });
   }
 
   Future<DailyEarnings?> _getAdReward() async {
