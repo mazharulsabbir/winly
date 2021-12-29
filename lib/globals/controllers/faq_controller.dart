@@ -42,7 +42,7 @@ class FaqController extends getx.GetxController {
             String _url = youtubeUrlBuilder('/youtube/v3/videos', params: [
               'part=snippet,contentDetails,statistics',
               'id=$videoId',
-              'key=AIzaSyAdzUrWgxjn_gyNMQ7fNQPHsk32fttkML4'
+              'key=AIzaSyDd5eAV63e6jZPakPoeZlTrj6ICfLiyzFY'
             ]);
 
             final _videoDetails = await ApiService.getVideoDetails(_url);

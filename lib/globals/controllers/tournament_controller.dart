@@ -37,9 +37,12 @@ class TournamentController extends getx.GetxController {
 
       if (_t != null) {
         _tournaments.value = _t;
+      } else {
+        _tournaments.value = [];
       }
     } catch (e) {
       debugPrint(e.toString());
+      _tournaments.value = [];
     }
 
     isLoading = false;

@@ -69,57 +69,65 @@ class _MyYoutubeVideoPlayerState extends State<MyYoutubeVideoPlayer> {
               elevation: 2.0,
               leading: const CommonLeading(),
             ),
-      body: Column(
-        children: [
-          YoutubePlayerBuilder(
-            player: YoutubePlayer(
-              controller: _controller!,
-              showVideoProgressIndicator: true,
-              onReady: () {
-                _isPlayerReady = true;
-              },
-              onEnded: (data) {
-                // AdsAPI.getRewardFromAd(widget.token!, 'custom_ad')
-                //     .catchError((error) {
-                //   print(error);
-                // }).then((reward) {
-                //   if (reward?.body != null) {
-                //     var data = convert.jsonDecode(reward!.body);
-                //     if (data['usr_wallet'] != null) {
-                //       // DailyEarnings _earnings =
-                //       //     DailyEarnings.fromJson(data['usr_wallet']);
-                //       // dailyEarningController.updateEarnings(_earnings);
-                //     }
-                //   }
-                // });
-                // _controller?.dispose();
-                // _isPlayerReady = false;
-              },
-            ),
-            builder: (_, player) {
-              return player;
-            },
-            onEnterFullScreen: () {
-              setState(() {
-                _isFullScreen = true;
-              });
-            },
-            onExitFullScreen: () {
-              setState(() {
-                _isFullScreen = false;
-              });
-            },
-          ),
-          SingleChildScrollView(
-            child: ListTile(
-              title: Text('${widget.video?.snippet?.title}'),
-              subtitle: Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Text('${widget.video?.snippet?.description}'),
-              ),
-            ),
-          ),
-        ],
+      body: YoutubePlayerBuilder(
+        player: YoutubePlayer(
+          controller: _controller!,
+          showVideoProgressIndicator: true,
+          onReady: () {
+            _isPlayerReady = true;
+          },
+          onEnded: (data) {
+            // AdsAPI.getRewardFromAd(widget.token!, 'custom_ad')
+            //     .catchError((error) {
+            //   print(error);
+            // }).then((reward) {
+            //   if (reward?.body != null) {
+            //     var data = convert.jsonDecode(reward!.body);
+            //     if (data['usr_wallet'] != null) {
+            //       // DailyEarnings _earnings =
+            //       //     DailyEarnings.fromJson(data['usr_wallet']);
+            //       // dailyEarningController.updateEarnings(_earnings);
+            //     }
+            //   }
+            // });
+            // _controller?.dispose();
+            // _isPlayerReady = false;
+          },
+        ),
+        builder: (_, player) {
+          return Column(
+            children: [
+              player,
+              if (!_isFullScreen)
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      Text(
+                        '${widget.video?.snippet?.title}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text('${widget.video?.snippet?.description}'),
+                    ],
+                  ),
+                )
+            ],
+          );
+        },
+        onEnterFullScreen: () {
+          setState(() {
+            _isFullScreen = true;
+          });
+        },
+        onExitFullScreen: () {
+          setState(() {
+            _isFullScreen = false;
+          });
+        },
       ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:winly/models/faq/faq.dart';
 import 'package:winly/models/faq/youtube_video_item.dart';
 import 'package:winly/pages/faq/view/video_player.dart';
-import 'package:flutter/foundation.dart';
 
 class FqaItemWidget extends StatelessWidget {
   final FaqItem faqItem;
@@ -28,7 +27,7 @@ class FqaItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0),
             child: Text("${_faq.ans}"),
           ),
-          leading: const CircleAvatar(child: Icon(Icons.question_answer)),
+          leading: const CircleAvatar(child: Icon(Icons.help_outline)),
           onTap: () {},
         ),
       );

@@ -19,7 +19,7 @@ class NotificationItem extends StatelessWidget {
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            "${notice?.details}",
+            "${notice?.details}\n\n${notice?.createdAt}",
             maxLines: 3,
             overflow: TextOverflow.fade,
           ),

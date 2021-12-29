@@ -15,7 +15,7 @@ class TournamentDetail extends StatelessWidget {
       loading: false,
       child: Scaffold(
         body: DefaultTabController(
-          length: tournament?.joinStatus == true ? 4 : 3,
+          length: tournament?.joinStatus == true ? 4 : 2,
           child: NestedScrollView(
             headerSliverBuilder: (
               BuildContext context,
@@ -58,7 +58,8 @@ class TournamentDetail extends StatelessWidget {
                       tabs: [
                         const Tab(text: "About"),
                         const Tab(text: "Rules"),
-                        const Tab(text: "Point System"),
+                        if (tournament?.joinStatus == true)
+                          const Tab(text: "Room Details"),
                         if (tournament?.joinStatus == true)
                           const Tab(text: "Players"),
                       ],
@@ -83,13 +84,14 @@ class TournamentDetail extends StatelessWidget {
                   textAlign: TextAlign.justify,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  '${tournament?.points}',
-                  textAlign: TextAlign.justify,
+              if (tournament?.joinStatus == true)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    '${tournament?.points}',
+                    textAlign: TextAlign.justify,
+                  ),
                 ),
-              ),
               if (tournament?.joinStatus == true) TournamentJoinedPlayers()
             ]),
           ),

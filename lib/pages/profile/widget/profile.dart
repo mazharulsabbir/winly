@@ -171,6 +171,7 @@ class _ProfileTabState extends State<ProfileTab> {
             authController.logOut();
           },
         ),
+        const SizedBox(height: 100)
       ],
     );
   }
