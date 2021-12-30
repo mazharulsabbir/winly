@@ -10,8 +10,8 @@ class TournamentJoinedPlayers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return ListView.separated(
+    return Obx(
+      () => ListView.separated(
         separatorBuilder: (context, index) => const Divider(),
         itemCount: tournamentController.tournamentPlayers.length,
         itemBuilder: (context, index) {
@@ -24,7 +24,7 @@ class TournamentJoinedPlayers extends StatelessWidget {
             ),
           );
         },
-      );
-    });
+      ),
+    );
   }
 }
